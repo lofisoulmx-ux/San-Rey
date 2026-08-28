@@ -1,3 +1,11 @@
+export const HERO_FRAMES = [
+  "/assets/hero/frames/001.webp",
+  "/assets/hero/frames/002.webp",
+  "/assets/hero/frames/003.webp",
+  "/assets/hero/frames/004.webp",
+  "/assets/hero/frames/005.webp"
+];
+
 export const PRODUCTS = [
   {
     key: "green-onions",
