@@ -1,11 +1,777 @@
-import React,{useEffect,useRef,useState}from"react";import{createRoot}from"react-dom/client";import gsap from"gsap";import{ScrollTrigger}from"gsap/ScrollTrigger";import{PRODUCTS,INFRASTRUCTURE,ROUTE}from"./content";import"./styles.css";gsap.registerPlugin(ScrollTrigger);
-const ease="power3.out";
-function Header(){return <header className="site-header"><a className="brand" href="#hero"><span className="brand-mark">SR</span><span><b>SAN REY</b><small>PRODUCE</small></span></a><button className="menu"><i/><i/></button></header>}
-function Reveal({children,className=""}){return <div className={"reveal "+className}>{children}</div>}
-function Hero(){let r=useRef();useEffect(()=>{let c=gsap.context(()=>{gsap.timeline({scrollTrigger:{trigger:r.current,start:"top top",end:"bottom top",scrub:1.2}}).to(".hero-scene",{scale:1.16,yPercent:10,ease:"none"},0).to(".hero-copy",{yPercent:-28,opacity:.15,ease:"none"},0);gsap.from(".hero-line",{y:80,opacity:0,duration:1.2,stagger:.12,ease});gsap.from(".hero-kicker",{x:-30,opacity:0,duration:1,ease})},r);return()=>c.revert()},[]);return <section ref={r} id="hero" className="hero cinematic-section"><div className="hero-scene"><div className="scene-sky"/><div className="scene-road"/><div className="scene-truck"><div className="truck-cab"/><div className="truck-box"><span>SAN REY</span><small>PRODUCE</small></div><b className="truck-light l1"/><b className="truck-light l2"/></div></div><div className="hero-glow"/><div className="hero-copy"><div className="hero-kicker">FROM FIELD TO MARKET</div><h1><span className="hero-line">FRESHNESS</span><span className="hero-line">ON THE</span><span className="hero-line accent">MOVE.</span></h1><p><Reveal>Fresh produce, handled with precision<br/>and delivered with reliability.</Reveal></p><a className="ghost-button" href="#products">EXPLORE OUR STORY <span>↗</span></a></div><div className="scroll-cue"><span/>SCROLL TO EXPERIENCE</div></section>}
-function FrameVisual({p}){let r=useRef(),[frame,setFrame]=useState(1),[ok,setOk]=useState(false);useEffect(()=>{let c=gsap.context(()=>ScrollTrigger.create({trigger:r.current,start:"top bottom",end:"bottom top",scrub:true,onUpdate:s=>setFrame(Math.round(s.progress*(p.frameCount-1))+1)}),r);return()=>c.revert()},[p]);let n=String(frame).padStart(3,"0");return <div ref={r} className={"frame-visual "+(ok?"has-media":"")}><img src={`${p.framesPath}${n}.webp`} onLoad={()=>setOk(true)} onError={()=>setOk(false)}/>{!ok&&<div className={"produce-placeholder "+p.key}><span>{p.english.toUpperCase()}</span><div className="produce-orbit"/></div>}<div className="frame-meta"><span>FRAME {n}</span><span>SCROLL / CAMERA</span></div></div>}
-function Products(){let r=useRef();useEffect(()=>{let c=gsap.context(()=>{gsap.to(".product-intro",{yPercent:-18,ease:"none",scrollTrigger:{trigger:r.current,start:"top bottom",end:"bottom top",scrub:true}});gsap.to(".product-card",{rotateX:0,scale:1,scrollTrigger:{trigger:".product-grid",start:"top 85%",end:"top 35%",scrub:true}})},r);return()=>c.revert()},[]);return <section ref={r} id="products" className="products cinematic-section"><div className="section-no">02 / PRODUCTS</div><div className="product-intro"><h2>FRESH.<br/>NATURAL.<br/><em>PREMIUM.</em></h2><p>Productos frescos, cultivados con pasión<br/>y altos estándares.</p></div><div className="product-grid">{PRODUCTS.map((p,i)=><article className="product-card" key={p.key}><FrameVisual p={p}/><div className="product-info"><span className="product-index">0{i+1}</span><h3>{p.title}</h3><div className="product-en">{p.english}</div><p>{p.description}</p></div></article>)}</div><div className="section-cta">VER TODOS LOS PRODUCTOS <span>→</span></div></section>}
-function Route(){let r=useRef();useEffect(()=>{let c=gsap.context(()=>{gsap.to(".route-road",{scale:1.14,yPercent:8,ease:"none",scrollTrigger:{trigger:r.current,start:"top bottom",end:"bottom top",scrub:1.2}});gsap.to(".route-truck",{xPercent:14,yPercent:-5,rotate:-1.5,ease:"none",scrollTrigger:{trigger:r.current,start:"top bottom",end:"bottom top",scrub:1}})},r);return()=>c.revert()},[]);return <section ref={r} id="route" className="route cinematic-section"><div className="route-road"/><div className="route-truck"><span>SAN REY</span><small>PRODUCE</small></div><div className="route-copy"><div className="section-no">03 / OUR ROUTE</div><h2>DEL CAMPO<br/><em>AL MUNDO.</em></h2><p>Una ruta de frescura que cruza fronteras.</p></div><div className="route-line">{ROUTE.map(x=><div className="route-step" key={x}><i/><span>{x}</span></div>)}</div><div className="route-caption">CAMERA / JOURNEY <b>01—05</b></div></section>}
-function Infrastructure(){return <section id="infrastructure" className="infrastructure cinematic-section"><div className="section-no">04 / INFRASTRUCTURE</div><div className="infra-head"><h2>INFRAESTRUCTURA<br/>DE <em>CLASE MUNDIAL.</em></h2><p>Tecnología, procesos y personas comprometidas con la excelencia.</p></div><div className="infra-stack">{INFRASTRUCTURE.map(([n,a,b,d],i)=><article className="infra-card" key={n}><div className="infra-number">{n}</div><div className="infra-icon">{["◈","❄","▱","✓"][i]}</div><div><h3>{a}<br/><em>{b}</em></h3><p>{d}</p></div><div className={"infra-media media-"+n}/><span className="infra-arrow">↗</span></article>)}</div></section>}
-function Global(){let r=useRef();useEffect(()=>{let c=gsap.context(()=>{gsap.fromTo(".map-line",{strokeDashoffset:600},{strokeDashoffset:0,ease:"none",scrollTrigger:{trigger:r.current,start:"top 70%",end:"center center",scrub:1}});gsap.to(".map",{scale:1.12,yPercent:4,ease:"none",scrollTrigger:{trigger:r.current,start:"top bottom",end:"bottom top",scrub:1.2}})},r);return()=>c.revert()},[]);return <section ref={r} id="global" className="global cinematic-section"><div className="map"/><svg className="route-svg" viewBox="0 0 1000 650"><path className="map-line" d="M290 505 C420 420 470 350 610 250 C710 175 755 155 835 105"/><path className="map-line second" d="M290 505 C500 450 590 390 710 300 C790 240 830 190 885 155"/></svg><div className="global-copy"><div className="section-no">05 / GLOBAL PRESENCE</div><h2>PRESENCIA<br/><em>GLOBAL.</em></h2><p>Llevamos frescura a los mercados más exigentes.</p></div><div className="location mexico">MÉXICO<span/></div><div className="location usa">USA<span/></div><div className="contact"><div className="brand-large">SAN REY<small>PRODUCE</small></div><p>Freshness that travels.</p><a href="mailto:hello@sanreyproduce.com">CONTÁCTANOS</a></div><div className="social">f&nbsp;&nbsp;&nbsp;◎&nbsp;&nbsp;&nbsp;◉</div></section>}
-function App(){return <><Header/><Hero/><Products/><Route/><Infrastructure/><Global/></>}createRoot(document.getElementById("root")).render(<App/>);
+import React, { useEffect, useRef, useState } from "react";
+import { createRoot } from "react-dom/client";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+import {
+  SITE,
+  PRODUCTS,
+  ROUTE,
+  ROUTE_SCENE,
+  INFRASTRUCTURE,
+  GLOBAL_PRESENCE,
+  CONTACT,
+  SOCIAL,
+} from "./content";
+
+import "./styles.css";
+
+gsap.registerPlugin(ScrollTrigger);
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+
+const ease = "power3.out";
+
+function useScrollProgress(ref, options = {}) {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const trigger = ScrollTrigger.create({
+      trigger: ref.current,
+      start: options.start || "top bottom",
+      end: options.end || "bottom top",
+      scrub: options.scrub ?? true,
+      onUpdate: (self) => {
+        setProgress(self.progress);
+      },
+    });
+
+    return () => trigger.kill();
+  }, [ref, options.start, options.end, options.scrub]);
+
+  return progress;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+function Header() {
+  return (
+    <header className="site-header">
+      <a className="brand" href="#hero">
+        <span className="brand-mark">SR</span>
+
+        <span>
+          <b>{SITE.brand}</b>
+          <small>{SITE.brandSub}</small>
+        </span>
+      </a>
+
+      <button className="menu" aria-label="Open menu">
+        <i />
+        <i />
+      </button>
+    </header>
+  );
+}
+
+/* =========================================================
+   REVEAL
+========================================================= */
+
+function Reveal({ children, className = "" }) {
+  const ref = useRef();
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ref.current,
+        {
+          y: 35,
+          opacity: 0,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.1,
+          ease,
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    }, ref);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <div ref={ref} className={`reveal ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+/* =========================================================
+   FRAME SEQUENCE
+   ========================================================= */
+
+function FrameSequence({
+  framesPath,
+  frameCount = 60,
+  className = "",
+  alt = "",
+  triggerRef = null,
+}) {
+  const internalRef = useRef();
+  const ref = triggerRef || internalRef;
+
+  const [frame, setFrame] = useState(1);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const ctx = gsap.context(() => {
+      const trigger = ScrollTrigger.create({
+        trigger: ref.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+        onUpdate: (self) => {
+          const nextFrame = Math.max(
+            1,
+            Math.min(
+              frameCount,
+              Math.round(self.progress * (frameCount - 1)) + 1
+            )
+          );
+
+          setFrame(nextFrame);
+        },
+      });
+
+      return () => trigger.kill();
+    }, ref);
+
+    return () => ctx.revert();
+  }, [framesPath, frameCount, ref]);
+
+  const frameNumber = String(frame).padStart(3, "0");
+
+  return (
+    <div
+      ref={ref}
+      className={`frame-sequence ${loaded ? "has-media" : ""} ${className}`}
+    >
+      <img
+        src={`${framesPath}${frameNumber}.webp`}
+        alt={alt}
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(false)}
+      />
+
+      {!loaded && (
+        <div className="sequence-placeholder">
+          <span>SCENE</span>
+        </div>
+      )}
+
+      <div className="frame-meta">
+        <span>FRAME {frameNumber}</span>
+        <span>SCROLL / CAMERA</span>
+      </div>
+    </div>
+  );
+}
+
+/* =========================================================
+   HERO
+========================================================= */
+
+function Hero() {
+  const sectionRef = useRef();
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      const timeline = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1.2,
+        },
+      });
+
+      timeline
+        .to(
+          ".hero-sequence",
+          {
+            scale: 1.12,
+            yPercent: 8,
+            ease: "none",
+          },
+          0
+        )
+        .to(
+          ".hero-depth",
+          {
+            yPercent: -12,
+            ease: "none",
+          },
+          0
+        )
+        .to(
+          ".hero-copy",
+          {
+            yPercent: -30,
+            opacity: 0.05,
+            ease: "none",
+          },
+          0
+        )
+        .to(
+          ".hero-glow",
+          {
+            scale: 1.5,
+            opacity: 0.16,
+            ease: "none",
+          },
+          0
+        );
+
+      gsap.from(".hero-line", {
+        y: 100,
+        opacity: 0,
+        duration: 1.3,
+        stagger: 0.12,
+        ease,
+      });
+
+      gsap.from(".hero-kicker", {
+        x: -35,
+        opacity: 0,
+        duration: 1,
+        ease,
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="hero"
+      className="hero cinematic-section"
+    >
+      <div className="hero-depth">
+        <FrameSequence
+          framesPath={SITE.hero.framesPath}
+          frameCount={SITE.hero.frameCount}
+          className="hero-sequence"
+          alt="San Rey Produce truck"
+        />
+      </div>
+
+      <div className="hero-glow" />
+
+      <div className="hero-copy">
+        <div className="hero-kicker">{SITE.hero.kicker}</div>
+
+        <h1>
+          {SITE.hero.title.map((line, index) => (
+            <span
+              key={line}
+              className={`hero-line ${
+                index === SITE.hero.title.length - 1 ? "accent" : ""
+              }`}
+            >
+              {line}
+            </span>
+          ))}
+        </h1>
+
+        <p>
+          <Reveal>
+            {SITE.hero.description}
+          </Reveal>
+        </p>
+
+        <a className="ghost-button" href="#products">
+          {SITE.hero.button}
+          <span>↗</span>
+        </a>
+      </div>
+
+      <div className="scroll-cue">
+        <span />
+        SCROLL TO EXPERIENCE
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================
+   PRODUCTS
+========================================================= */
+
+function ProductScene({ product, index }) {
+  return (
+    <article className="product-card">
+      <FrameSequence
+        framesPath={product.framesPath}
+        frameCount={product.frameCount}
+        className={`product-sequence ${product.key}`}
+        alt={product.english}
+      />
+
+      <div className="product-info">
+        <span className="product-index">
+          0{index + 1}
+        </span>
+
+        <h3>{product.title}</h3>
+
+        <div className="product-en">
+          {product.english}
+        </div>
+
+        <p>{product.description}</p>
+      </div>
+    </article>
+  );
+}
+
+function Products() {
+  const sectionRef = useRef();
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to(".product-intro", {
+        yPercent: -18,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
+      gsap.fromTo(
+        ".product-card",
+        {
+          rotateX: 6,
+          scale: 0.94,
+        },
+        {
+          rotateX: 0,
+          scale: 1,
+          stagger: 0.15,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".product-grid",
+            start: "top 85%",
+            end: "top 35%",
+            scrub: true,
+          },
+        }
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="products"
+      className="products cinematic-section"
+    >
+      <div className="section-no">
+        02 / PRODUCTS
+      </div>
+
+      <div className="product-intro">
+        <h2>
+          FRESH.
+          <br />
+          NATURAL.
+          <br />
+          <em>PREMIUM.</em>
+        </h2>
+
+        <p>
+          Productos frescos, cultivados con pasión
+          <br />
+          y altos estándares.
+        </p>
+      </div>
+
+      <div className="product-grid">
+        {PRODUCTS.map((product, index) => (
+          <ProductScene
+            key={product.key}
+            product={product}
+            index={index}
+          />
+        ))}
+      </div>
+
+      <div className="section-cta">
+        VER TODOS LOS PRODUCTOS
+        <span>→</span>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================
+   ROUTE
+========================================================= */
+
+function Route() {
+  const sectionRef = useRef();
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to(".route-sequence", {
+        scale: 1.12,
+        yPercent: 7,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.2,
+        },
+      });
+
+      gsap.to(".route-copy", {
+        yPercent: -18,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+
+      gsap.to(".route-line", {
+        yPercent: -8,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="route"
+      className="route cinematic-section"
+    >
+      <FrameSequence
+        framesPath={ROUTE_SCENE.framesPath}
+        frameCount={ROUTE_SCENE.frameCount}
+        className="route-sequence"
+        alt="San Rey Produce route"
+      />
+
+      <div className="route-overlay" />
+
+      <div className="route-copy">
+        <div className="section-no">
+          03 / OUR ROUTE
+        </div>
+
+        <h2>
+          DEL CAMPO
+          <br />
+          <em>AL MUNDO.</em>
+        </h2>
+
+        <p>
+          Una ruta de frescura que cruza fronteras.
+        </p>
+      </div>
+
+      <div className="route-line">
+        {ROUTE.map((step) => (
+          <div
+            className="route-step"
+            key={step.key}
+          >
+            <i />
+
+            <div>
+              <small>{step.number}</small>
+              <span>{step.title}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="route-caption">
+        CAMERA / JOURNEY
+        <b>01—05</b>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================
+   INFRASTRUCTURE
+========================================================= */
+
+function InfrastructureScene({
+  item,
+}) {
+  return (
+    <article className="infra-card">
+      <div className="infra-number">
+        {item.number}
+      </div>
+
+      <div className="infra-icon">
+        <span />
+      </div>
+
+      <div className="infra-copy">
+        <h3>
+          {item.title}
+          <br />
+          <em>{item.accent}</em>
+        </h3>
+
+        <p>{item.description}</p>
+      </div>
+
+      <FrameSequence
+        framesPath={item.framesPath}
+        frameCount={item.frameCount}
+        className={`infra-sequence ${item.key}`}
+        alt={item.title}
+      />
+
+      <span className="infra-arrow">
+        ↗
+      </span>
+    </article>
+  );
+}
+
+function Infrastructure() {
+  return (
+    <section
+      id="infrastructure"
+      className="infrastructure cinematic-section"
+    >
+      <div className="section-no">
+        04 / INFRASTRUCTURE
+      </div>
+
+      <div className="infra-head">
+        <h2>
+          INFRAESTRUCTURA
+          <br />
+          DE <em>CLASE MUNDIAL.</em>
+        </h2>
+
+        <p>
+          Tecnología, procesos y personas comprometidas
+          con la excelencia.
+        </p>
+      </div>
+
+      <div className="infra-stack">
+        {INFRASTRUCTURE.map((item) => (
+          <InfrastructureScene
+            key={item.key}
+            item={item}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================
+   GLOBAL PRESENCE
+========================================================= */
+
+function Global() {
+  const sectionRef = useRef();
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.to(".global-sequence", {
+        scale: 1.12,
+        yPercent: 5,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.2,
+        },
+      });
+
+      gsap.fromTo(
+        ".map-line",
+        {
+          strokeDashoffset: 600,
+        },
+        {
+          strokeDashoffset: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 70%",
+            end: "center center",
+            scrub: 1,
+          },
+        }
+      );
+
+      gsap.to(".global-copy", {
+        yPercent: -15,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      ref={sectionRef}
+      id="global"
+      className="global cinematic-section"
+    >
+      <FrameSequence
+        framesPath={GLOBAL_PRESENCE.framesPath}
+        frameCount={GLOBAL_PRESENCE.frameCount}
+        className="global-sequence"
+        alt="San Rey Produce global presence"
+      />
+
+      <div className="global-overlay" />
+
+      <svg
+        className="route-svg"
+        viewBox="0 0 1000 650"
+        preserveAspectRatio="none"
+      >
+        <path
+          className="map-line"
+          d="M290 505 C420 420 470 350 610 250 C710 175 755 155 835 105"
+        />
+
+        <path
+          className="map-line second"
+          d="M290 505 C500 450 590 390 710 300 C790 240 830 190 885 155"
+        />
+      </svg>
+
+      <div className="global-copy">
+        <div className="section-no">
+          05 / GLOBAL PRESENCE
+        </div>
+
+        <h2>
+          {GLOBAL_PRESENCE.title[0]}
+          <br />
+          <em>{GLOBAL_PRESENCE.title[1]}</em>
+        </h2>
+
+        <p>
+          {GLOBAL_PRESENCE.description}
+        </p>
+      </div>
+
+      <div className="location mexico">
+        {GLOBAL_PRESENCE.origin.name}
+        <span />
+      </div>
+
+      <div className="location usa">
+        {GLOBAL_PRESENCE.destination.name}
+        <span />
+      </div>
+
+      <div className="contact">
+        <div className="brand-large">
+          {SITE.brand}
+          <small>{SITE.brandSub}</small>
+        </div>
+
+        <p>{CONTACT.tagline}</p>
+
+        <a href={`mailto:${CONTACT.email}`}>
+          {CONTACT.button}
+        </a>
+      </div>
+
+      <div className="social">
+        <a href={SOCIAL.facebook}>f</a>
+        &nbsp;&nbsp;&nbsp;
+        <a href={SOCIAL.instagram}>◎</a>
+        &nbsp;&nbsp;&nbsp;
+        <a href={SOCIAL.linkedin}>in</a>
+      </div>
+    </section>
+  );
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+function App() {
+  return (
+    <>
+      <Header />
+
+      <main>
+        <Hero />
+        <Products />
+        <Route />
+        <Infrastructure />
+        <Global />
+      </main>
+    </>
+  );
+}
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+createRoot(
+  document.getElementById("root")
+).render(
+  <App />
+);
