@@ -5,7 +5,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   PRODUCTS,
   INFRASTRUCTURE,
-  ROUTE
+  ROUTE,
+  GLOBAL_PRESENCE
 } from "./content";
 import "./styles.css";
 
