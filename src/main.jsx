@@ -537,10 +537,142 @@ function Products() {
    INFRASTRUCTURE
 ========================================================= */
 
+function InfrastructureScene({ scene }) {
+  const ref = useRef();
+  const [frame, setFrame] = useState(1);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+
+      ScrollTrigger.create({
+        trigger: ref.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+
+        onUpdate: self => {
+          const current =
+            Math.round(
+              self.progress *
+              (scene.frameCount - 1)
+            ) + 1;
+
+          setFrame(current);
+        }
+      });
+
+      gsap.fromTo(
+        ".infra-sequence",
+        {
+          scale: 1.12,
+          opacity: 0.65
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          ease: "none",
+
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top 85%",
+            end: "center center",
+            scrub: 1
+          }
+        }
+      );
+
+      gsap.fromTo(
+        ".infra-copy",
+        {
+          y: 70,
+          opacity: 0
+        },
+        {
+          y: 0,
+          opacity: 1,
+          ease: "none",
+
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top 75%",
+            end: "center center",
+            scrub: 1
+          }
+        }
+      );
+
+    }, ref);
+
+    return () => ctx.revert();
+
+  }, [scene]);
+
+  const number =
+    String(frame).padStart(3, "0");
+
+  return (
+    <article
+      ref={ref}
+      className="infra-scene"
+    >
+
+      <div className="infra-number">
+        {scene.number}
+      </div>
+
+      <div className="infra-icon">
+        <span />
+      </div>
+
+      <div className="infra-copy">
+
+        <div className="infra-kicker">
+          SAN REY PRODUCE
+        </div>
+
+        <h3>
+          {scene.title}
+          <br />
+          <em>{scene.subtitle}</em>
+        </h3>
+
+        <p>
+          {scene.description}
+        </p>
+
+      </div>
+
+      <div className="infra-sequence">
+
+        <div className="sequence-placeholder">
+          <span>
+            {scene.title}
+          </span>
+        </div>
+
+        <img
+          src={`${scene.framesPath}${number}.webp`}
+          alt=""
+          draggable="false"
+          className={loaded ? "has-media" : ""}
+          onLoad={() => setLoaded(true)}
+          onError={() => setLoaded(false)}
+        />
+
+      </div>
+
+    </article>
+  );
+}
+
+
 function Infrastructure() {
+  const ref = useRef();
 
   return (
     <section
+      ref={ref}
       id="infrastructure"
       className="infrastructure cinematic-section"
     >
@@ -566,53 +698,21 @@ function Infrastructure() {
 
       <div className="infra-stack">
 
-        {INFRASTRUCTURE.map(
-          ([number, title, subtitle, description]) => (
+        {INFRASTRUCTURE.map((scene) => (
 
-            <article
-              className="infra-card"
-              key={number}
-            >
+          <InfrastructureScene
+            key={scene.number}
+            scene={scene}
+          />
 
-              <div className="infra-number">
-                {number}
-              </div>
-
-              <div className="infra-icon">
-                <span />
-              </div>
-
-              <div className="infra-copy">
-
-                <h3>
-                  {title}
-                  <br />
-                  <em>{subtitle}</em>
-                </h3>
-
-                <p>
-                  {description}
-                </p>
-
-              </div>
-
-              <div
-                className={
-                  "infra-sequence media-" +
-                  number
-                }
-              />
-
-            </article>
-
-          )
-        )}
+        ))}
 
       </div>
 
     </section>
   );
 }
+
 
 /* =========================================================
    GLOBAL
