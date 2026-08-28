@@ -617,14 +617,6 @@ function InfrastructureScene({ scene }) {
       className="infra-scene"
     >
 
-      <div className="infra-number">
-        {scene.number}
-      </div>
-
-      <div className="infra-icon">
-        <span />
-      </div>
-
       <div className="infra-copy">
 
         <div className="infra-kicker">
