@@ -75,9 +75,25 @@ function Header() {
 
 function Hero() {
   const ref = useRef();
-  const [frame, setFrame] = useState(0);
+  const videoRef = useRef();
 
   useEffect(() => {
+    const video = videoRef.current;
+
+    if (!video) return;
+
+    video.pause();
+    video.currentTime = 0;
+
+    const handleLoadedMetadata = () => {
+      video.currentTime = 0;
+    };
+
+    video.addEventListener(
+      "loadedmetadata",
+      handleLoadedMetadata
+    );
+
     const ctx = gsap.context(() => {
 
       ScrollTrigger.create({
@@ -87,12 +103,11 @@ function Hero() {
         scrub: true,
 
         onUpdate: (self) => {
-          const current = Math.min(
-            HERO_FRAMES.length - 1,
-            Math.floor(self.progress * HERO_FRAMES.length)
-          );
 
-          setFrame(current);
+          if (!video.duration) return;
+
+          video.currentTime =
+            self.progress * video.duration;
         }
       });
 
@@ -113,7 +128,15 @@ function Hero() {
 
     }, ref);
 
-    return () => ctx.revert();
+    return () => {
+      ctx.revert();
+
+      video.removeEventListener(
+        "loadedmetadata",
+        handleLoadedMetadata
+      );
+    };
+
   }, []);
 
   return (
@@ -127,19 +150,14 @@ function Hero() {
 
         <div className="hero-sequence">
 
-          {HERO_FRAMES.map((src, index) => (
-            <img
-              key={src}
-              src={src}
-              alt=""
-              draggable="false"
-              className={
-                index === frame
-                  ? "hero-frame active"
-                  : "hero-frame"
-              }
-            />
-          ))}
+          <video
+            ref={videoRef}
+            className="hero-video"
+            src="/assets/hero/video/hero.mp4"
+            muted
+            playsInline
+            preload="auto"
+          />
 
         </div>
 
