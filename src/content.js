@@ -20,30 +20,38 @@ export const PRODUCTS = [
 ];
 
 export const INFRASTRUCTURE = [
-  [
-    "01",
-    "EMPACADO",
-    "DE PRECISIÓN",
-    "Procesos diseñados para proteger la frescura."
-  ],
-  [
-    "02",
-    "CADENA",
-    "DE FRÍO",
-    "Temperatura controlada durante todo el recorrido."
-  ],
-  [
-    "03",
-    "FLOTA",
-    "MODERNA",
-    "Logística preparada para cada entrega."
-  ],
-  [
-    "04",
-    "CONTROL",
-    "DE CALIDAD",
-    "Selección y control en cada etapa."
-  ]
+  {
+    number: "01",
+    title: "EMPACADO",
+    subtitle: "DE PRECISIÓN",
+    description: "Procesos diseñados para proteger la frescura.",
+    framesPath: "/assets/infrastructure/packaging/frames/",
+    frameCount: 60
+  },
+  {
+    number: "02",
+    title: "CADENA",
+    subtitle: "DE FRÍO",
+    description: "Temperatura controlada durante todo el recorrido.",
+    framesPath: "/assets/infrastructure/cold-chain/frames/",
+    frameCount: 60
+  },
+  {
+    number: "03",
+    title: "FLOTA",
+    subtitle: "MODERNA",
+    description: "Logística preparada para cada entrega.",
+    framesPath: "/assets/infrastructure/fleet/frames/",
+    frameCount: 60
+  },
+  {
+    number: "04",
+    title: "CONTROL",
+    subtitle: "DE CALIDAD",
+    description: "Selección y control en cada etapa.",
+    framesPath: "/assets/infrastructure/quality/frames/",
+    frameCount: 60
+  }
 ];
 
 export const ROUTE = {
