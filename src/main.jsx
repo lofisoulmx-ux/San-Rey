@@ -498,32 +498,32 @@ function Products() {
 
       <div className="route-line">
 
-        {ROUTE.steps.map((item, index) => (
+  <div className="route-line-track" />
 
-          <div
-            className="route-step"
-            key={item}
-          >
+  {ROUTE.steps.map((item, index) => (
 
-            <i />
+    <div
+      className="route-step"
+      key={item}
+    >
 
-            <div>
+      <i />
 
-              <small>
-                0{index + 1}
-              </small>
+      <div className="route-step-content">
+        <small>
+          0{index + 1}
+        </small>
 
-              <span>
-                {item}
-              </span>
-
-            </div>
-
-          </div>
-
-        ))}
-
+        <span>
+          {item}
+        </span>
       </div>
+
+    </div>
+
+  ))}
+
+</div>
 
       <div className="route-caption">
         FROM FIELD TO MARKET
