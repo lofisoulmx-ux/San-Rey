@@ -65,3 +65,9 @@ export const ROUTE = {
     "USA"
   ]
 };
+export const GLOBAL_PRESENCE = {
+  framesPath: "/assets/global-presence/frames/",
+  frameCount: 60,
+  origin: "MÉXICO",
+  destination: "USA"
+};
