@@ -389,13 +389,30 @@ function Products() {
    ROUTE
 ========================================================= */
 
-function Route() {
-
+  function Route() {
   const ref = useRef();
+  const [frame, setFrame] = useState(1);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-
     const ctx = gsap.context(() => {
+
+      ScrollTrigger.create({
+        trigger: ref.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+
+        onUpdate: self => {
+          const current =
+            Math.round(
+              self.progress *
+              (ROUTE.frameCount - 1)
+            ) + 1;
+
+          setFrame(current);
+        }
+      });
 
       gsap.to(".route-sequence", {
         scale: 1.12,
@@ -428,6 +445,9 @@ function Route() {
 
   }, []);
 
+  const number =
+    String(frame).padStart(3, "0");
+
   return (
     <section
       ref={ref}
@@ -440,6 +460,18 @@ function Route() {
         <div className="sequence-placeholder">
           <span>SAN REY</span>
         </div>
+
+        <img
+          className={
+            "route-frame " +
+            (loaded ? "has-media" : "")
+          }
+          src={`${ROUTE.framesPath}${number}.webp`}
+          alt=""
+          draggable="false"
+          onLoad={() => setLoaded(true)}
+          onError={() => setLoaded(false)}
+        />
 
       </div>
 
@@ -466,7 +498,7 @@ function Route() {
 
       <div className="route-line">
 
-        {ROUTE.map((item, index) => (
+        {ROUTE.steps.map((item, index) => (
 
           <div
             className="route-step"
@@ -476,6 +508,7 @@ function Route() {
             <i />
 
             <div>
+
               <small>
                 0{index + 1}
               </small>
@@ -483,6 +516,7 @@ function Route() {
               <span>
                 {item}
               </span>
+
             </div>
 
           </div>
