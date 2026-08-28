@@ -2,49 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 import {
-  SITE,
   PRODUCTS,
-  ROUTE,
-  ROUTE_SCENE,
   INFRASTRUCTURE,
-  GLOBAL_PRESENCE,
-  CONTACT,
-  SOCIAL,
+  ROUTE
 } from "./content";
-
 import "./styles.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* =========================================================
-   UTILITIES
-========================================================= */
-
 const ease = "power3.out";
-
-function useScrollProgress(ref, options = {}) {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    if (!ref.current) return;
-
-    const trigger = ScrollTrigger.create({
-      trigger: ref.current,
-      start: options.start || "top bottom",
-      end: options.end || "bottom top",
-      scrub: options.scrub ?? true,
-      onUpdate: (self) => {
-        setProgress(self.progress);
-      },
-    });
-
-    return () => trigger.kill();
-  }, [ref, options.start, options.end, options.scrub]);
-
-  return progress;
-}
 
 /* =========================================================
    HEADER
@@ -57,12 +24,12 @@ function Header() {
         <span className="brand-mark">SR</span>
 
         <span>
-          <b>{SITE.brand}</b>
-          <small>{SITE.brandSub}</small>
+          <b>SAN REY</b>
+          <small>PRODUCE</small>
         </span>
       </a>
 
-      <button className="menu" aria-label="Open menu">
+      <button className="menu" aria-label="Menu">
         <i />
         <i />
       </button>
@@ -71,245 +38,275 @@ function Header() {
 }
 
 /* =========================================================
-   REVEAL
-========================================================= */
-
-function Reveal({ children, className = "" }) {
-  const ref = useRef();
-
-  useEffect(() => {
-    if (!ref.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ref.current,
-        {
-          y: 35,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1.1,
-          ease,
-          scrollTrigger: {
-            trigger: ref.current,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    }, ref);
-
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <div ref={ref} className={`reveal ${className}`}>
-      {children}
-    </div>
-  );
-}
-
-/* =========================================================
-   FRAME SEQUENCE
-   ========================================================= */
-
-function FrameSequence({
-  framesPath,
-  frameCount = 60,
-  className = "",
-  alt = "",
-  triggerRef = null,
-}) {
-  const internalRef = useRef();
-  const ref = triggerRef || internalRef;
-
-  const [frame, setFrame] = useState(1);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    if (!ref.current) return;
-
-    const ctx = gsap.context(() => {
-      const trigger = ScrollTrigger.create({
-        trigger: ref.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-        onUpdate: (self) => {
-          const nextFrame = Math.max(
-            1,
-            Math.min(
-              frameCount,
-              Math.round(self.progress * (frameCount - 1)) + 1
-            )
-          );
-
-          setFrame(nextFrame);
-        },
-      });
-
-      return () => trigger.kill();
-    }, ref);
-
-    return () => ctx.revert();
-  }, [framesPath, frameCount, ref]);
-
-  const frameNumber = String(frame).padStart(3, "0");
-
-  return (
-    <div
-      ref={ref}
-      className={`frame-sequence ${loaded ? "has-media" : ""} ${className}`}
-    >
-      <img
-        src={`${framesPath}${frameNumber}.webp`}
-        alt={alt}
-        onLoad={() => setLoaded(true)}
-        onError={() => setLoaded(false)}
-      />
-
-      {!loaded && (
-        <div className="sequence-placeholder">
-          <span>SCENE</span>
-        </div>
-      )}
-
-      <div className="frame-meta">
-        <span>FRAME {frameNumber}</span>
-        <span>SCROLL / CAMERA</span>
-      </div>
-    </div>
-  );
-}
-
-/* =========================================================
    HERO
 ========================================================= */
 
 function Hero() {
-  const sectionRef = useRef();
+  const ref = useRef();
 
   useEffect(() => {
-    if (!sectionRef.current) return;
-
     const ctx = gsap.context(() => {
-      const timeline = gsap.timeline({
+
+      gsap.timeline({
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: ref.current,
           start: "top top",
           end: "bottom top",
-          scrub: 1.2,
-        },
-      });
-
-      timeline
-        .to(
-          ".hero-sequence",
-          {
-            scale: 1.12,
-            yPercent: 8,
-            ease: "none",
-          },
-          0
-        )
-        .to(
-          ".hero-depth",
-          {
-            yPercent: -12,
-            ease: "none",
-          },
-          0
-        )
-        .to(
-          ".hero-copy",
-          {
-            yPercent: -30,
-            opacity: 0.05,
-            ease: "none",
-          },
-          0
-        )
-        .to(
-          ".hero-glow",
-          {
-            scale: 1.5,
-            opacity: 0.16,
-            ease: "none",
-          },
-          0
-        );
+          scrub: 1.2
+        }
+      })
+      .to(".hero-sequence", {
+        scale: 1.13,
+        yPercent: 8,
+        ease: "none"
+      }, 0)
+      .to(".hero-copy", {
+        yPercent: -25,
+        opacity: .2,
+        ease: "none"
+      }, 0);
 
       gsap.from(".hero-line", {
-        y: 100,
+        y: 90,
         opacity: 0,
-        duration: 1.3,
-        stagger: 0.12,
-        ease,
+        duration: 1.25,
+        stagger: .12,
+        ease
       });
 
       gsap.from(".hero-kicker", {
         x: -35,
         opacity: 0,
         duration: 1,
-        ease,
+        ease
       });
-    }, sectionRef);
+
+    }, ref);
 
     return () => ctx.revert();
   }, []);
 
   return (
     <section
-      ref={sectionRef}
+      ref={ref}
       id="hero"
       className="hero cinematic-section"
     >
+
       <div className="hero-depth">
-        <FrameSequence
-          framesPath={SITE.hero.framesPath}
-          frameCount={SITE.hero.frameCount}
-          className="hero-sequence"
-          alt="San Rey Produce truck"
-        />
+
+        <div className="hero-sequence">
+          <div className="sequence-placeholder">
+            <span>SAN REY</span>
+          </div>
+        </div>
+
       </div>
 
       <div className="hero-glow" />
 
       <div className="hero-copy">
-        <div className="hero-kicker">{SITE.hero.kicker}</div>
+
+        <div className="hero-kicker">
+          FROM FIELD TO MARKET
+        </div>
 
         <h1>
-          {SITE.hero.title.map((line, index) => (
-            <span
-              key={line}
-              className={`hero-line ${
-                index === SITE.hero.title.length - 1 ? "accent" : ""
-              }`}
-            >
-              {line}
-            </span>
-          ))}
+          <span className="hero-line">
+            FRESHNESS
+          </span>
+
+          <span className="hero-line">
+            ON THE
+          </span>
+
+          <span className="hero-line accent">
+            MOVE.
+          </span>
         </h1>
 
         <p>
-          <Reveal>
-            {SITE.hero.description}
-          </Reveal>
+          Fresh produce, handled with precision
+          <br />
+          and delivered with reliability.
         </p>
 
-        <a className="ghost-button" href="#products">
-          {SITE.hero.button}
-          <span>↗</span>
-        </a>
       </div>
 
       <div className="scroll-cue">
         <span />
         SCROLL TO EXPERIENCE
       </div>
+
     </section>
+  );
+}
+
+/* =========================================================
+   FRAME SEQUENCE
+========================================================= */
+
+function FrameSequence({ product }) {
+
+  const ref = useRef();
+  const [frame, setFrame] = useState(1);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+
+    const ctx = gsap.context(() => {
+
+      ScrollTrigger.create({
+        trigger: ref.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+
+        onUpdate: self => {
+
+          const current =
+            Math.round(
+              self.progress *
+              (product.frameCount - 1)
+            ) + 1;
+
+          setFrame(current);
+        }
+      });
+
+    }, ref);
+
+    return () => ctx.revert();
+
+  }, [product]);
+
+  const number =
+    String(frame).padStart(3, "0");
+
+  return (
+    <div
+      ref={ref}
+      className={
+        "frame-sequence " +
+        (loaded ? "has-media" : "")
+      }
+    >
+
+      <div
+        className={
+          "sequence-placeholder " +
+          product.key
+        }
+      >
+        <span>
+          {product.english.toUpperCase()}
+        </span>
+      </div>
+
+      <img
+        src={`${product.framesPath}${number}.webp`}
+        alt=""
+        draggable="false"
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(false)}
+      />
+
+    </div>
+  );
+}
+
+/* =========================================================
+   PRODUCT SCENE
+========================================================= */
+
+function ProductScene({ product, index }) {
+
+  const ref = useRef();
+
+  useEffect(() => {
+
+    const ctx = gsap.context(() => {
+
+      gsap.fromTo(
+        ".product-scene-copy",
+        {
+          y: 80,
+          opacity: 0
+        },
+        {
+          y: 0,
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top 75%",
+            end: "center center",
+            scrub: 1
+          }
+        }
+      );
+
+      gsap.to(
+        ".product-scene-media",
+        {
+          scale: 1.08,
+          yPercent: -4,
+          ease: "none",
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.2
+          }
+        }
+      );
+
+    }, ref);
+
+    return () => ctx.revert();
+
+  }, []);
+
+  return (
+    <article
+      ref={ref}
+      className={
+        "product-scene product-scene-" +
+        (index + 1)
+      }
+    >
+
+      <div className="product-scene-media">
+        <FrameSequence product={product} />
+      </div>
+
+      <div className="product-scene-overlay" />
+
+      <div className="product-scene-copy">
+
+        <span className="product-scene-index">
+          0{index + 1}
+        </span>
+
+        <div className="product-scene-kicker">
+          SAN REY PRODUCE
+        </div>
+
+        <h3>
+          {product.title}
+        </h3>
+
+        <div className="product-scene-en">
+          {product.english}
+        </div>
+
+        <p>
+          {product.description}
+        </p>
+
+      </div>
+
+    </article>
   );
 }
 
@@ -317,86 +314,45 @@ function Hero() {
    PRODUCTS
 ========================================================= */
 
-function ProductScene({ product, index }) {
-  return (
-    <article className="product-card">
-      <FrameSequence
-        framesPath={product.framesPath}
-        frameCount={product.frameCount}
-        className={`product-sequence ${product.key}`}
-        alt={product.english}
-      />
-
-      <div className="product-info">
-        <span className="product-index">
-          0{index + 1}
-        </span>
-
-        <h3>{product.title}</h3>
-
-        <div className="product-en">
-          {product.english}
-        </div>
-
-        <p>{product.description}</p>
-      </div>
-    </article>
-  );
-}
-
 function Products() {
-  const sectionRef = useRef();
+
+  const ref = useRef();
 
   useEffect(() => {
-    if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
+
       gsap.to(".product-intro", {
         yPercent: -18,
         ease: "none",
+
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: ref.current,
           start: "top bottom",
           end: "bottom top",
-          scrub: true,
-        },
+          scrub: 1
+        }
       });
 
-      gsap.fromTo(
-        ".product-card",
-        {
-          rotateX: 6,
-          scale: 0.94,
-        },
-        {
-          rotateX: 0,
-          scale: 1,
-          stagger: 0.15,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".product-grid",
-            start: "top 85%",
-            end: "top 35%",
-            scrub: true,
-          },
-        }
-      );
-    }, sectionRef);
+    }, ref);
 
     return () => ctx.revert();
+
   }, []);
 
   return (
     <section
-      ref={sectionRef}
+      ref={ref}
       id="products"
       className="products cinematic-section"
     >
+
       <div className="section-no">
         02 / PRODUCTS
       </div>
 
       <div className="product-intro">
+
         <h2>
           FRESH.
           <br />
@@ -410,9 +366,11 @@ function Products() {
           <br />
           y altos estándares.
         </p>
+
       </div>
 
-      <div className="product-grid">
+      <div className="product-scenes">
+
         {PRODUCTS.map((product, index) => (
           <ProductScene
             key={product.key}
@@ -420,12 +378,9 @@ function Products() {
             index={index}
           />
         ))}
+
       </div>
 
-      <div className="section-cta">
-        VER TODOS LOS PRODUCTOS
-        <span>→</span>
-      </div>
     </section>
   );
 }
@@ -435,66 +390,63 @@ function Products() {
 ========================================================= */
 
 function Route() {
-  const sectionRef = useRef();
+
+  const ref = useRef();
 
   useEffect(() => {
-    if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
+
       gsap.to(".route-sequence", {
         scale: 1.12,
         yPercent: 7,
         ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.2,
-        },
-      });
 
-      gsap.to(".route-copy", {
-        yPercent: -18,
-        ease: "none",
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: ref.current,
           start: "top bottom",
           end: "bottom top",
-          scrub: 1,
-        },
+          scrub: 1.2
+        }
       });
 
       gsap.to(".route-line", {
         yPercent: -8,
         ease: "none",
+
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: ref.current,
           start: "top bottom",
           end: "bottom top",
-          scrub: 1,
-        },
+          scrub: 1
+        }
       });
-    }, sectionRef);
+
+    }, ref);
 
     return () => ctx.revert();
+
   }, []);
 
   return (
     <section
-      ref={sectionRef}
+      ref={ref}
       id="route"
       className="route cinematic-section"
     >
-      <FrameSequence
-        framesPath={ROUTE_SCENE.framesPath}
-        frameCount={ROUTE_SCENE.frameCount}
-        className="route-sequence"
-        alt="San Rey Produce route"
-      />
+
+      <div className="route-sequence">
+
+        <div className="sequence-placeholder">
+          <span>SAN REY</span>
+        </div>
+
+      </div>
 
       <div className="route-overlay" />
 
       <div className="route-copy">
+
         <div className="section-no">
           03 / OUR ROUTE
         </div>
@@ -506,30 +458,43 @@ function Route() {
         </h2>
 
         <p>
-          Una ruta de frescura que cruza fronteras.
+          Una ruta de frescura que cruza
+          fronteras.
         </p>
+
       </div>
 
       <div className="route-line">
-        {ROUTE.map((step) => (
+
+        {ROUTE.map((item, index) => (
+
           <div
             className="route-step"
-            key={step.key}
+            key={item}
           >
+
             <i />
 
             <div>
-              <small>{step.number}</small>
-              <span>{step.title}</span>
+              <small>
+                0{index + 1}
+              </small>
+
+              <span>
+                {item}
+              </span>
             </div>
+
           </div>
+
         ))}
+
       </div>
 
       <div className="route-caption">
-        CAMERA / JOURNEY
-        <b>01—05</b>
+        FROM FIELD TO MARKET
       </div>
+
     </section>
   );
 }
@@ -538,54 +503,20 @@ function Route() {
    INFRASTRUCTURE
 ========================================================= */
 
-function InfrastructureScene({
-  item,
-}) {
-  return (
-    <article className="infra-card">
-      <div className="infra-number">
-        {item.number}
-      </div>
-
-      <div className="infra-icon">
-        <span />
-      </div>
-
-      <div className="infra-copy">
-        <h3>
-          {item.title}
-          <br />
-          <em>{item.accent}</em>
-        </h3>
-
-        <p>{item.description}</p>
-      </div>
-
-      <FrameSequence
-        framesPath={item.framesPath}
-        frameCount={item.frameCount}
-        className={`infra-sequence ${item.key}`}
-        alt={item.title}
-      />
-
-      <span className="infra-arrow">
-        ↗
-      </span>
-    </article>
-  );
-}
-
 function Infrastructure() {
+
   return (
     <section
       id="infrastructure"
       className="infrastructure cinematic-section"
     >
+
       <div className="section-no">
         04 / INFRASTRUCTURE
       </div>
 
       <div className="infra-head">
+
         <h2>
           INFRAESTRUCTURA
           <br />
@@ -593,90 +524,125 @@ function Infrastructure() {
         </h2>
 
         <p>
-          Tecnología, procesos y personas comprometidas
-          con la excelencia.
+          Tecnología, procesos y personas
+          comprometidas con la excelencia.
         </p>
+
       </div>
 
       <div className="infra-stack">
-        {INFRASTRUCTURE.map((item) => (
-          <InfrastructureScene
-            key={item.key}
-            item={item}
-          />
-        ))}
+
+        {INFRASTRUCTURE.map(
+          ([number, title, subtitle, description]) => (
+
+            <article
+              className="infra-card"
+              key={number}
+            >
+
+              <div className="infra-number">
+                {number}
+              </div>
+
+              <div className="infra-icon">
+                <span />
+              </div>
+
+              <div className="infra-copy">
+
+                <h3>
+                  {title}
+                  <br />
+                  <em>{subtitle}</em>
+                </h3>
+
+                <p>
+                  {description}
+                </p>
+
+              </div>
+
+              <div
+                className={
+                  "infra-sequence media-" +
+                  number
+                }
+              />
+
+            </article>
+
+          )
+        )}
+
       </div>
+
     </section>
   );
 }
 
 /* =========================================================
-   GLOBAL PRESENCE
+   GLOBAL
 ========================================================= */
 
 function Global() {
-  const sectionRef = useRef();
+
+  const ref = useRef();
 
   useEffect(() => {
-    if (!sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      gsap.to(".global-sequence", {
-        scale: 1.12,
-        yPercent: 5,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: 1.2,
-        },
-      });
 
       gsap.fromTo(
         ".map-line",
         {
-          strokeDashoffset: 600,
+          strokeDashoffset: 600
         },
         {
           strokeDashoffset: 0,
           ease: "none",
+
           scrollTrigger: {
-            trigger: sectionRef.current,
+            trigger: ref.current,
             start: "top 70%",
             end: "center center",
-            scrub: 1,
-          },
+            scrub: 1
+          }
         }
       );
 
-      gsap.to(".global-copy", {
-        yPercent: -15,
+      gsap.to(".global-sequence", {
+        scale: 1.1,
+        yPercent: 4,
         ease: "none",
+
         scrollTrigger: {
-          trigger: sectionRef.current,
+          trigger: ref.current,
           start: "top bottom",
           end: "bottom top",
-          scrub: 1,
-        },
+          scrub: 1.2
+        }
       });
-    }, sectionRef);
+
+    }, ref);
 
     return () => ctx.revert();
+
   }, []);
 
   return (
     <section
-      ref={sectionRef}
+      ref={ref}
       id="global"
       className="global cinematic-section"
     >
-      <FrameSequence
-        framesPath={GLOBAL_PRESENCE.framesPath}
-        frameCount={GLOBAL_PRESENCE.frameCount}
-        className="global-sequence"
-        alt="San Rey Produce global presence"
-      />
+
+      <div className="global-sequence">
+
+        <div className="sequence-placeholder">
+          <span>SAN REY</span>
+        </div>
+
+      </div>
 
       <div className="global-overlay" />
 
@@ -685,6 +651,7 @@ function Global() {
         viewBox="0 0 1000 650"
         preserveAspectRatio="none"
       >
+
         <path
           className="map-line"
           d="M290 505 C420 420 470 350 610 250 C710 175 755 155 835 105"
@@ -694,55 +661,117 @@ function Global() {
           className="map-line second"
           d="M290 505 C500 450 590 390 710 300 C790 240 830 190 885 155"
         />
+
       </svg>
 
       <div className="global-copy">
+
         <div className="section-no">
           05 / GLOBAL PRESENCE
         </div>
 
         <h2>
-          {GLOBAL_PRESENCE.title[0]}
+          PRESENCIA
           <br />
-          <em>{GLOBAL_PRESENCE.title[1]}</em>
+          <em>GLOBAL.</em>
         </h2>
 
         <p>
-          {GLOBAL_PRESENCE.description}
+          Llevamos frescura a los mercados
+          más exigentes.
         </p>
+
       </div>
 
       <div className="location mexico">
-        {GLOBAL_PRESENCE.origin.name}
+        MÉXICO
         <span />
       </div>
 
       <div className="location usa">
-        {GLOBAL_PRESENCE.destination.name}
+        USA
         <span />
       </div>
 
-      <div className="contact">
-        <div className="brand-large">
-          {SITE.brand}
-          <small>{SITE.brandSub}</small>
+    </section>
+  );
+}
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+function Footer() {
+
+  return (
+    <footer className="site-footer">
+
+      <div className="footer-main">
+
+        <div className="footer-brand">
+
+          <div className="brand-large">
+            SAN REY
+
+            <small>
+              PRODUCE
+            </small>
+          </div>
+
+          <p>
+            Freshness that travels.
+          </p>
+
         </div>
 
-        <p>{CONTACT.tagline}</p>
+        <div className="footer-social">
 
-        <a href={`mailto:${CONTACT.email}`}>
-          {CONTACT.button}
-        </a>
+          <span>
+            FOLLOW SAN REY
+          </span>
+
+          <div className="social-links">
+
+            <a
+              href="#"
+              aria-label="Facebook"
+            >
+              Facebook
+            </a>
+
+            <a
+              href="#"
+              aria-label="Instagram"
+            >
+              Instagram
+            </a>
+
+            <a
+              href="#"
+              aria-label="TikTok"
+            >
+              TikTok
+            </a>
+
+          </div>
+
+        </div>
+
       </div>
 
-      <div className="social">
-        <a href={SOCIAL.facebook}>f</a>
-        &nbsp;&nbsp;&nbsp;
-        <a href={SOCIAL.instagram}>◎</a>
-        &nbsp;&nbsp;&nbsp;
-        <a href={SOCIAL.linkedin}>in</a>
+      <div className="footer-bottom">
+
+        <span>
+          San Rey Produce
+        </span>
+
+        <span>
+          Todos los derechos reservados.
+        </span>
+
       </div>
-    </section>
+
+    </footer>
   );
 }
 
@@ -751,24 +780,27 @@ function Global() {
 ========================================================= */
 
 function App() {
+
   return (
     <>
       <Header />
 
       <main>
         <Hero />
+
         <Products />
+
         <Route />
+
         <Infrastructure />
+
         <Global />
       </main>
+
+      <Footer />
     </>
   );
 }
-
-/* =========================================================
-   RENDER
-========================================================= */
 
 createRoot(
   document.getElementById("root")
