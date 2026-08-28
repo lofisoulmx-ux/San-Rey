@@ -46,10 +46,14 @@ export const INFRASTRUCTURE = [
   ]
 ];
 
-export const ROUTE = [
-  "CAMPO",
-  "EMPACADO",
-  "TRANSPORTE",
-  "FRONTERA",
-  "USA"
-];
+export const ROUTE = {
+  framesPath: "/assets/route/frames/",
+  frameCount: 60,
+  steps: [
+    "CAMPO",
+    "EMPACADO",
+    "TRANSPORTE",
+    "FRONTERA",
+    "USA"
+  ]
+};
