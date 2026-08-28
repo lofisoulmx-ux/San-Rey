@@ -19,8 +19,35 @@ const ease = "power3.out";
 ========================================================= */
 
 function Header() {
+  const ref = useRef();
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+
+      gsap.to(ref.current, {
+        opacity: 0,
+        y: -35,
+        pointerEvents: "none",
+        ease: "power2.out",
+
+        scrollTrigger: {
+          trigger: "#hero",
+          start: "top top",
+          end: "top -18%",
+          scrub: true
+        }
+      });
+
+    }, ref);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <header className="site-header">
+    <header
+      ref={ref}
+      className="site-header"
+    >
       <a className="brand" href="#hero">
         <span className="brand-mark">SR</span>
 
@@ -30,7 +57,10 @@ function Header() {
         </span>
       </a>
 
-      <button className="menu" aria-label="Menu">
+      <button
+        className="menu"
+        aria-label="Menu"
+      >
         <i />
         <i />
       </button>
