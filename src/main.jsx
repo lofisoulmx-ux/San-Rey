@@ -153,7 +153,7 @@ function Hero() {
           <video
             ref={videoRef}
             className="hero-video"
-            src="/assets/hero/video/hero.mp4"
+            src="/assets/hero/frames/video/hero.mp4"
             muted
             playsInline
             preload="auto"
