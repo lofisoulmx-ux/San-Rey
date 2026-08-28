@@ -75,34 +75,32 @@ function Header() {
 
 function Hero() {
   const ref = useRef();
+  const [frame, setFrame] = useState(0);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
 
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: ref.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: 1.2
+      ScrollTrigger.create({
+        trigger: ref.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+
+        onUpdate: (self) => {
+          const current = Math.min(
+            HERO_FRAMES.length - 1,
+            Math.floor(self.progress * HERO_FRAMES.length)
+          );
+
+          setFrame(current);
         }
-      })
-      .to(".hero-sequence", {
-        scale: 1.13,
-        yPercent: 8,
-        ease: "none"
-      }, 0)
-      .to(".hero-copy", {
-        yPercent: -25,
-        opacity: .2,
-        ease: "none"
-      }, 0);
+      });
 
       gsap.from(".hero-line", {
         y: 90,
         opacity: 0,
         duration: 1.25,
-        stagger: .12,
+        stagger: 0.12,
         ease
       });
 
@@ -128,9 +126,21 @@ function Hero() {
       <div className="hero-depth">
 
         <div className="hero-sequence">
-          <div className="sequence-placeholder">
-            <span>SAN REY</span>
-          </div>
+
+          {HERO_FRAMES.map((src, index) => (
+            <img
+              key={src}
+              src={src}
+              alt=""
+              draggable="false"
+              className={
+                index === frame
+                  ? "hero-frame active"
+                  : "hero-frame"
+              }
+            />
+          ))}
+
         </div>
 
       </div>
