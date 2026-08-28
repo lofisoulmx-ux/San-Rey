@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
+  HERO_FRAMES,
   PRODUCTS,
   INFRASTRUCTURE,
   ROUTE,
