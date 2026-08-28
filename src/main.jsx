@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import {
-  HERO_FRAMES,
   PRODUCTS,
   INFRASTRUCTURE,
   ROUTE,
   GLOBAL_PRESENCE
 } from "./content";
+
 import "./styles.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,15 +17,69 @@ gsap.registerPlugin(ScrollTrigger);
 const ease = "power3.out";
 
 /* =========================================================
+   HELPERS
+========================================================= */
+
+function useScrollFrameSequence({
+  sectionRef,
+  imageRef,
+  framesPath,
+  frameCount
+}) {
+  useEffect(() => {
+    const section = sectionRef.current;
+    const image = imageRef.current;
+
+    if (!section || !image || !frameCount) return;
+
+    let lastFrame = -1;
+
+    const updateFrame = (progress) => {
+      const frame = Math.min(
+        frameCount,
+        Math.max(
+          1,
+          Math.round(progress * (frameCount - 1)) + 1
+        )
+      );
+
+      if (frame === lastFrame) return;
+
+      lastFrame = frame;
+
+      const number = String(frame).padStart(3, "0");
+
+      image.src = `${framesPath}${number}.webp`;
+    };
+
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+
+        onUpdate: (self) => {
+          updateFrame(self.progress);
+        }
+      });
+    }, section);
+
+    return () => {
+      ctx.revert();
+    };
+  }, [sectionRef, imageRef, framesPath, frameCount]);
+}
+
+/* =========================================================
    HEADER
 ========================================================= */
 
 function Header() {
-  const ref = useRef();
+  const ref = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-
       gsap.to(ref.current, {
         opacity: 0,
         y: -35,
@@ -38,102 +93,209 @@ function Header() {
           scrub: true
         }
       });
-
     }, ref);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <header
-      ref={ref}
-      className="site-header"
-    >
-      <a className="brand" href="#hero">
-        <span className="brand-mark">SR</span>
+    <header ref={ref} className="site-header">
 
-        <span>
+      <a className="brand" href="#hero">
+
+        <span className="brand-mark">
+          SR
+        </span>
+
+        <span className="brand-text">
           <b>SAN REY</b>
           <small>PRODUCE</small>
         </span>
+
       </a>
 
       <button
         className="menu"
-        aria-label="Menu"
+        aria-label="Open menu"
+        type="button"
       >
         <i />
         <i />
       </button>
+
     </header>
   );
 }
 
 /* =========================================================
-   HERO
+   HERO VIDEO
 ========================================================= */
 
 function Hero() {
-  const ref = useRef();
-  const videoRef = useRef();
+  const sectionRef = useRef(null);
+  const videoRef = useRef(null);
 
   useEffect(() => {
+    const section = sectionRef.current;
     const video = videoRef.current;
 
-    if (!video) return;
+    if (!section || !video) return;
 
-    video.pause();
-    video.currentTime = 0;
+    let ready = false;
+    let lastTime = -1;
 
-    const handleLoadedMetadata = () => {
+    const prepareVideo = () => {
+      if (!video.duration || !Number.isFinite(video.duration)) {
+        return;
+      }
+
+      ready = true;
+
+      video.pause();
       video.currentTime = 0;
+
+      ScrollTrigger.refresh();
+    };
+
+    const updateVideo = (progress) => {
+      if (!ready) return;
+
+      const duration = video.duration;
+
+      if (!duration || !Number.isFinite(duration)) {
+        return;
+      }
+
+      /*
+        Dejamos unos milisegundos antes del final
+        para evitar que algunos navegadores móviles
+        salten al último frame o congelen el video.
+      */
+      const targetTime =
+        progress * Math.max(0, duration - 0.05);
+
+      if (Math.abs(targetTime - lastTime) < 0.015) {
+        return;
+      }
+
+      lastTime = targetTime;
+
+      try {
+        video.currentTime = targetTime;
+      } catch {
+        // Algunos navegadores pueden rechazar un seek
+        // durante la carga inicial. No hacemos nada.
+      }
     };
 
     video.addEventListener(
       "loadedmetadata",
-      handleLoadedMetadata
+      prepareVideo
     );
+
+    video.addEventListener(
+      "canplay",
+      prepareVideo
+    );
+
+    /*
+      Forzamos la carga del archivo.
+    */
+    video.load();
 
     const ctx = gsap.context(() => {
 
       ScrollTrigger.create({
-        trigger: ref.current,
+        trigger: section,
+
+        /*
+          El hero ocupa bastante espacio para que
+          el movimiento del video sea realmente visible.
+        */
         start: "top top",
         end: "bottom top",
-        scrub: true,
+
+        scrub: 0.15,
 
         onUpdate: (self) => {
-
-          if (!video.duration) return;
-
-          video.currentTime =
-            self.progress * video.duration;
+          updateVideo(self.progress);
         }
       });
 
-      gsap.from(".hero-line", {
-        y: 90,
-        opacity: 0,
-        duration: 1.25,
-        stagger: 0.12,
-        ease
-      });
+      /* -----------------------------------------------
+         HERO TEXT
+      ------------------------------------------------ */
 
-      gsap.from(".hero-kicker", {
-        x: -35,
-        opacity: 0,
-        duration: 1,
-        ease
-      });
+      gsap.fromTo(
+        ".hero-kicker",
+        {
+          y: 30,
+          opacity: 0
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease
+        }
+      );
 
-    }, ref);
+      gsap.fromTo(
+        ".hero-line",
+        {
+          y: 100,
+          opacity: 0
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.15,
+          stagger: 0.1,
+          ease
+        }
+      );
+
+      gsap.fromTo(
+        ".hero-copy p",
+        {
+          y: 30,
+          opacity: 0
+        },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          delay: 0.35,
+          ease
+        }
+      );
+
+      gsap.fromTo(
+        ".scroll-cue",
+        {
+          opacity: 0
+        },
+        {
+          opacity: 1,
+          duration: 1,
+          delay: 1,
+          ease
+        }
+      );
+
+    }, section);
 
     return () => {
       ctx.revert();
 
       video.removeEventListener(
         "loadedmetadata",
-        handleLoadedMetadata
+        prepareVideo
+      );
+
+      video.removeEventListener(
+        "canplay",
+        prepareVideo
       );
     };
 
@@ -141,29 +303,37 @@ function Hero() {
 
   return (
     <section
-      ref={ref}
+      ref={sectionRef}
       id="hero"
       className="hero cinematic-section"
     >
 
-      <div className="hero-depth">
+      {/* VIDEO BACKGROUND */}
 
-        <div className="hero-sequence">
+      <div className="hero-video-layer">
 
-          <video
-            ref={videoRef}
-            className="hero-video"
-            src="/assets/hero/hero.mp4"
-            muted
-            playsInline
-            preload="auto"
-          />
-
-        </div>
+        <video
+          ref={videoRef}
+          className="hero-video"
+          src="/assets/hero/hero.mp4"
+          muted
+          playsInline
+          preload="auto"
+          disablePictureInPicture
+          controls={false}
+        />
 
       </div>
 
+      {/* DARK CINEMATIC OVERLAY */}
+
+      <div className="hero-overlay" />
+
+      {/* GREEN LIGHT */}
+
       <div className="hero-glow" />
+
+      {/* HERO CONTENT */}
 
       <div className="hero-copy">
 
@@ -172,6 +342,7 @@ function Hero() {
         </div>
 
         <h1>
+
           <span className="hero-line">
             FRESHNESS
           </span>
@@ -183,6 +354,7 @@ function Hero() {
           <span className="hero-line accent">
             MOVE.
           </span>
+
         </h1>
 
         <p>
@@ -193,9 +365,16 @@ function Hero() {
 
       </div>
 
+      {/* SCROLL INDICATOR */}
+
       <div className="scroll-cue">
+
         <span />
-        SCROLL TO EXPERIENCE
+
+        <span>
+          SCROLL TO EXPERIENCE
+        </span>
+
       </div>
 
     </section>
@@ -203,72 +382,37 @@ function Hero() {
 }
 
 /* =========================================================
-   FRAME SEQUENCE
+   PRODUCT FRAME SEQUENCE
 ========================================================= */
 
 function FrameSequence({ product }) {
+  const sectionRef = useRef(null);
+  const imageRef = useRef(null);
 
-  const ref = useRef();
-  const [frame, setFrame] = useState(1);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-
-    const ctx = gsap.context(() => {
-
-      ScrollTrigger.create({
-        trigger: ref.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-
-        onUpdate: self => {
-
-          const current =
-            Math.round(
-              self.progress *
-              (product.frameCount - 1)
-            ) + 1;
-
-          setFrame(current);
-        }
-      });
-
-    }, ref);
-
-    return () => ctx.revert();
-
-  }, [product]);
-
-  const number =
-    String(frame).padStart(3, "0");
+  useScrollFrameSequence({
+    sectionRef,
+    imageRef,
+    framesPath: product.framesPath,
+    frameCount: product.frameCount
+  });
 
   return (
     <div
-      ref={ref}
-      className={
-        "frame-sequence " +
-        (loaded ? "has-media" : "")
-      }
+      ref={sectionRef}
+      className="frame-sequence"
     >
 
-      <div
-        className={
-          "sequence-placeholder " +
-          product.key
-        }
-      >
+      <div className="sequence-placeholder">
         <span>
           {product.english.toUpperCase()}
         </span>
       </div>
 
       <img
-        src={`${product.framesPath}${number}.webp`}
+        ref={imageRef}
+        src={`${product.framesPath}001.webp`}
         alt=""
         draggable="false"
-        onLoad={() => setLoaded(true)}
-        onError={() => setLoaded(false)}
       />
 
     </div>
@@ -280,23 +424,22 @@ function FrameSequence({ product }) {
 ========================================================= */
 
 function ProductScene({ product, index }) {
-
-  const ref = useRef();
+  const ref = useRef(null);
 
   useEffect(() => {
-
     const ctx = gsap.context(() => {
 
       gsap.fromTo(
         ".product-scene-copy",
         {
-          y: 80,
+          y: 70,
           opacity: 0
         },
         {
           y: 0,
           opacity: 1,
           ease: "none",
+
           scrollTrigger: {
             trigger: ref.current,
             start: "top 75%",
@@ -306,12 +449,15 @@ function ProductScene({ product, index }) {
         }
       );
 
-      gsap.to(
+      gsap.fromTo(
         ".product-scene-media",
         {
-          scale: 1.08,
-          yPercent: -4,
+          scale: 1.04
+        },
+        {
+          scale: 1.1,
           ease: "none",
+
           scrollTrigger: {
             trigger: ref.current,
             start: "top bottom",
@@ -324,16 +470,12 @@ function ProductScene({ product, index }) {
     }, ref);
 
     return () => ctx.revert();
-
   }, []);
 
   return (
     <article
       ref={ref}
-      className={
-        "product-scene product-scene-" +
-        (index + 1)
-      }
+      className={`product-scene product-scene-${index + 1}`}
     >
 
       <div className="product-scene-media">
@@ -375,11 +517,9 @@ function ProductScene({ product, index }) {
 ========================================================= */
 
 function Products() {
-
-  const ref = useRef();
+  const ref = useRef(null);
 
   useEffect(() => {
-
     const ctx = gsap.context(() => {
 
       gsap.to(".product-intro", {
@@ -397,7 +537,6 @@ function Products() {
     }, ref);
 
     return () => ctx.revert();
-
   }, []);
 
   return (
@@ -449,34 +588,23 @@ function Products() {
    ROUTE
 ========================================================= */
 
-  function Route() {
-  const ref = useRef();
-  const [frame, setFrame] = useState(1);
-  const [loaded, setLoaded] = useState(false);
+function Route() {
+  const ref = useRef(null);
+  const imageRef = useRef(null);
+
+  useScrollFrameSequence({
+    sectionRef: ref,
+    imageRef,
+    framesPath: ROUTE.framesPath,
+    frameCount: ROUTE.frameCount
+  });
 
   useEffect(() => {
     const ctx = gsap.context(() => {
 
-      ScrollTrigger.create({
-        trigger: ref.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-
-        onUpdate: self => {
-          const current =
-            Math.round(
-              self.progress *
-              (ROUTE.frameCount - 1)
-            ) + 1;
-
-          setFrame(current);
-        }
-      });
-
       gsap.to(".route-sequence", {
-        scale: 1.12,
-        yPercent: 7,
+        scale: 1.08,
+        yPercent: 6,
         ease: "none",
 
         scrollTrigger: {
@@ -502,11 +630,7 @@ function Products() {
     }, ref);
 
     return () => ctx.revert();
-
   }, []);
-
-  const number =
-    String(frame).padStart(3, "0");
 
   return (
     <section
@@ -522,15 +646,11 @@ function Products() {
         </div>
 
         <img
-          className={
-            "route-frame " +
-            (loaded ? "has-media" : "")
-          }
-          src={`${ROUTE.framesPath}${number}.webp`}
+          ref={imageRef}
+          className="route-frame"
+          src={`${ROUTE.framesPath}001.webp`}
           alt=""
           draggable="false"
-          onLoad={() => setLoaded(true)}
-          onError={() => setLoaded(false)}
         />
 
       </div>
@@ -558,32 +678,32 @@ function Products() {
 
       <div className="route-line">
 
-  <div className="route-line-track" />
+        <div className="route-line-track" />
 
-  {ROUTE.steps.map((item, index) => (
+        {ROUTE.steps.map((item, index) => (
+          <div
+            className="route-step"
+            key={item}
+          >
 
-    <div
-      className="route-step"
-      key={item}
-    >
+            <i />
 
-      <i />
+            <div className="route-step-content">
 
-      <div className="route-step-content">
-        <small>
-          0{index + 1}
-        </small>
+              <small>
+                0{index + 1}
+              </small>
 
-        <span>
-          {item}
-        </span>
+              <span>
+                {item}
+              </span>
+
+            </div>
+
+          </div>
+        ))}
+
       </div>
-
-    </div>
-
-  ))}
-
-</div>
 
       <div className="route-caption">
         FROM FIELD TO MARKET
@@ -594,39 +714,28 @@ function Products() {
 }
 
 /* =========================================================
-   INFRASTRUCTURE
+   INFRASTRUCTURE SCENE
 ========================================================= */
 
 function InfrastructureScene({ scene }) {
-  const ref = useRef();
-  const [frame, setFrame] = useState(1);
-  const [loaded, setLoaded] = useState(false);
+  const ref = useRef(null);
+  const imageRef = useRef(null);
+
+  useScrollFrameSequence({
+    sectionRef: ref,
+    imageRef,
+    framesPath: scene.framesPath,
+    frameCount: scene.frameCount
+  });
 
   useEffect(() => {
     const ctx = gsap.context(() => {
 
-      ScrollTrigger.create({
-        trigger: ref.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-
-        onUpdate: self => {
-          const current =
-            Math.round(
-              self.progress *
-              (scene.frameCount - 1)
-            ) + 1;
-
-          setFrame(current);
-        }
-      });
-
       gsap.fromTo(
         ".infra-sequence",
         {
-          scale: 1.12,
-          opacity: 0.65
+          scale: 1.08,
+          opacity: 0.7
         },
         {
           scale: 1,
@@ -665,11 +774,7 @@ function InfrastructureScene({ scene }) {
     }, ref);
 
     return () => ctx.revert();
-
-  }, [scene]);
-
-  const number =
-    String(frame).padStart(3, "0");
+  }, []);
 
   return (
     <article
@@ -704,12 +809,10 @@ function InfrastructureScene({ scene }) {
         </div>
 
         <img
-          src={`${scene.framesPath}${number}.webp`}
+          ref={imageRef}
+          src={`${scene.framesPath}001.webp`}
           alt=""
           draggable="false"
-          className={loaded ? "has-media" : ""}
-          onLoad={() => setLoaded(true)}
-          onError={() => setLoaded(false)}
         />
 
       </div>
@@ -718,9 +821,12 @@ function InfrastructureScene({ scene }) {
   );
 }
 
+/* =========================================================
+   INFRASTRUCTURE
+========================================================= */
 
 function Infrastructure() {
-  const ref = useRef();
+  const ref = useRef(null);
 
   return (
     <section
@@ -751,12 +857,10 @@ function Infrastructure() {
       <div className="infra-stack">
 
         {INFRASTRUCTURE.map((scene) => (
-
           <InfrastructureScene
             key={scene.number}
             scene={scene}
           />
-
         ))}
 
       </div>
@@ -765,41 +869,29 @@ function Infrastructure() {
   );
 }
 
-
 /* =========================================================
    GLOBAL
 ========================================================= */
 
 function Global() {
-  const ref = useRef();
-  const [frame, setFrame] = useState(1);
-  const [loaded, setLoaded] = useState(false);
+  const ref = useRef(null);
+  const imageRef = useRef(null);
+
+  useScrollFrameSequence({
+    sectionRef: ref,
+    imageRef,
+    framesPath: GLOBAL_PRESENCE.framesPath,
+    frameCount: GLOBAL_PRESENCE.frameCount
+  });
 
   useEffect(() => {
     const ctx = gsap.context(() => {
 
-      ScrollTrigger.create({
-        trigger: ref.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-
-        onUpdate: self => {
-          const current =
-            Math.round(
-              self.progress *
-              (GLOBAL_PRESENCE.frameCount - 1)
-            ) + 1;
-
-          setFrame(current);
-        }
-      });
-
       gsap.fromTo(
         ".global-sequence",
         {
-          scale: 1.12,
-          opacity: 0.65
+          scale: 1.08,
+          opacity: 0.7
         },
         {
           scale: 1,
@@ -868,11 +960,7 @@ function Global() {
     }, ref);
 
     return () => ctx.revert();
-
   }, []);
-
-  const number =
-    String(frame).padStart(3, "0");
 
   return (
     <section
@@ -888,15 +976,11 @@ function Global() {
         </div>
 
         <img
-          className={
-            "global-frame " +
-            (loaded ? "has-media" : "")
-          }
-          src={`${GLOBAL_PRESENCE.framesPath}${number}.webp`}
+          ref={imageRef}
+          className="global-frame"
+          src={`${GLOBAL_PRESENCE.framesPath}001.webp`}
           alt=""
           draggable="false"
-          onLoad={() => setLoaded(true)}
-          onError={() => setLoaded(false)}
         />
 
       </div>
@@ -953,12 +1037,12 @@ function Global() {
     </section>
   );
 }
+
 /* =========================================================
    FOOTER
 ========================================================= */
 
 function Footer() {
-
   return (
     <footer className="site-footer">
 
@@ -988,24 +1072,15 @@ function Footer() {
 
           <div className="social-links">
 
-            <a
-              href="#"
-              aria-label="Facebook"
-            >
+            <a href="#" aria-label="Facebook">
               Facebook
             </a>
 
-            <a
-              href="#"
-              aria-label="Instagram"
-            >
+            <a href="#" aria-label="Instagram">
               Instagram
             </a>
 
-            <a
-              href="#"
-              aria-label="TikTok"
-            >
+            <a href="#" aria-label="TikTok">
               TikTok
             </a>
 
@@ -1036,20 +1111,15 @@ function Footer() {
 ========================================================= */
 
 function App() {
-
   return (
     <>
       <Header />
 
       <main>
         <Hero />
-
         <Products />
-
         <Route />
-
         <Infrastructure />
-
         <Global />
       </main>
 
@@ -1057,6 +1127,10 @@ function App() {
     </>
   );
 }
+
+/* =========================================================
+   MOUNT
+========================================================= */
 
 createRoot(
   document.getElementById("root")
