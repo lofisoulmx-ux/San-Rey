@@ -1463,3 +1463,61 @@ em,
   }
 
 }
+/* =========================================================
+   GLOBAL PRESENCE — MOBILE COMPOSITION
+========================================================= */
+
+@media (max-width: 760px) {
+
+  .global-copy {
+    top: 12%;
+    left: 7%;
+    right: 7%;
+    z-index: 5;
+  }
+
+  .global-copy .section-no {
+    margin-bottom: 18px;
+  }
+
+  .global-copy h2 {
+    font-size: 15vw;
+    line-height: .88;
+  }
+
+  .global-copy p {
+    max-width: 300px;
+    margin-top: 22px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  .route-svg {
+    top: 8%;
+    height: 72%;
+  }
+
+  .location {
+    font-size: 9px;
+    letter-spacing: .22em;
+  }
+
+  .mexico {
+    left: 17%;
+    bottom: 31%;
+  }
+
+  .usa {
+    right: 10%;
+    top: 43%;
+  }
+
+  .global-sequence {
+    inset: -12%;
+  }
+
+  .global-overlay {
+    z-index: 3;
+  }
+
+}
