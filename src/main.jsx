@@ -712,12 +712,69 @@ function Infrastructure() {
 ========================================================= */
 
 function Global() {
-
   const ref = useRef();
+  const [frame, setFrame] = useState(1);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-
     const ctx = gsap.context(() => {
+
+      ScrollTrigger.create({
+        trigger: ref.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+
+        onUpdate: self => {
+          const current =
+            Math.round(
+              self.progress *
+              (GLOBAL_PRESENCE.frameCount - 1)
+            ) + 1;
+
+          setFrame(current);
+        }
+      });
+
+      gsap.fromTo(
+        ".global-sequence",
+        {
+          scale: 1.12,
+          opacity: 0.65
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          ease: "none",
+
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top bottom",
+            end: "center center",
+            scrub: 1
+          }
+        }
+      );
+
+      gsap.fromTo(
+        ".global-copy",
+        {
+          y: 70,
+          opacity: 0
+        },
+        {
+          y: 0,
+          opacity: 1,
+          ease: "none",
+
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top 75%",
+            end: "center center",
+            scrub: 1
+          }
+        }
+      );
 
       gsap.fromTo(
         ".map-line",
@@ -737,16 +794,15 @@ function Global() {
         }
       );
 
-      gsap.to(".global-sequence", {
-        scale: 1.1,
-        yPercent: 4,
+      gsap.to(".location", {
+        yPercent: -12,
         ease: "none",
 
         scrollTrigger: {
           trigger: ref.current,
           start: "top bottom",
           end: "bottom top",
-          scrub: 1.2
+          scrub: 1
         }
       });
 
@@ -755,6 +811,9 @@ function Global() {
     return () => ctx.revert();
 
   }, []);
+
+  const number =
+    String(frame).padStart(3, "0");
 
   return (
     <section
@@ -768,6 +827,18 @@ function Global() {
         <div className="sequence-placeholder">
           <span>SAN REY</span>
         </div>
+
+        <img
+          className={
+            "global-frame " +
+            (loaded ? "has-media" : "")
+          }
+          src={`${GLOBAL_PRESENCE.framesPath}${number}.webp`}
+          alt=""
+          draggable="false"
+          onLoad={() => setLoaded(true)}
+          onError={() => setLoaded(false)}
+        />
 
       </div>
 
@@ -811,19 +882,18 @@ function Global() {
       </div>
 
       <div className="location mexico">
-        MÉXICO
+        {GLOBAL_PRESENCE.origin}
         <span />
       </div>
 
       <div className="location usa">
-        USA
+        {GLOBAL_PRESENCE.destination}
         <span />
       </div>
 
     </section>
   );
 }
-
 /* =========================================================
    FOOTER
 ========================================================= */
