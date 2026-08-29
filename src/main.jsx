@@ -519,7 +519,7 @@ function Products() {
 
 /* =========================================================
    ROUTE
-   SCROLL CONTROLLED VIDEO
+   VIDEO NORMAL + SCROLL CONTROLLED TEXT
 ========================================================= */
 
 function Route() {
@@ -528,7 +528,6 @@ function Route() {
   const stickyRef = useRef(null);
   const mediaRef = useRef(null);
   const copyRef = useRef(null);
-  const videoRef = useRef(null);
 
   const videoSrc =
     ROUTE.videoSrc ||
@@ -548,9 +547,8 @@ function Route() {
     const sticky = stickyRef.current;
     const media = mediaRef.current;
     const copy = copyRef.current;
-    const video = videoRef.current;
 
-    if (!section || !sticky || !media || !copy || !video) {
+    if (!section || !sticky || !media || !copy) {
       return;
     }
 
@@ -558,109 +556,35 @@ function Route() {
 
       /*
        * =====================================================
-       * VIDEO
+       * PIN DE LA PANTALLA
+       *
+       * El video NO es controlado por el scroll.
+       * Simplemente corre normalmente.
        * =====================================================
        */
 
-      const videoState = {
-        progress: 0
-      };
+      ScrollTrigger.create({
 
-      let videoReady = false;
+        trigger: section,
 
-      const updateVideo = () => {
+        start: "top top",
 
-        if (
-          !videoReady ||
-          !video.duration ||
-          !isFinite(video.duration)
-        ) {
-          return;
-        }
+        end: "bottom bottom",
 
-        const targetTime =
-          videoState.progress * video.duration;
+        pin: sticky,
 
-        if (
-          Math.abs(video.currentTime - targetTime) > 0.02
-        ) {
-          video.currentTime = targetTime;
-        }
-      };
+        pinSpacing: true,
 
+        anticipatePin: 1,
 
-      const handleMetadata = () => {
+        invalidateOnRefresh: true
 
-        videoReady = true;
-
-        video.pause();
-
-        video.currentTime = 0;
-
-      };
-
-
-      video.addEventListener(
-        "loadedmetadata",
-        handleMetadata
-      );
-
-
-      /*
-       * =====================================================
-       * MASTER SCROLL
-       *
-       * Toda la sección queda "pegada".
-       *
-       * El video avanza:
-       *
-       * 0%   → 20% CAMPO
-       * 20%  → 40% EMPACADO
-       * 40%  → 60% TRANSPORTE
-       * 60%  → 80% FRONTERA
-       * 80%  → 100% DESTINO
-       * =====================================================
-       */
-
-      gsap.to(
-        videoState,
-        {
-          progress: 1,
-
-          ease: "none",
-
-          scrollTrigger: {
-
-            trigger: section,
-
-            start: "top top",
-
-            end: "+=500%",
-
-            pin: sticky,
-
-            pinSpacing: true,
-
-            scrub: 0.15,
-
-            anticipatePin: 1,
-
-            invalidateOnRefresh: true,
-
-            onUpdate: updateVideo
-
-          }
-
-        }
-      );
+      });
 
 
       /*
        * =====================================================
        * PARALLAX MUY SUTIL
-       *
-       * No afecta al tiempo del video.
-       * Solo mueve ligeramente la cámara.
        * =====================================================
        */
 
@@ -684,9 +608,9 @@ function Route() {
 
             start: "top top",
 
-            end: "+=500%",
+            end: "bottom bottom",
 
-            scrub: 0.15
+            scrub: 0.5
 
           }
 
@@ -701,6 +625,7 @@ function Route() {
        */
 
       gsap.fromTo(
+
         copy,
 
         {
@@ -718,23 +643,30 @@ function Route() {
 
             trigger: section,
 
-            start: "top top+=20%",
+            start: "top 85%",
 
-            end: "top top+=35%",
+            end: "top 65%",
 
             scrub: 0.5
 
           }
 
         }
+
       );
 
 
       /*
        * =====================================================
-       * ETAPAS
+       * PASOS DE LA RUTA
        *
-       * Cada palabra aparece en su tramo del video.
+       * Cada palabra aparece progresivamente.
+       *
+       * 0%  - 20%  CAMPO
+       * 20% - 40%  EMPACADO
+       * 40% - 60%  TRANSPORTE
+       * 60% - 80%  FRONTERA
+       * 80% - 100% DESTINO
        * =====================================================
        */
 
@@ -751,11 +683,11 @@ function Route() {
         const start =
           index * 20;
 
-        const fadeStart =
-          start + 2;
+        const appearStart =
+          start + 3;
 
-        const fadeEnd =
-          start + 8;
+        const appearEnd =
+          start + 9;
 
 
         gsap.fromTo(
@@ -780,10 +712,10 @@ function Route() {
               trigger: section,
 
               start:
-                `${fadeStart}% top`,
+                `${appearStart}% top`,
 
               end:
-                `${fadeEnd}% top`,
+                `${appearEnd}% top`,
 
               scrub: 0.35
 
@@ -795,23 +727,8 @@ function Route() {
 
       });
 
-
-      /*
-       * =====================================================
-       * LIMPIEZA
-       * =====================================================
-       */
-
-      return () => {
-
-        video.removeEventListener(
-          "loadedmetadata",
-          handleMetadata
-        );
-
-      };
-
     }, section);
+
 
     return () => ctx.revert();
 
@@ -831,16 +748,21 @@ function Route() {
         className="route-sticky"
       >
 
+        {/* =================================================
+            VIDEO NORMAL
+        ================================================= */}
+
         <div
           ref={mediaRef}
           className="route-sequence"
         >
 
           <video
-            ref={videoRef}
             className="scene-video"
             src={videoSrc}
+            autoPlay
             muted
+            loop
             playsInline
             preload="auto"
             disablePictureInPicture
@@ -917,7 +839,6 @@ function Route() {
     </section>
 
   );
-
 }
 
 /* =========================================================
