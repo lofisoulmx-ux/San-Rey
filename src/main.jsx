@@ -870,52 +870,114 @@ function InfrastructureScene({
 
     const ctx = gsap.context(() => {
 
-      /* VIDEO PARALLAX */
+  /* =====================================================
+     ENTRADA CINEMATOGRÁFICA DEL VIDEO
+  ===================================================== */
 
-      gsap.fromTo(
-        media,
-        {
-          scale: 1.06,
-          yPercent: 4
-        },
-        {
-          scale: 1.16,
-          yPercent: -4,
-          ease: "none",
+  gsap.fromTo(
+    media,
+    {
+      opacity: 0,
+      scale: 1.12,
+      yPercent: 8
+    },
+    {
+      opacity: 1,
+      scale: 1.06,
+      yPercent: 0,
 
-          scrollTrigger: {
-            trigger: element,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 0.8
-          }
-        }
-      );
+      ease: "power3.out",
+
+      scrollTrigger: {
+        trigger: element,
+        start: "top 85%",
+        end: "top 35%",
+        scrub: 0.8
+      }
+    }
+  );
 
 
-      /* TEXTO */
+  /* =====================================================
+     PARALLAX DEL VIDEO
+  ===================================================== */
 
-      gsap.fromTo(
-        copy,
-        {
-          opacity: 0,
-          x: index % 2 === 0 ? -60 : 60
-        },
-        {
-          opacity: 1,
-          x: 0,
-          ease: "power2.out",
+  gsap.fromTo(
+    media,
+    {
+      scale: 1.06,
+      yPercent: 0
+    },
+    {
+      scale: 1.14,
+      yPercent: -4,
 
-          scrollTrigger: {
-            trigger: element,
-            start: "top 78%",
-            end: "center 48%",
-            scrub: 0.8
-          }
-        }
-      );
+      ease: "none",
 
-    }, element);
+      scrollTrigger: {
+        trigger: element,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 0.8
+      }
+    }
+  );
+
+
+  /* =====================================================
+     ENTRADA DEL TEXTO
+  ===================================================== */
+
+  gsap.fromTo(
+    copy,
+    {
+      opacity: 0,
+      x: index % 2 === 0 ? -100 : 100,
+      y: 30,
+      filter: "blur(8px)"
+    },
+    {
+      opacity: 1,
+      x: 0,
+      y: 0,
+      filter: "blur(0px)",
+
+      ease: "power3.out",
+
+      scrollTrigger: {
+        trigger: element,
+        start: "top 78%",
+        end: "top 42%",
+        scrub: 0.8
+      }
+    }
+  );
+
+
+  /* =====================================================
+     LIGERO FADE DE TODA LA ESCENA
+  ===================================================== */
+
+  gsap.fromTo(
+    element,
+    {
+      opacity: 0.35
+    },
+    {
+      opacity: 1,
+
+      ease: "none",
+
+      scrollTrigger: {
+        trigger: element,
+        start: "top 90%",
+        end: "top 55%",
+        scrub: 0.6
+      }
+    }
+  );
+
+}, element);
 
     return () => ctx.revert();
 
@@ -975,8 +1037,134 @@ function InfrastructureScene({
 
 function Infrastructure() {
 
+  const sectionRef = useRef(null);
+  const headRef = useRef(null);
+
+  useEffect(() => {
+
+    const section = sectionRef.current;
+    const head = headRef.current;
+
+    if (!section || !head) return;
+
+    const ctx = gsap.context(() => {
+
+      /*
+       * =====================================================
+       * ENTRADA DE CABECERA
+       * =====================================================
+       */
+
+      const title =
+        head.querySelector("h2");
+
+      const description =
+        head.querySelector("p");
+
+
+      gsap.fromTo(
+        title,
+
+        {
+          opacity: 0,
+          y: 100,
+          filter: "blur(12px)"
+        },
+
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+
+          ease: "power3.out",
+
+          scrollTrigger: {
+
+            trigger: section,
+
+            start: "top 85%",
+
+            end: "top 45%",
+
+            scrub: 0.8
+
+          }
+
+        }
+      );
+
+
+      gsap.fromTo(
+        description,
+
+        {
+          opacity: 0,
+          y: 50
+        },
+
+        {
+          opacity: 1,
+          y: 0,
+
+          ease: "power2.out",
+
+          scrollTrigger: {
+
+            trigger: section,
+
+            start: "top 70%",
+
+            end: "top 45%",
+
+            scrub: 0.8
+
+          }
+
+        }
+      );
+
+
+      /*
+       * =====================================================
+       * LÍNEA SUPERIOR
+       * =====================================================
+       */
+
+      gsap.fromTo(
+        head,
+
+        {
+          opacity: 0
+        },
+
+        {
+          opacity: 1,
+
+          scrollTrigger: {
+
+            trigger: section,
+
+            start: "top 90%",
+
+            end: "top 60%",
+
+            scrub: 0.6
+
+          }
+
+        }
+      );
+
+    }, section);
+
+    return () => ctx.revert();
+
+  }, []);
+
+
   return (
     <section
+      ref={sectionRef}
       id="infrastructure"
       className="infrastructure cinematic-section"
     >
@@ -985,7 +1173,11 @@ function Infrastructure() {
         04 / INFRASTRUCTURE
       </div>
 
-      <div className="infra-head">
+
+      <div
+        ref={headRef}
+        className="infra-head"
+      >
 
         <h2>
           INFRAESTRUCTURA
@@ -999,6 +1191,7 @@ function Infrastructure() {
         </p>
 
       </div>
+
 
       <div className="infra-stack">
 
@@ -1017,7 +1210,6 @@ function Infrastructure() {
     </section>
   );
 }
-
 
 /* =========================================================
    GLOBAL
