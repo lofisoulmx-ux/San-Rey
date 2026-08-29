@@ -1387,3 +1387,79 @@ em,
     line-height: 2;
   }
 }
+/* =========================================================
+   CINEMATIC LOOP VIDEOS
+========================================================= */
+
+.scene-video {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+
+  pointer-events: none;
+
+  user-select: none;
+
+  will-change: transform;
+
+  transform: translateZ(0);
+
+  backface-visibility: hidden;
+}
+
+
+/* PRODUCT VIDEO */
+
+.product-scene-media {
+  overflow: hidden;
+  transform-origin: center center;
+}
+
+
+/* ROUTE VIDEO */
+
+.route-sequence {
+  overflow: hidden;
+  transform-origin: center center;
+}
+
+.route-sequence .scene-video {
+  width: 100%;
+  height: 100%;
+}
+
+
+/* INFRASTRUCTURE VIDEO */
+
+.infra-sequence {
+  overflow: hidden;
+  transform-origin: center center;
+}
+
+.infra-sequence .scene-video {
+  width: 100%;
+  height: 100%;
+}
+
+
+/* GLOBAL VIDEO */
+
+.global-sequence {
+  overflow: hidden;
+  transform-origin: center center;
+}
+
+.global-sequence .scene-video {
+  width: 100%;
+  height: 100%;
+}
+
+
+
