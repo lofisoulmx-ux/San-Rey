@@ -784,62 +784,69 @@ em,
 
 /* =========================================================
    ROUTE
-   SCROLL-DRIVEN CINEMATIC SEQUENCE
+   SCROLL CONTROLLED EXPERIENCE
 ========================================================= */
 
 .route {
   position: relative;
 
-  height: 500svh;
-  min-height: 4000px;
+  height: 500vh;
+  min-height: 0;
 
   background: #050706;
+
+  overflow: visible;
 }
 
 
-/* ---------------------------------------------------------
-   STICKY CINEMATIC FRAME
---------------------------------------------------------- */
+/* =========================================================
+   STICKY SCREEN
+========================================================= */
 
 .route-sticky {
-  position: sticky;
-
-  top: 0;
+  position: relative;
 
   width: 100%;
   height: 100svh;
 
-  min-height: 850px;
+  min-height: 650px;
 
   overflow: hidden;
 
-  background: #050706;
+  background: #080b09;
+
+  transform: translateZ(0);
+
+  backface-visibility: hidden;
 }
 
 
-/* ---------------------------------------------------------
-   VIDEO
---------------------------------------------------------- */
+/* =========================================================
+   VIDEO CONTAINER
+========================================================= */
 
 .route-sequence {
   position: absolute;
 
   z-index: 0;
 
-  inset: -5%;
+  inset: -3%;
 
   overflow: hidden;
 
   transform-origin: center center;
 
-  transform:
-    translate3d(0, 0, 0)
-    scale(1.04);
+  transform: translateZ(0);
 
   backface-visibility: hidden;
 
   will-change: transform;
 }
+
+
+/* =========================================================
+   VIDEO
+========================================================= */
 
 .route-sequence .scene-video {
   position: absolute;
@@ -851,7 +858,13 @@ em,
 
   object-fit: cover;
 
-  object-position: center;
+  object-position: center center;
+
+  display: block;
+
+  transform: translateZ(0);
+
+  backface-visibility: hidden;
 
   pointer-events: none;
 
@@ -859,9 +872,9 @@ em,
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
    OVERLAY
---------------------------------------------------------- */
+========================================================= */
 
 .route-overlay {
   position: absolute;
@@ -877,84 +890,81 @@ em,
     linear-gradient(
       90deg,
       rgba(3, 5, 4, .82) 0%,
-      rgba(3, 5, 4, .42) 35%,
-      transparent 75%
+      rgba(3, 5, 4, .55) 25%,
+      rgba(3, 5, 4, .18) 55%,
+      transparent 80%
     ),
 
     linear-gradient(
       0deg,
-      rgba(3, 5, 4, .82) 0%,
-      transparent 48%
+      rgba(3, 5, 4, .88) 0%,
+      rgba(3, 5, 4, .30) 30%,
+      transparent 65%
     ),
 
     radial-gradient(
       ellipse at center,
-      transparent 30%,
-      rgba(0, 0, 0, .35) 100%
+      transparent 35%,
+      rgba(0, 0, 0, .28) 100%
     );
 }
 
 
-/* ---------------------------------------------------------
-   MAIN COPY
---------------------------------------------------------- */
+/* =========================================================
+   TITLE
+========================================================= */
 
 .route-copy {
   position: absolute;
 
-  z-index: 5;
+  z-index: 8;
 
   left: 7vw;
-  top: 22%;
 
-  max-width: 720px;
+  top: 20%;
 
-  transform: translate3d(0, 0, 0);
+  width: min(600px, 80vw);
+
+  transform: translateZ(0);
+
+  will-change:
+    transform,
+    opacity;
 }
+
 
 .route-copy .section-no {
-  margin-bottom: 24px;
-
-  color: rgba(190, 198, 192, .55);
-
-  font-size: 9px;
-
-  letter-spacing: .42em;
+  margin-bottom: 22px;
 }
+
 
 .route h2 {
   margin: 0;
 
-  font-size:
-    clamp(
-      58px,
-      8vw,
-      125px
-    );
+  font-size: clamp(
+    55px,
+    8vw,
+    125px
+  );
 
   font-weight: 900;
 
   line-height: .84;
 
-  letter-spacing: -.075em;
-
-  text-wrap: balance;
+  letter-spacing: -.07em;
 }
 
-.route h2 em {
-  color: #76bd36;
-}
 
 .route-copy p {
   max-width: 430px;
 
-  margin-top: 28px;
+  margin-top: 26px;
 
-  color: rgba(205, 214, 207, .68);
+  color: #a0a9a2;
 
   font-size: 14px;
 
-  line-height: 1.8;
+  line-height: 1.7;
 }
 
 
@@ -965,34 +975,36 @@ em,
 .route-steps {
   position: absolute;
 
-  z-index: 7;
+  z-index: 10;
 
   right: 8vw;
-  bottom: 13vh;
+
+  top: 50%;
+
+  width: min(320px, 34vw);
+
+  transform:
+    translateY(-50%)
+    translateZ(0);
 
   display: flex;
 
   flex-direction: column;
 
-  align-items: flex-end;
-
-  gap: 18px;
+  gap: 26px;
 }
 
 
 .route-step {
   display: flex;
 
-  align-items: baseline;
+  align-items: center;
 
-  gap: 14px;
+  gap: 18px;
 
   opacity: 0;
 
-  transform:
-    translate3d(0, 20px, 0);
-
-  filter: blur(6px);
+  transform: translate3d(0, 18px, 0);
 
   will-change:
     transform,
@@ -1002,50 +1014,182 @@ em,
 
 
 .route-step-number {
+  flex: 0 0 auto;
+
   color: #76bd36;
 
-  font-size: 8px;
+  font-size: 9px;
 
   font-weight: 600;
 
-  letter-spacing: .2em;
+  letter-spacing: .18em;
 }
 
 
 .route-step-name {
-  color: #f1f4ef;
+  color: #e1e6e1;
 
-  font-size: 11px;
+  font-size: 13px;
 
-  font-weight: 600;
+  font-weight: 700;
 
-  letter-spacing: .32em;
-
-  text-transform: uppercase;
+  letter-spacing: .28em;
 
   white-space: nowrap;
 }
 
 
-/* ---------------------------------------------------------
+/* =========================================================
+   ACTIVE ROUTE LINE
+========================================================= */
+
+.route-steps::before {
+  content: "";
+
+  position: absolute;
+
+  left: 4px;
+
+  top: 5px;
+  bottom: 5px;
+
+  width: 1px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(118, 189, 54, .75),
+      rgba(118, 189, 54, .12)
+    );
+}
+
+
+/* =========================================================
    CAPTION
---------------------------------------------------------- */
+========================================================= */
 
 .route-caption {
   position: absolute;
 
-  z-index: 6;
+  z-index: 8;
 
   left: 7vw;
-  bottom: 6vh;
 
-  color: rgba(150, 160, 152, .5);
+  bottom: 6%;
 
-  font-size: 8px;
+  color: #778078;
 
-  letter-spacing: .35em;
+  font-size: 9px;
 
-  text-transform: uppercase;
+  letter-spacing: .3em;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 760px) {
+
+  .route {
+    height: 500vh;
+
+    min-height: 0;
+
+    overflow: visible;
+  }
+
+
+  .route-sticky {
+    height: 100svh;
+
+    min-height: 620px;
+  }
+
+
+  .route-sequence {
+    inset: -5%;
+  }
+
+
+  .route-copy {
+    left: 7vw;
+
+    right: 7vw;
+
+    top: 13%;
+
+    width: auto;
+  }
+
+
+  .route-copy .section-no {
+    margin-bottom: 16px;
+
+    font-size: 7px;
+  }
+
+
+  .route h2 {
+    font-size: 15vw;
+
+    line-height: .84;
+  }
+
+
+  .route-copy p {
+    max-width: 275px;
+
+    margin-top: 20px;
+
+    font-size: 11px;
+
+    line-height: 1.65;
+  }
+
+
+  .route-steps {
+    right: 7vw;
+
+    top: 62%;
+
+    width: 58vw;
+
+    gap: 19px;
+
+    transform:
+      translateY(-50%)
+      translateZ(0);
+  }
+
+
+  .route-step {
+    gap: 13px;
+  }
+
+
+  .route-step-number {
+    font-size: 7px;
+  }
+
+
+  .route-step-name {
+    font-size: 9px;
+
+    letter-spacing: .22em;
+  }
+
+
+  .route-caption {
+    left: 7vw;
+
+    bottom: 5%;
+
+    font-size: 7px;
+
+    letter-spacing: .24em;
+  }
+
 }
 
 
