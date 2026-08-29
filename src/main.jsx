@@ -282,9 +282,7 @@ function ProductScene({ product, index }) {
   const mediaRef = useRef(null);
   const copyRef = useRef(null);
 
-  const videoSrc =
-    product.videoSrc ||
-    `/assets/products/${product.key}.mp4`;
+  const videoSrc = product.video;
 
   useEffect(() => {
 
