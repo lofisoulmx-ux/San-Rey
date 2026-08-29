@@ -4,7 +4,7 @@
 
 html {
   background: #050706;
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 body {
@@ -13,6 +13,8 @@ body {
   color: #f2f4f1;
   font-family: Montserrat, Arial, sans-serif;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 body,
@@ -42,7 +44,6 @@ em,
   font-style: normal;
 }
 
-
 /* =========================================================
    HEADER
 ========================================================= */
@@ -54,7 +55,6 @@ em,
   left: 0;
   width: 100%;
   height: 90px;
-
   padding: 0 6vw;
 
   display: flex;
@@ -62,13 +62,15 @@ em,
   justify-content: space-between;
 
   pointer-events: none;
+
+  transform: translateZ(0);
+  will-change: opacity, transform;
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 13px;
-
   pointer-events: auto;
 }
 
@@ -88,18 +90,14 @@ em,
 
 .brand-text b {
   display: block;
-
   font-size: 17px;
   letter-spacing: .12em;
 }
 
 .brand-text small {
   display: block;
-
   margin-top: 3px;
-
   color: #76bd36;
-
   font-size: 9px;
   letter-spacing: .4em;
 }
@@ -123,13 +121,10 @@ em,
 
 .menu i {
   display: block;
-
   width: 27px;
   height: 1px;
-
   background: #dce0dc;
 }
-
 
 /* =========================================================
    GENERAL
@@ -138,19 +133,15 @@ em,
 .cinematic-section {
   position: relative;
   overflow: hidden;
-
   min-height: 100svh;
 }
 
 .section-no {
   color: #8d978f;
-
   font-size: 10px;
   font-weight: 700;
-
   letter-spacing: .32em;
 }
-
 
 /* =========================================================
    HERO
@@ -159,24 +150,22 @@ em,
 .hero {
   height: 155svh;
   min-height: 850px;
-
   background: #050706;
 }
 
 .hero-media {
   position: absolute;
   z-index: 0;
-
   inset: 0;
-
   overflow: hidden;
-
   background: #050706;
+
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .hero-video {
   position: absolute;
-
   inset: 0;
 
   width: 100%;
@@ -187,15 +176,14 @@ em,
 
   display: block;
 
-  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .hero-vignette {
   position: absolute;
   z-index: 1;
-
   inset: 0;
-
   pointer-events: none;
 
   background:
@@ -221,16 +209,15 @@ em,
   bottom: 13vh;
 
   max-width: 900px;
+
+  transform: translateZ(0);
 }
 
 .hero-kicker {
   margin-bottom: 22px;
-
   color: #a7afa9;
-
   font-size: 11px;
   font-weight: 700;
-
   letter-spacing: .32em;
 }
 
@@ -264,7 +251,7 @@ em,
   left: 50%;
   bottom: 4%;
 
-  transform: translateX(-50%);
+  transform: translate3d(-50%, 0, 0);
 
   display: flex;
   align-items: center;
@@ -281,10 +268,8 @@ em,
 .scroll-cue span {
   width: 1px;
   height: 42px;
-
   background: #76bd36;
 }
-
 
 /* =========================================================
    FRAME SEQUENCES
@@ -292,17 +277,19 @@ em,
 
 .frame-sequence {
   position: absolute;
-
   inset: 0;
 
   overflow: hidden;
 
   background: #080d09;
+
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: layout paint;
 }
 
 .frame-sequence img {
   position: absolute;
-
   inset: 0;
 
   width: 100%;
@@ -315,7 +302,17 @@ em,
   user-select: none;
   pointer-events: none;
 
-  transition: opacity .2s ease;
+  /*
+    IMPORTANTE:
+    no transition.
+    El frame debe cambiar inmediatamente.
+  */
+
+  transition: none;
+
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: contents;
 }
 
 .frame-sequence.has-media img {
@@ -324,7 +321,6 @@ em,
 
 .sequence-placeholder {
   position: absolute;
-
   inset: 0;
 
   display: grid;
@@ -342,7 +338,7 @@ em,
       #030504
     );
 
-  transition: opacity .2s ease;
+  transition: none;
 }
 
 .sequence-placeholder span {
@@ -358,14 +354,12 @@ em,
   opacity: 0;
 }
 
-
 /* =========================================================
    PRODUCTS
 ========================================================= */
 
 .products {
   min-height: 225svh;
-
   padding-top: 12vh;
 
   background:
@@ -378,10 +372,8 @@ em,
 
 .products > .section-no {
   position: absolute;
-
   top: 8vh;
   left: 7vw;
-
   z-index: 10;
 }
 
@@ -392,7 +384,6 @@ em,
   min-height: 52vh;
 
   max-width: 1500px;
-
   margin: 0 auto;
 
   padding: 14vh 7vw 7vh;
@@ -434,15 +425,20 @@ em,
   min-height: 720px;
 
   overflow: hidden;
+
+  contain: paint;
 }
 
 .product-scene-media {
   position: absolute;
-
   inset: -5%;
 
   transform-origin: center;
+
   will-change: transform;
+
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .product-scene-overlay {
@@ -475,6 +471,8 @@ em,
   bottom: 12vh;
 
   max-width: 570px;
+
+  transform: translateZ(0);
 }
 
 .product-scene-index {
@@ -531,7 +529,6 @@ em,
   margin-top: -7vh;
 }
 
-
 /* =========================================================
    ROUTE
 ========================================================= */
@@ -539,16 +536,18 @@ em,
 .route {
   height: 145svh;
   min-height: 850px;
-
   background: #080b09;
 }
 
 .route-sequence {
   position: absolute;
-
   inset: -6%;
 
   transform-origin: center;
+
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .route-sequence .frame-sequence {
@@ -588,6 +587,8 @@ em,
 
   left: 7vw;
   top: 22%;
+
+  transform: translateZ(0);
 }
 
 .route h2 {
@@ -602,12 +603,9 @@ em,
 
 .route-copy p {
   max-width: 430px;
-
   color: #a0a9a2;
-
   line-height: 1.7;
 }
-
 
 /* =========================================================
    ROUTE TIMELINE
@@ -626,6 +624,8 @@ em,
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  transform: translateZ(0);
 }
 
 .route-line-track {
@@ -672,13 +672,11 @@ em,
 .route-step-content {
   display: flex;
   align-items: baseline;
-
   gap: 12px;
 }
 
 .route-step small {
   color: #76bd36;
-
   font-size: 8px;
   letter-spacing: .15em;
 }
@@ -707,14 +705,12 @@ em,
   letter-spacing: .3em;
 }
 
-
 /* =========================================================
    INFRASTRUCTURE
 ========================================================= */
 
 .infrastructure {
   padding: 14vh 7vw 14vh;
-
   background: #050706;
 }
 
@@ -784,6 +780,8 @@ em,
   max-width: 470px;
 
   padding: 5vw 3vw 5vw 2vw;
+
+  transform: translateZ(0);
 }
 
 .infra-scene.reverse .infra-copy {
@@ -834,13 +832,16 @@ em,
   overflow: hidden;
 
   transform-origin: center;
+
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .infra-scene.reverse .infra-sequence {
   grid-column: 1;
   grid-row: 1;
 }
-
 
 /* =========================================================
    GLOBAL
@@ -855,10 +856,13 @@ em,
 
 .global-sequence {
   position: absolute;
-
   inset: -6%;
 
   transform-origin: center;
+
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .global-overlay {
@@ -886,6 +890,8 @@ em,
 
   width: 100%;
   height: 100%;
+
+  pointer-events: none;
 }
 
 .map-line {
@@ -916,6 +922,8 @@ em,
 
   left: 7vw;
   top: 20%;
+
+  transform: translateZ(0);
 }
 
 .global h2 {
@@ -971,7 +979,6 @@ em,
   right: 17%;
   top: 28%;
 }
-
 
 /* =========================================================
    FOOTER
@@ -1077,7 +1084,6 @@ em,
   text-transform: uppercase;
 }
 
-
 /* =========================================================
    MOBILE
 ========================================================= */
@@ -1107,9 +1113,6 @@ em,
     height: 46px;
   }
 
-
-  /* HERO */
-
   .hero {
     height: 135svh;
     min-height: 720px;
@@ -1117,20 +1120,6 @@ em,
 
   .hero-video {
     object-position: 58% center;
-  }
-
-  .hero-vignette {
-    background:
-      linear-gradient(
-        90deg,
-        rgba(3, 5, 4, .75),
-        rgba(3, 5, 4, .15) 80%
-      ),
-      linear-gradient(
-        0deg,
-        rgba(3, 5, 4, .85),
-        transparent 50%
-      );
   }
 
   .hero-copy {
@@ -1141,27 +1130,23 @@ em,
 
   .hero-kicker {
     margin-bottom: 18px;
-
     font-size: 8px;
     letter-spacing: .25em;
   }
 
   .hero h1 {
     font-size: 17vw;
-
     line-height: .85;
   }
 
   .hero-description {
     margin-top: 25px;
-
     font-size: 13px;
     line-height: 1.65;
   }
 
   .scroll-cue {
     bottom: 3%;
-
     font-size: 7px;
     letter-spacing: .25em;
   }
@@ -1170,12 +1155,8 @@ em,
     height: 32px;
   }
 
-
-  /* PRODUCTS */
-
   .products {
     min-height: 220svh;
-
     padding-top: 8vh;
   }
 
@@ -1186,9 +1167,7 @@ em,
 
   .product-intro {
     min-height: 45vh;
-
     display: block;
-
     padding: 13vh 7vw 7vh;
   }
 
@@ -1198,7 +1177,6 @@ em,
 
   .product-intro p {
     margin-top: 26px;
-
     font-size: 12px;
   }
 
@@ -1231,13 +1209,9 @@ em,
 
   .product-scene-copy p {
     max-width: 300px;
-
     font-size: 12px;
     line-height: 1.7;
   }
-
-
-  /* ROUTE */
 
   .route {
     height: 135svh;
@@ -1255,14 +1229,12 @@ em,
 
   .route-copy p {
     max-width: 260px;
-
     font-size: 12px;
   }
 
   .route-line {
     top: 38%;
     right: 7%;
-
     width: 155px;
     height: 43%;
   }
@@ -1285,12 +1257,8 @@ em,
 
   .route-caption {
     left: 7vw;
-
     font-size: 7px;
   }
-
-
-  /* INFRASTRUCTURE */
 
   .infrastructure {
     padding: 12vh 7vw;
@@ -1298,7 +1266,6 @@ em,
 
   .infra-head {
     display: block;
-
     margin-bottom: 8vh;
   }
 
@@ -1308,7 +1275,6 @@ em,
 
   .infra-head p {
     margin-top: 28px;
-
     font-size: 12px;
   }
 
@@ -1329,9 +1295,7 @@ em,
   .infra-copy,
   .infra-scene.reverse .infra-copy {
     order: 1;
-
     max-width: none;
-
     padding: 32px 0;
   }
 
@@ -1341,7 +1305,6 @@ em,
 
   .infra-copy p {
     margin-top: 22px;
-
     font-size: 12px;
   }
 
@@ -1355,9 +1318,6 @@ em,
     min-height: 390px;
   }
 
-
-  /* GLOBAL */
-
   .global {
     height: 120svh;
     min-height: 740px;
@@ -1366,7 +1326,6 @@ em,
   .global-copy {
     left: 7vw;
     right: 7vw;
-
     top: 12%;
   }
 
@@ -1376,9 +1335,7 @@ em,
 
   .global-copy p {
     max-width: 290px;
-
     margin-top: 20px;
-
     font-size: 12px;
     line-height: 1.6;
   }
@@ -1406,22 +1363,17 @@ em,
     top: 43%;
   }
 
-
-  /* FOOTER */
-
   .site-footer {
     padding: 65px 7vw 30px;
   }
 
   .footer-main {
     display: block;
-
     padding-bottom: 50px;
   }
 
   .footer-social {
     margin-top: 50px;
-
     text-align: left;
   }
 
@@ -1432,7 +1384,6 @@ em,
 
   .footer-bottom {
     display: block;
-
     line-height: 2;
   }
 }
