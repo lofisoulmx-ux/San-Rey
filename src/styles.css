@@ -44,6 +44,7 @@ em,
   font-style: normal;
 }
 
+
 /* =========================================================
    HEADER
 ========================================================= */
@@ -126,6 +127,7 @@ em,
   background: #dce0dc;
 }
 
+
 /* =========================================================
    GENERAL
 ========================================================= */
@@ -142,6 +144,7 @@ em,
   font-weight: 700;
   letter-spacing: .32em;
 }
+
 
 /* =========================================================
    HERO
@@ -271,8 +274,10 @@ em,
   background: #76bd36;
 }
 
+
 /* =========================================================
    FRAME SEQUENCES
+   LEGACY / FALLBACK
 ========================================================= */
 
 .frame-sequence {
@@ -301,12 +306,6 @@ em,
 
   user-select: none;
   pointer-events: none;
-
-  /*
-    IMPORTANTE:
-    no transition.
-    El frame debe cambiar inmediatamente.
-  */
 
   transition: none;
 
@@ -354,28 +353,55 @@ em,
   opacity: 0;
 }
 
+
 /* =========================================================
    PRODUCTS
+   PREMIUM CINEMATIC SYSTEM
 ========================================================= */
 
 .products {
+  position: relative;
+
   min-height: 225svh;
+
   padding-top: 12vh;
 
   background:
     radial-gradient(
-      circle at 50% 20%,
-      #0e160f,
-      #050706 65%
+      circle at 50% 10%,
+      #101710 0%,
+      #070a08 42%,
+      #050706 75%
     );
 }
 
+
+/* ---------------------------------------------------------
+   SECTION LABEL
+--------------------------------------------------------- */
+
 .products > .section-no {
   position: absolute;
+
   top: 8vh;
   left: 7vw;
-  z-index: 10;
+
+  z-index: 20;
+
+  color: rgba(190, 198, 192, .42);
+
+  font-size: 9px;
+  font-weight: 600;
+
+  letter-spacing: .42em;
+
+  text-transform: uppercase;
 }
+
+
+/* ---------------------------------------------------------
+   INTRO
+--------------------------------------------------------- */
 
 .product-intro {
   position: relative;
@@ -384,65 +410,164 @@ em,
   min-height: 52vh;
 
   max-width: 1500px;
+
   margin: 0 auto;
 
-  padding: 14vh 7vw 7vh;
+  padding:
+    14vh
+    7vw
+    8vh;
 
   display: flex;
+
   align-items: flex-end;
   justify-content: space-between;
 
-  gap: 60px;
+  gap: 80px;
 }
 
 .product-intro h2 {
   margin: 0;
 
-  font-size: clamp(55px, 8vw, 125px);
+  font-size:
+    clamp(
+      58px,
+      8vw,
+      125px
+    );
+
   font-weight: 900;
 
-  line-height: .84;
-  letter-spacing: -.07em;
+  line-height: .82;
+
+  letter-spacing: -.075em;
+
+  text-wrap: balance;
+}
+
+.product-intro h2 em {
+  color: #76bd36;
 }
 
 .product-intro p {
-  margin: 0 0 8px;
+  width: 100%;
+  max-width: 350px;
 
-  color: #89928b;
+  margin:
+    0
+    0
+    10px;
 
-  font-size: 14px;
-  line-height: 1.7;
+  color: rgba(175, 184, 177, .65);
+
+  font-size: 13px;
+
+  line-height: 1.9;
+
+  letter-spacing: .01em;
 }
+
+
+/* =========================================================
+   PRODUCT SCENES
+========================================================= */
 
 .product-scenes {
   position: relative;
+
+  isolation: isolate;
 }
+
+
+/* ---------------------------------------------------------
+   INDIVIDUAL SCENE
+--------------------------------------------------------- */
 
 .product-scene {
   position: relative;
 
-  height: 110svh;
+  height: 108svh;
+
   min-height: 720px;
 
   overflow: hidden;
 
   contain: paint;
+
+  background: #050706;
 }
+
+.product-scene::after {
+  content: "";
+
+  position: absolute;
+
+  z-index: 3;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 22%;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(5, 7, 6, .35) 45%,
+      #050706 100%
+    );
+}
+
+
+/* ---------------------------------------------------------
+   VIDEO
+--------------------------------------------------------- */
 
 .product-scene-media {
   position: absolute;
-  inset: -5%;
 
-  transform-origin: center;
+  z-index: 0;
+
+  inset: -6%;
+
+  overflow: hidden;
+
+  transform-origin: center center;
 
   will-change: transform;
 
-  transform: translateZ(0);
+  transform:
+    translate3d(0, 0, 0)
+    scale(1.001);
+
   backface-visibility: hidden;
 }
 
+.product-scene-media .scene-video {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  object-position: center;
+
+  transform:
+    translate3d(0, 0, 0);
+
+  backface-visibility: hidden;
+}
+
+
+/* ---------------------------------------------------------
+   CINEMATIC OVERLAY
+--------------------------------------------------------- */
+
 .product-scene-overlay {
   position: absolute;
+
   z-index: 2;
 
   inset: 0;
@@ -450,84 +575,210 @@ em,
   pointer-events: none;
 
   background:
+
     linear-gradient(
       90deg,
-      rgba(3, 5, 4, .9) 0%,
-      rgba(3, 5, 4, .45) 35%,
-      transparent 75%
+      rgba(3, 5, 4, .82) 0%,
+      rgba(3, 5, 4, .56) 22%,
+      rgba(3, 5, 4, .18) 52%,
+      transparent 78%
     ),
+
     linear-gradient(
       0deg,
-      rgba(3, 5, 4, .8),
-      transparent 45%
+      rgba(3, 5, 4, .88) 0%,
+      rgba(3, 5, 4, .34) 24%,
+      transparent 58%
+    ),
+
+    radial-gradient(
+      ellipse at center,
+      transparent 35%,
+      rgba(0, 0, 0, .18) 72%,
+      rgba(0, 0, 0, .48) 100%
     );
 }
 
+
+/* =========================================================
+   PRODUCT TYPOGRAPHY
+========================================================= */
+
 .product-scene-copy {
   position: absolute;
-  z-index: 5;
+
+  z-index: 8;
 
   left: 9vw;
-  bottom: 12vh;
 
-  max-width: 570px;
+  bottom: 13vh;
 
-  transform: translateZ(0);
+  width: min(
+    520px,
+    42vw
+  );
+
+  transform:
+    translate3d(0, 0, 0);
+
+  will-change:
+    transform,
+    opacity,
+    filter;
 }
 
-.product-scene-index {
+
+/*
+  Línea decorativa minimalista.
+  Reemplaza el antiguo 01 / 02.
+*/
+
+.product-scene-copy::before {
+  content: "";
+
   display: block;
 
-  margin-bottom: 20px;
+  width: 42px;
+  height: 1px;
 
-  color: #76bd36;
+  margin-bottom: 26px;
 
-  font-size: 11px;
-  letter-spacing: .3em;
+  background: #76bd36;
+
+  opacity: .85;
 }
 
-.product-scene-kicker {
-  margin-bottom: 14px;
 
-  color: #a0a9a2;
-
-  font-size: 10px;
-  letter-spacing: .35em;
-}
+/* ---------------------------------------------------------
+   MAIN TITLE
+--------------------------------------------------------- */
 
 .product-scene h3 {
   margin: 0;
 
-  font-size: clamp(65px, 10vw, 150px);
+  font-size:
+    clamp(
+      64px,
+      9vw,
+      145px
+    );
+
   font-weight: 900;
 
-  line-height: .82;
+  line-height: .78;
+
   letter-spacing: -.075em;
+
+  color: #f1f4f0;
+
+  text-transform: uppercase;
+
+  text-wrap: balance;
+
+  text-shadow:
+    0 8px 35px rgba(0, 0, 0, .28);
 }
 
+
+/* ---------------------------------------------------------
+   ENGLISH NAME
+--------------------------------------------------------- */
+
 .product-scene-en {
-  margin-top: 20px;
+  margin-top: 22px;
 
   color: #76bd36;
 
-  font-size: 15px;
-  letter-spacing: .12em;
+  font-size: 12px;
+
+  font-weight: 600;
+
+  letter-spacing: .24em;
+
+  text-transform: uppercase;
+
+  opacity: .92;
 }
+
+
+/* ---------------------------------------------------------
+   DESCRIPTION
+--------------------------------------------------------- */
 
 .product-scene-copy p {
-  max-width: 390px;
+  width: 100%;
 
-  margin-top: 24px;
+  max-width: 370px;
 
-  color: #a1aaa3;
+  margin:
+    22px
+    0
+    0;
 
-  font-size: 15px;
-  line-height: 1.8;
+  color:
+    rgba(
+      218,
+      224,
+      219,
+      .68
+    );
+
+  font-size: 14px;
+
+  font-weight: 400;
+
+  line-height: 1.85;
+
+  letter-spacing: .015em;
 }
+
+
+/* =========================================================
+   SCENE SEPARATION
+========================================================= */
 
 .product-scene + .product-scene {
-  margin-top: -7vh;
+  margin-top: 0;
 }
+
+.product-scene + .product-scene::before {
+  content: "";
+
+  position: absolute;
+
+  z-index: 4;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: 15%;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #050706 0%,
+      rgba(5, 7, 6, .72) 25%,
+      transparent 100%
+    );
+}
+
+
+/* =========================================================
+   PREMIUM TEXT ANIMATION SUPPORT
+========================================================= */
+
+.product-scene-copy h3,
+.product-scene-copy .product-scene-en,
+.product-scene-copy p {
+  will-change:
+    transform,
+    opacity,
+    filter;
+}
+
 
 /* =========================================================
    ROUTE
@@ -548,6 +799,8 @@ em,
   transform: translateZ(0);
   backface-visibility: hidden;
   will-change: transform;
+
+  overflow: hidden;
 }
 
 .route-sequence .frame-sequence {
@@ -606,6 +859,7 @@ em,
   color: #a0a9a2;
   line-height: 1.7;
 }
+
 
 /* =========================================================
    ROUTE TIMELINE
@@ -704,6 +958,7 @@ em,
   font-size: 9px;
   letter-spacing: .3em;
 }
+
 
 /* =========================================================
    INFRASTRUCTURE
@@ -843,6 +1098,7 @@ em,
   grid-row: 1;
 }
 
+
 /* =========================================================
    GLOBAL
 ========================================================= */
@@ -863,6 +1119,8 @@ em,
   transform: translateZ(0);
   backface-visibility: hidden;
   will-change: transform;
+
+  overflow: hidden;
 }
 
 .global-overlay {
@@ -980,6 +1238,7 @@ em,
   top: 28%;
 }
 
+
 /* =========================================================
    FOOTER
 ========================================================= */
@@ -1084,11 +1343,96 @@ em,
   text-transform: uppercase;
 }
 
+
+/* =========================================================
+   CINEMATIC LOOP VIDEOS
+========================================================= */
+
+.scene-video {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+
+  pointer-events: none;
+
+  user-select: none;
+
+  will-change: transform;
+
+  transform: translateZ(0);
+
+  backface-visibility: hidden;
+}
+
+
+/* PRODUCT VIDEO */
+
+.product-scene-media {
+  overflow: hidden;
+  transform-origin: center center;
+}
+
+.product-scene-media .scene-video {
+  width: 100%;
+  height: 100%;
+}
+
+
+/* ROUTE VIDEO */
+
+.route-sequence {
+  overflow: hidden;
+  transform-origin: center center;
+}
+
+.route-sequence .scene-video {
+  width: 100%;
+  height: 100%;
+}
+
+
+/* INFRASTRUCTURE VIDEO */
+
+.infra-sequence {
+  overflow: hidden;
+  transform-origin: center center;
+}
+
+.infra-sequence .scene-video {
+  width: 100%;
+  height: 100%;
+}
+
+
+/* GLOBAL VIDEO */
+
+.global-sequence {
+  overflow: hidden;
+  transform-origin: center center;
+}
+
+.global-sequence .scene-video {
+  width: 100%;
+  height: 100%;
+}
+
+
 /* =========================================================
    MOBILE
 ========================================================= */
 
 @media (max-width: 760px) {
+
+  /* -------------------------------------------------------
+     HEADER
+  ------------------------------------------------------- */
 
   .site-header {
     height: 76px;
@@ -1112,6 +1456,11 @@ em,
     width: 46px;
     height: 46px;
   }
+
+
+  /* -------------------------------------------------------
+     HERO
+  ------------------------------------------------------- */
 
   .hero {
     height: 135svh;
@@ -1155,63 +1504,144 @@ em,
     height: 32px;
   }
 
+
+  /* -------------------------------------------------------
+     PRODUCTS
+  ------------------------------------------------------- */
+
   .products {
     min-height: 220svh;
+
     padding-top: 8vh;
   }
 
   .products > .section-no {
     top: 6vh;
     left: 7vw;
+
+    font-size: 7px;
+
+    letter-spacing: .35em;
   }
 
+
+  /* INTRO */
+
   .product-intro {
-    min-height: 45vh;
+    min-height: 46vh;
+
     display: block;
-    padding: 13vh 7vw 7vh;
+
+    padding:
+      13vh
+      7vw
+      7vh;
   }
 
   .product-intro h2 {
     font-size: 17vw;
+
+    line-height: .82;
   }
 
   .product-intro p {
-    margin-top: 26px;
-    font-size: 12px;
+    max-width: 290px;
+
+    margin-top: 28px;
+
+    font-size: 11px;
+
+    line-height: 1.8;
   }
+
+
+  /* PRODUCT SCENES */
 
   .product-scene {
     height: 105svh;
+
     min-height: 680px;
   }
 
   .product-scene-media {
-    inset: -4%;
+    inset: -5%;
   }
+
+
+  /* PRODUCT TEXT */
 
   .product-scene-copy {
     left: 7vw;
     right: 7vw;
+
     bottom: 9vh;
+
+    width: auto;
+
+    max-width: 390px;
+  }
+
+  .product-scene-copy::before {
+    width: 30px;
+
+    margin-bottom: 20px;
   }
 
   .product-scene h3 {
-    font-size: 17vw;
-  }
+    font-size: 18vw;
 
-  .product-scene-kicker {
-    font-size: 8px;
+    line-height: .8;
   }
 
   .product-scene-en {
-    font-size: 12px;
+    margin-top: 17px;
+
+    font-size: 9px;
+
+    letter-spacing: .2em;
   }
 
   .product-scene-copy p {
-    max-width: 300px;
-    font-size: 12px;
-    line-height: 1.7;
+    max-width: 285px;
+
+    margin-top: 18px;
+
+    font-size: 11px;
+
+    line-height: 1.75;
   }
+
+
+  /* PRODUCT OVERLAY */
+
+  .product-scene-overlay {
+    background:
+
+      linear-gradient(
+        90deg,
+        rgba(3, 5, 4, .76),
+        rgba(3, 5, 4, .22) 65%,
+        transparent
+      ),
+
+      linear-gradient(
+        0deg,
+        rgba(3, 5, 4, .92),
+        rgba(3, 5, 4, .20) 55%,
+        transparent
+      ),
+
+      radial-gradient(
+        ellipse at center,
+        transparent 35%,
+        rgba(0, 0, 0, .42) 100%
+      );
+  }
+
+
+  /* -------------------------------------------------------
+     ROUTE
+  ------------------------------------------------------- */
 
   .route {
     height: 135svh;
@@ -1260,6 +1690,11 @@ em,
     font-size: 7px;
   }
 
+
+  /* -------------------------------------------------------
+     INFRASTRUCTURE
+  ------------------------------------------------------- */
+
   .infrastructure {
     padding: 12vh 7vw;
   }
@@ -1295,7 +1730,9 @@ em,
   .infra-copy,
   .infra-scene.reverse .infra-copy {
     order: 1;
+
     max-width: none;
+
     padding: 32px 0;
   }
 
@@ -1313,10 +1750,16 @@ em,
     order: 2;
 
     width: 100%;
+
     height: 55vh;
 
     min-height: 390px;
   }
+
+
+  /* -------------------------------------------------------
+     GLOBAL
+  ------------------------------------------------------- */
 
   .global {
     height: 120svh;
@@ -1363,6 +1806,11 @@ em,
     top: 43%;
   }
 
+
+  /* -------------------------------------------------------
+     FOOTER
+  ------------------------------------------------------- */
+
   .site-footer {
     padding: 65px 7vw 30px;
   }
@@ -1387,79 +1835,3 @@ em,
     line-height: 2;
   }
 }
-/* =========================================================
-   CINEMATIC LOOP VIDEOS
-========================================================= */
-
-.scene-video {
-  position: absolute;
-
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  display: block;
-
-  pointer-events: none;
-
-  user-select: none;
-
-  will-change: transform;
-
-  transform: translateZ(0);
-
-  backface-visibility: hidden;
-}
-
-
-/* PRODUCT VIDEO */
-
-.product-scene-media {
-  overflow: hidden;
-  transform-origin: center center;
-}
-
-
-/* ROUTE VIDEO */
-
-.route-sequence {
-  overflow: hidden;
-  transform-origin: center center;
-}
-
-.route-sequence .scene-video {
-  width: 100%;
-  height: 100%;
-}
-
-
-/* INFRASTRUCTURE VIDEO */
-
-.infra-sequence {
-  overflow: hidden;
-  transform-origin: center center;
-}
-
-.infra-sequence .scene-video {
-  width: 100%;
-  height: 100%;
-}
-
-
-/* GLOBAL VIDEO */
-
-.global-sequence {
-  overflow: hidden;
-  transform-origin: center center;
-}
-
-.global-sequence .scene-video {
-  width: 100%;
-  height: 100%;
-}
-
-
-
