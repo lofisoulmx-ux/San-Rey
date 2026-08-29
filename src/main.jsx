@@ -24,10 +24,12 @@ function Header() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+
       gsap.to(headerRef.current, {
         opacity: 0,
         y: -20,
         ease: "none",
+
         scrollTrigger: {
           trigger: "#hero",
           start: "top top",
@@ -35,29 +37,50 @@ function Header() {
           scrub: 0.5
         }
       });
+
     }, headerRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <header ref={headerRef} className="site-header">
+    <header
+      ref={headerRef}
+      className="site-header"
+    >
 
-      <a href="#hero" className="brand">
-        <span className="brand-mark">SR</span>
+      <a
+        href="#hero"
+        className="brand"
+      >
+
+        <span className="brand-mark">
+          SR
+        </span>
 
         <span className="brand-text">
-          <b>SAN REY</b>
-          <small>PRODUCE</small>
+
+          <b>
+            SAN REY
+          </b>
+
+          <small>
+            PRODUCE
+          </small>
+
         </span>
+
       </a>
+
 
       <button
         className="menu"
         aria-label="Open menu"
       >
+
         <i />
         <i />
+
       </button>
 
     </header>
@@ -70,11 +93,13 @@ function Header() {
 ========================================================= */
 
 function Hero() {
+
   const sectionRef = useRef(null);
   const mediaRef = useRef(null);
   const copyRef = useRef(null);
 
   useEffect(() => {
+
     const section = sectionRef.current;
     const media = mediaRef.current;
     const copy = copyRef.current;
@@ -95,6 +120,7 @@ function Hero() {
           scale: 1.12,
           yPercent: -3,
           ease: "none",
+
           scrollTrigger: {
             trigger: section,
             start: "top top",
@@ -110,6 +136,7 @@ function Hero() {
       gsap.to(".hero-vignette", {
         opacity: 0.95,
         ease: "none",
+
         scrollTrigger: {
           trigger: section,
           start: "20% top",
@@ -131,6 +158,7 @@ function Hero() {
           opacity: 0,
           y: -80,
           ease: "power2.out",
+
           scrollTrigger: {
             trigger: section,
             start: "18% top",
@@ -150,6 +178,7 @@ function Hero() {
         ease: "power3.out"
       });
 
+
       gsap.from(".hero-line", {
         opacity: 0,
         y: 70,
@@ -157,6 +186,7 @@ function Hero() {
         stagger: 0.1,
         ease: "power4.out"
       });
+
 
       gsap.from(".hero-description", {
         opacity: 0,
@@ -173,6 +203,7 @@ function Hero() {
         opacity: 0,
         y: 20,
         ease: "none",
+
         scrollTrigger: {
           trigger: section,
           start: "5% top",
@@ -184,9 +215,12 @@ function Hero() {
     }, section);
 
     return () => ctx.revert();
+
   }, []);
 
+
   return (
+
     <section
       ref={sectionRef}
       id="hero"
@@ -208,7 +242,9 @@ function Hero() {
 
       </div>
 
+
       <div className="hero-vignette" />
+
 
       <div
         ref={copyRef}
@@ -219,7 +255,9 @@ function Hero() {
           FROM FIELD TO MARKET
         </div>
 
+
         <h1>
+
           <span className="hero-line">
             FRESHNESS
           </span>
@@ -231,7 +269,9 @@ function Hero() {
           <span className="hero-line accent">
             MOVE.
           </span>
+
         </h1>
+
 
         <p className="hero-description">
           Fresh produce, handled with precision
@@ -241,9 +281,13 @@ function Hero() {
 
       </div>
 
+
       <div className="scroll-cue">
+
         <span />
+
         SCROLL TO EXPERIENCE
+
       </div>
 
     </section>
@@ -255,9 +299,13 @@ function Hero() {
    LOOP VIDEO
 ========================================================= */
 
-function LoopVideo({ src, className = "" }) {
+function LoopVideo({
+  src,
+  className = ""
+}) {
 
   return (
+
     <video
       className={`scene-video ${className}`}
       src={src}
@@ -268,6 +316,7 @@ function LoopVideo({ src, className = "" }) {
       preload="auto"
       disablePictureInPicture
     />
+
   );
 }
 
@@ -276,13 +325,17 @@ function LoopVideo({ src, className = "" }) {
    PRODUCT SCENE
 ========================================================= */
 
-function ProductScene({ product, index }) {
+function ProductScene({
+  product,
+  index
+}) {
 
   const sceneRef = useRef(null);
   const mediaRef = useRef(null);
   const copyRef = useRef(null);
 
   const videoSrc = product.video;
+
 
   useEffect(() => {
 
@@ -294,9 +347,7 @@ function ProductScene({ product, index }) {
 
     const ctx = gsap.context(() => {
 
-      /* =====================================================
-         PARALLAX VIDEO
-      ===================================================== */
+      /* VIDEO PARALLAX */
 
       gsap.fromTo(
         media,
@@ -319,9 +370,7 @@ function ProductScene({ product, index }) {
       );
 
 
-      /* =====================================================
-         TEXTO
-      ===================================================== */
+      /* TEXTO */
 
       gsap.fromTo(
         copy,
@@ -344,9 +393,7 @@ function ProductScene({ product, index }) {
       );
 
 
-      /* =====================================================
-         FADE DE ENTRADA DE ESCENA
-      ===================================================== */
+      /* FADE */
 
       gsap.fromTo(
         scene,
@@ -374,6 +421,7 @@ function ProductScene({ product, index }) {
 
 
   return (
+
     <article
       ref={sceneRef}
       className="product-scene"
@@ -390,7 +438,9 @@ function ProductScene({ product, index }) {
 
       </div>
 
+
       <div className="product-scene-overlay" />
+
 
       <div
         ref={copyRef}
@@ -401,17 +451,21 @@ function ProductScene({ product, index }) {
           0{index + 1}
         </span>
 
+
         <div className="product-scene-kicker">
           SAN REY PRODUCE
         </div>
+
 
         <h3>
           {product.title}
         </h3>
 
+
         <div className="product-scene-en">
           {product.english}
         </div>
+
 
         <p>
           {product.description}
@@ -431,6 +485,7 @@ function ProductScene({ product, index }) {
 function Products() {
 
   const sectionRef = useRef(null);
+
 
   useEffect(() => {
 
@@ -468,6 +523,7 @@ function Products() {
 
 
   return (
+
     <section
       ref={sectionRef}
       id="products"
@@ -478,15 +534,23 @@ function Products() {
         02 / PRODUCTS
       </div>
 
+
       <div className="product-intro">
 
         <h2>
+
           FRESH.
           <br />
+
           NATURAL.
           <br />
-          <em>PREMIUM.</em>
+
+          <em>
+            PREMIUM.
+          </em>
+
         </h2>
+
 
         <p>
           Productos frescos, cultivados con pasión
@@ -496,14 +560,17 @@ function Products() {
 
       </div>
 
+
       <div className="product-scenes">
 
         {PRODUCTS.map((product, index) => (
+
           <ProductScene
             key={product.key}
             product={product}
             index={index}
           />
+
         ))}
 
       </div>
@@ -517,21 +584,16 @@ function Products() {
    ROUTE
 ========================================================= */
 
-/* =========================================================
-   ROUTE
-   VIDEO NORMAL + SCROLL CONTROLLED TEXT
-========================================================= */
-
 function Route() {
 
   const sectionRef = useRef(null);
-  const stickyRef = useRef(null);
   const mediaRef = useRef(null);
   const copyRef = useRef(null);
 
   const videoSrc =
     ROUTE.videoSrc ||
     "/assets/route/ruta.mp4";
+
 
   const steps = [
     "CAMPO",
@@ -541,134 +603,64 @@ function Route() {
     "DESTINO"
   ];
 
+
   useEffect(() => {
 
     const section = sectionRef.current;
-    const sticky = stickyRef.current;
     const media = mediaRef.current;
     const copy = copyRef.current;
 
-    if (!section || !sticky || !media || !copy) {
-      return;
-    }
+    if (!section || !media || !copy) return;
 
     const ctx = gsap.context(() => {
 
-      /*
-       * =====================================================
-       * PIN DE LA PANTALLA
-       *
-       * El video NO es controlado por el scroll.
-       * Simplemente corre normalmente.
-       * =====================================================
-       */
-
-      ScrollTrigger.create({
-
-        trigger: section,
-
-        start: "top top",
-
-        end: "bottom bottom",
-
-        pin: sticky,
-
-        pinSpacing: true,
-
-        anticipatePin: 1,
-
-        invalidateOnRefresh: true
-
-      });
-
-
-      /*
-       * =====================================================
-       * PARALLAX MUY SUTIL
-       * =====================================================
-       */
+      /* VIDEO PARALLAX */
 
       gsap.fromTo(
         media,
-
         {
-          scale: 1.02,
+          scale: 1.04,
           yPercent: 0
         },
-
         {
-          scale: 1.06,
-          yPercent: -1.5,
-
+          scale: 1.10,
+          yPercent: -2,
           ease: "none",
 
           scrollTrigger: {
-
             trigger: section,
-
             start: "top top",
-
             end: "bottom bottom",
-
-            scrub: 0.5
-
+            scrub: true
           }
-
         }
       );
 
 
-      /*
-       * =====================================================
-       * TITULO
-       * =====================================================
-       */
+      /* TITULO */
 
       gsap.fromTo(
-
         copy,
-
         {
           opacity: 0,
-          y: 40
+          y: 45
         },
-
         {
           opacity: 1,
           y: 0,
-
           ease: "power2.out",
 
           scrollTrigger: {
-
             trigger: section,
-
-            start: "top 85%",
-
-            end: "top 65%",
-
-            scrub: 0.5
-
+            start: "top 70%",
+            end: "top 35%",
+            scrub: 0.6
           }
-
         }
-
       );
 
 
-      /*
-       * =====================================================
-       * PASOS DE LA RUTA
-       *
-       * Cada palabra aparece progresivamente.
-       *
-       * 0%  - 20%  CAMPO
-       * 20% - 40%  EMPACADO
-       * 40% - 60%  TRANSPORTE
-       * 60% - 80%  FRONTERA
-       * 80% - 100% DESTINO
-       * =====================================================
-       */
+      /* ETAPAS */
 
       steps.forEach((_, index) => {
 
@@ -679,56 +671,35 @@ function Route() {
 
         if (!stepElement) return;
 
-
-        const start =
-          index * 20;
-
-        const appearStart =
-          start + 3;
-
-        const appearEnd =
-          start + 9;
+        const start = index * 20;
+        const end = start + 10;
 
 
         gsap.fromTo(
-
           stepElement,
-
           {
             opacity: 0,
-            y: 18,
-            filter: "blur(5px)"
+            y: 20,
+            filter: "blur(6px)"
           },
-
           {
             opacity: 1,
             y: 0,
             filter: "blur(0px)",
-
             ease: "power2.out",
 
             scrollTrigger: {
-
               trigger: section,
-
-              start:
-                `${appearStart}% top`,
-
-              end:
-                `${appearEnd}% top`,
-
-              scrub: 0.35
-
+              start: `${start}% top`,
+              end: `${end}% top`,
+              scrub: 0.5
             }
-
           }
-
         );
 
       });
 
     }, section);
-
 
     return () => ctx.revert();
 
@@ -743,14 +714,7 @@ function Route() {
       className="route cinematic-section"
     >
 
-      <div
-        ref={stickyRef}
-        className="route-sticky"
-      >
-
-        {/* =================================================
-            VIDEO NORMAL
-        ================================================= */}
+      <div className="route-sticky">
 
         <div
           ref={mediaRef}
@@ -774,10 +738,6 @@ function Route() {
         <div className="route-overlay" />
 
 
-        {/* =================================================
-            TITLE
-        ================================================= */}
-
         <div
           ref={copyRef}
           className="route-copy"
@@ -787,23 +747,23 @@ function Route() {
             03 / OUR ROUTE
           </div>
 
+
           <h2>
             DEL CAMPO
             <br />
-            <em>AL MUNDO.</em>
+            <em>
+              AL MUNDO.
+            </em>
           </h2>
 
+
           <p>
-            Una ruta de frescura que conecta
-            productores con mercados.
+            Una ruta de frescura que cruza
+            fronteras.
           </p>
 
         </div>
 
-
-        {/* =================================================
-            ROUTE STEPS
-        ================================================= */}
 
         <div className="route-steps">
 
@@ -818,6 +778,7 @@ function Route() {
               <span className="route-step-number">
                 0{index + 1}
               </span>
+
 
               <span className="route-step-name">
                 {step}
@@ -837,325 +798,225 @@ function Route() {
       </div>
 
     </section>
-
-  );
-}
-
-/* =========================================================
-   INFRASTRUCTURE
-========================================================= */
-
-function InfrastructureScene({
-  scene,
-  index
-}) {
-
-  const sceneRef = useRef(null);
-  const mediaRef = useRef(null);
-  const copyRef = useRef(null);
-
-  const videoSrc =
-    scene.videoSrc ||
-    `/assets/infrastructure/infrastructure-${String(
-      index + 1
-    ).padStart(2, "0")}.mp4`;
-
-  useEffect(() => {
-
-    const element = sceneRef.current;
-    const media = mediaRef.current;
-    const copy = copyRef.current;
-
-    if (!element || !media || !copy) return;
-
-    const ctx = gsap.context(() => {
-
-  /* =====================================================
-     ENTRADA CINEMATOGRÁFICA DEL VIDEO
-  ===================================================== */
-
-  gsap.fromTo(
-    media,
-    {
-      opacity: 0,
-      scale: 1.12,
-      yPercent: 8
-    },
-    {
-      opacity: 1,
-      scale: 1.06,
-      yPercent: 0,
-
-      ease: "power3.out",
-
-      scrollTrigger: {
-        trigger: element,
-        start: "top 85%",
-        end: "top 35%",
-        scrub: 0.8
-      }
-    }
-  );
-
-
-  /* =====================================================
-     PARALLAX DEL VIDEO
-  ===================================================== */
-
-  gsap.fromTo(
-    media,
-    {
-      scale: 1.06,
-      yPercent: 0
-    },
-    {
-      scale: 1.14,
-      yPercent: -4,
-
-      ease: "none",
-
-      scrollTrigger: {
-        trigger: element,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 0.8
-      }
-    }
-  );
-
-
-  /* =====================================================
-     ENTRADA DEL TEXTO
-  ===================================================== */
-
-  gsap.fromTo(
-    copy,
-    {
-      opacity: 0,
-      x: index % 2 === 0 ? -100 : 100,
-      y: 30,
-      filter: "blur(8px)"
-    },
-    {
-      opacity: 1,
-      x: 0,
-      y: 0,
-      filter: "blur(0px)",
-
-      ease: "power3.out",
-
-      scrollTrigger: {
-        trigger: element,
-        start: "top 78%",
-        end: "top 42%",
-        scrub: 0.8
-      }
-    }
-  );
-
-
-  /* =====================================================
-     LIGERO FADE DE TODA LA ESCENA
-  ===================================================== */
-
-  gsap.fromTo(
-    element,
-    {
-      opacity: 0.35
-    },
-    {
-      opacity: 1,
-
-      ease: "none",
-
-      scrollTrigger: {
-        trigger: element,
-        start: "top 90%",
-        end: "top 55%",
-        scrub: 0.6
-      }
-    }
-  );
-
-}, element);
-
-    return () => ctx.revert();
-
-  }, [index]);
-
-
-  return (
-    <article
-      ref={sceneRef}
-      className={`infra-scene ${
-        index % 2 === 1 ? "reverse" : ""
-      }`}
-    >
-
-      <div
-        ref={copyRef}
-        className="infra-copy"
-      >
-
-        <div className="infra-kicker">
-          SAN REY PRODUCE
-        </div>
-
-        <h3>
-          {scene.title}
-          <br />
-          <em>
-            {scene.subtitle}
-          </em>
-        </h3>
-
-        <p>
-          {scene.description}
-        </p>
-
-      </div>
-
-      <div
-        ref={mediaRef}
-        className="infra-sequence"
-      >
-
-        <LoopVideo
-          src={videoSrc}
-        />
-
-      </div>
-
-    </article>
   );
 }
 
 
 /* =========================================================
    INFRASTRUCTURE
+   CINEMATIC CONTINUOUS SEQUENCE
 ========================================================= */
 
 function Infrastructure() {
 
   const sectionRef = useRef(null);
-  const headRef = useRef(null);
+  const stageRef = useRef(null);
+  const scenesRef = useRef([]);
+  const copiesRef = useRef([]);
+
+  /*
+   * Los cuatro videos se cargan automáticamente
+   * siguiendo el orden de INFRASTRUCTURE.
+   */
+
+  const infrastructureScenes =
+    INFRASTRUCTURE.map((scene, index) => ({
+
+      ...scene,
+
+      videoSrc:
+        scene.videoSrc ||
+        `/assets/infrastructure/infrastructure-${String(
+          index + 1
+        ).padStart(2, "0")}.mp4`
+
+    }));
+
 
   useEffect(() => {
 
     const section = sectionRef.current;
-    const head = headRef.current;
+    const stage = stageRef.current;
 
-    if (!section || !head) return;
+    if (!section || !stage) return;
+
+    const scenes = scenesRef.current;
+    const copies = copiesRef.current;
 
     const ctx = gsap.context(() => {
 
       /*
        * =====================================================
-       * ENTRADA DE CABECERA
+       * ESTADO INICIAL
        * =====================================================
        */
 
-      const title =
-        head.querySelector("h2");
-
-      const description =
-        head.querySelector("p");
-
-
-      gsap.fromTo(
-        title,
-
-        {
-          opacity: 0,
-          y: 100,
-          filter: "blur(12px)"
-        },
-
-        {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-
-          ease: "power3.out",
-
-          scrollTrigger: {
-
-            trigger: section,
-
-            start: "top 85%",
-
-            end: "top 45%",
-
-            scrub: 0.8
-
-          }
-
-        }
-      );
+      gsap.set(scenes, {
+        opacity: 0,
+        scale: 1.06
+      });
 
 
-      gsap.fromTo(
-        description,
+      gsap.set(scenes[0], {
+        opacity: 1,
+        scale: 1
+      });
 
-        {
-          opacity: 0,
-          y: 50
-        },
 
-        {
-          opacity: 1,
-          y: 0,
+      gsap.set(copies, {
+        opacity: 0,
+        y: 35
+      });
 
-          ease: "power2.out",
 
-          scrollTrigger: {
-
-            trigger: section,
-
-            start: "top 70%",
-
-            end: "top 45%",
-
-            scrub: 0.8
-
-          }
-
-        }
-      );
+      gsap.set(copies[0], {
+        opacity: 1,
+        y: 0
+      });
 
 
       /*
        * =====================================================
-       * LÍNEA SUPERIOR
+       * MASTER TIMELINE
+       *
+       * Todo Infrastructure funciona como UNA SOLA
+       * experiencia visual.
        * =====================================================
        */
 
-      gsap.fromTo(
-        head,
+      const timeline = gsap.timeline({
 
+        scrollTrigger: {
+
+          trigger: section,
+
+          start: "top top",
+
+          end: "bottom bottom",
+
+          scrub: 0.8,
+
+          pin: stage,
+
+          anticipatePin: 1,
+
+          invalidateOnRefresh: true
+
+        }
+
+      });
+
+
+      /*
+       * =====================================================
+       * SECUENCIA DE LOS 4 VIDEOS
+       * =====================================================
+       */
+
+      infrastructureScenes.forEach((_, index) => {
+
+        if (index === 0) {
+
+          timeline.to(
+            scenes[0],
+            {
+              scale: 1.02,
+              duration: 1,
+              ease: "none"
+            }
+          );
+
+          return;
+        }
+
+
+        /*
+         * Entrada del siguiente video
+         */
+
+        timeline.to(
+          scenes[index],
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 1.15,
+            ease: "power2.inOut"
+          },
+          "+=0.15"
+        );
+
+
+        /*
+         * Salida del video anterior
+         */
+
+        timeline.to(
+          scenes[index - 1],
+          {
+            opacity: 0,
+            scale: 1.025,
+            duration: 1.15,
+            ease: "power2.inOut"
+          },
+          "<"
+        );
+
+
+        /*
+         * Texto anterior desaparece
+         */
+
+        timeline.to(
+          copies[index - 1],
+          {
+            opacity: 0,
+            y: -25,
+            duration: 0.35,
+            ease: "power2.out"
+          },
+          "<"
+        );
+
+
+        /*
+         * Nuevo texto entra suavemente
+         */
+
+        timeline.to(
+          copies[index],
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.55,
+            ease: "power3.out"
+          },
+          "-=0.45"
+        );
+
+      });
+
+
+      /*
+       * =====================================================
+       * PEQUEÑO HOLD FINAL
+       *
+       * Permite disfrutar el cuarto video antes
+       * de abandonar Infrastructure.
+       * =====================================================
+       */
+
+      timeline.to(
+        stage,
         {
-          opacity: 0
-        },
-
-        {
-          opacity: 1,
-
-          scrollTrigger: {
-
-            trigger: section,
-
-            start: "top 90%",
-
-            end: "top 60%",
-
-            scrub: 0.6
-
-          }
-
+          scale: 1,
+          duration: 0.7,
+          ease: "none"
         }
       );
 
+
     }, section);
+
 
     return () => ctx.revert();
 
@@ -1163,6 +1024,7 @@ function Infrastructure() {
 
 
   return (
+
     <section
       ref={sectionRef}
       id="infrastructure"
@@ -1174,42 +1036,168 @@ function Infrastructure() {
       </div>
 
 
+      {/* ===================================================
+          ESCENARIO FIJO
+      =================================================== */}
+
       <div
-        ref={headRef}
-        className="infra-head"
+        ref={stageRef}
+        className="infra-stage"
       >
 
-        <h2>
-          INFRAESTRUCTURA
-          <br />
-          DE <em>CLASE MUNDIAL.</em>
-        </h2>
 
-        <p>
-          Tecnología, procesos y personas
-          comprometidas con la excelencia.
-        </p>
+        {/* =================================================
+            VIDEOS SUPERPUESTOS
+        ================================================= */}
 
-      </div>
+        <div className="infra-video-stack">
+
+          {infrastructureScenes.map(
+            (scene, index) => (
+
+              <div
+                key={scene.number || index}
+                ref={(element) => {
+                  scenesRef.current[index] = element;
+                }}
+                className="infra-video-scene"
+              >
+
+                <LoopVideo
+                  src={scene.videoSrc}
+                />
+
+              </div>
+
+            )
+          )}
+
+        </div>
 
 
-      <div className="infra-stack">
+        {/* =================================================
+            OVERLAY CINEMATOGRÁFICO
+        ================================================= */}
 
-        {INFRASTRUCTURE.map((scene, index) => (
+        <div className="infra-overlay" />
 
-          <InfrastructureScene
-            key={scene.number}
-            scene={scene}
-            index={index}
-          />
 
-        ))}
+        {/* =================================================
+            HEADER / TITULO
+        ================================================= */}
+
+        <div className="infra-title">
+
+          <div className="section-no">
+            04 / INFRASTRUCTURE
+          </div>
+
+
+          <h2>
+            INFRAESTRUCTURA
+            <br />
+            DE <em>CLASE MUNDIAL.</em>
+          </h2>
+
+
+          <p>
+            Tecnología, procesos y personas
+            comprometidas con la excelencia.
+          </p>
+
+        </div>
+
+
+        {/* =================================================
+            TEXTOS DE CADA VIDEO
+        ================================================= */}
+
+        <div className="infra-content">
+
+          {infrastructureScenes.map(
+            (scene, index) => (
+
+              <div
+                key={`copy-${scene.number || index}`}
+                ref={(element) => {
+                  copiesRef.current[index] = element;
+                }}
+                className="infra-copy cinematic-infra-copy"
+              >
+
+                <div className="infra-kicker">
+                  SAN REY PRODUCE
+                </div>
+
+
+                <h3>
+
+                  {scene.title}
+
+                  {scene.subtitle && (
+                    <>
+                      <br />
+
+                      <em>
+                        {scene.subtitle}
+                      </em>
+                    </>
+                  )}
+
+                </h3>
+
+
+                <p>
+                  {scene.description}
+                </p>
+
+
+                <div className="infra-progress">
+
+                  <span>
+                    0{index + 1}
+                  </span>
+
+                  <i />
+
+                  <span>
+                    0{infrastructureScenes.length}
+                  </span>
+
+                </div>
+
+              </div>
+
+            )
+          )}
+
+        </div>
+
+
+        {/* =================================================
+            INDICADOR DE PROGRESO
+        ================================================= */}
+
+        <div className="infra-sequence-label">
+
+          <span>
+            SUPPLY CHAIN
+          </span>
+
+          <div className="infra-sequence-line" />
+
+          <span>
+            CONTINUOUS PROCESS
+          </span>
+
+        </div>
 
       </div>
 
     </section>
   );
 }
+
 
 /* =========================================================
    GLOBAL
@@ -1224,6 +1212,7 @@ function Global() {
   const videoSrc =
     GLOBAL_PRESENCE.videoSrc ||
     "/assets/global/global.mp4";
+
 
   useEffect(() => {
 
@@ -1310,6 +1299,7 @@ function Global() {
 
 
   return (
+
     <section
       ref={sectionRef}
       id="global"
@@ -1327,7 +1317,9 @@ function Global() {
 
       </div>
 
+
       <div className="global-overlay" />
+
 
       <svg
         className="route-svg"
@@ -1347,6 +1339,7 @@ function Global() {
 
       </svg>
 
+
       <div
         ref={copyRef}
         className="global-copy"
@@ -1356,11 +1349,15 @@ function Global() {
           05 / GLOBAL PRESENCE
         </div>
 
+
         <h2>
           PRESENCIA
           <br />
-          <em>GLOBAL.</em>
+          <em>
+            GLOBAL.
+          </em>
         </h2>
+
 
         <p>
           Llevamos frescura a los mercados
@@ -1369,14 +1366,22 @@ function Global() {
 
       </div>
 
+
       <div className="location mexico">
+
         {GLOBAL_PRESENCE.origin}
+
         <span />
+
       </div>
 
+
       <div className="location usa">
+
         {GLOBAL_PRESENCE.destination}
+
         <span />
+
       </div>
 
     </section>
@@ -1391,6 +1396,7 @@ function Global() {
 function Footer() {
 
   return (
+
     <footer className="site-footer">
 
       <div className="footer-main">
@@ -1398,11 +1404,15 @@ function Footer() {
         <div className="footer-brand">
 
           <div className="brand-large">
+
             SAN REY
+
             <small>
               PRODUCE
             </small>
+
           </div>
+
 
           <p>
             Freshness that travels.
@@ -1410,11 +1420,13 @@ function Footer() {
 
         </div>
 
+
         <div className="footer-social">
 
           <span>
             FOLLOW SAN REY
           </span>
+
 
           <div className="social-links">
 
@@ -1435,6 +1447,7 @@ function Footer() {
         </div>
 
       </div>
+
 
       <div className="footer-bottom">
 
@@ -1461,6 +1474,7 @@ function App() {
 
   return (
     <>
+
       <Header />
 
       <main>
@@ -1478,6 +1492,7 @@ function App() {
       </main>
 
       <Footer />
+
     </>
   );
 }
