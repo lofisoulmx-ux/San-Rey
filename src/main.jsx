@@ -522,88 +522,248 @@ function Route() {
   const sectionRef = useRef(null);
   const mediaRef = useRef(null);
   const copyRef = useRef(null);
+  const videoRef = useRef(null);
 
   const videoSrc =
     ROUTE.videoSrc ||
     "/assets/route/ruta.mp4";
+
+  const steps = [
+    "CAMPO",
+    "EMPACADO",
+    "TRANSPORTE",
+    "FRONTERA",
+    "DESTINO"
+  ];
 
   useEffect(() => {
 
     const section = sectionRef.current;
     const media = mediaRef.current;
     const copy = copyRef.current;
+    const video = videoRef.current;
 
-    if (!section || !media || !copy) return;
+    if (!section || !media || !copy || !video) return;
 
     const ctx = gsap.context(() => {
 
-      /* VIDEO PARALLAX */
+      /*
+       * =====================================================
+       * VIDEO CONTROLADO POR SCROLL
+       * =====================================================
+       */
+
+      const videoState = {
+        progress: 0
+      };
+
+      const updateVideo = () => {
+
+        if (!video.duration || !isFinite(video.duration)) {
+          return;
+        }
+
+        video.currentTime =
+          videoState.progress * video.duration;
+      };
+
+
+      /*
+       * Esperamos a que el navegador conozca
+       * la duración real del video.
+       */
+
+      const handleMetadata = () => {
+
+        video.currentTime = 0;
+
+        gsap.to(videoState, {
+          progress: 0,
+          duration: 0
+        });
+
+      };
+
+      video.addEventListener(
+        "loadedmetadata",
+        handleMetadata
+      );
+
+
+      /*
+       * =====================================================
+       * SCROLL MASTER
+       * =====================================================
+       */
+
+      gsap.to(videoState, {
+
+        progress: 1,
+
+        ease: "none",
+
+        scrollTrigger: {
+
+          trigger: section,
+
+          start: "top top",
+
+          end: "bottom bottom",
+
+          scrub: true,
+
+          onUpdate: updateVideo
+        }
+
+      });
+
+
+      /*
+       * =====================================================
+       * VIDEO PARALLAX MUY SUTIL
+       * =====================================================
+       */
 
       gsap.fromTo(
         media,
+
         {
-          scale: 1.08,
-          yPercent: 4
+          scale: 1.04,
+          yPercent: 0
         },
+
         {
-          scale: 1.18,
-          yPercent: -4,
+          scale: 1.10,
+          yPercent: -2,
+
           ease: "none",
 
           scrollTrigger: {
+
             trigger: section,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 0.8
+
+            start: "top top",
+
+            end: "bottom bottom",
+
+            scrub: true
+
           }
+
         }
       );
 
 
-      /* TEXTO */
+      /*
+       * =====================================================
+       * TITULO
+       * =====================================================
+       */
 
       gsap.fromTo(
+
         copy,
+
         {
           opacity: 0,
-          y: 80
+          y: 45
         },
+
         {
           opacity: 1,
           y: 0,
+
           ease: "power2.out",
 
           scrollTrigger: {
+
             trigger: section,
-            start: "top 75%",
-            end: "center 45%",
-            scrub: 0.8
+
+            start: "top 70%",
+
+            end: "top 35%",
+
+            scrub: 0.6
+
           }
+
         }
+
       );
 
 
-      /* ROUTE LINE */
+      /*
+       * =====================================================
+       * ETAPAS
+       * =====================================================
+       */
 
-      gsap.fromTo(
-        ".route-line",
-        {
-          opacity: 0,
-          y: 40
-        },
-        {
-          opacity: 1,
-          y: 0,
-          ease: "power2.out",
+      steps.forEach((_, index) => {
 
-          scrollTrigger: {
-            trigger: section,
-            start: "center 70%",
-            end: "center 45%",
-            scrub: 0.7
+        const stepElement =
+          section.querySelector(
+            `[data-route-step="${index}"]`
+          );
+
+        if (!stepElement) return;
+
+        const start =
+          index * 20;
+
+        const end =
+          start + 10;
+
+
+        gsap.fromTo(
+
+          stepElement,
+
+          {
+            opacity: 0,
+            y: 20,
+            filter: "blur(6px)"
+          },
+
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+
+            ease: "power2.out",
+
+            scrollTrigger: {
+
+              trigger: section,
+
+              start: `${start}% top`,
+
+              end: `${end}% top`,
+
+              scrub: 0.5
+
+            }
+
           }
-        }
-      );
+
+        );
+
+      });
+
+
+      /*
+       * =====================================================
+       * CLEANUP
+       * =====================================================
+       */
+
+      return () => {
+
+        video.removeEventListener(
+          "loadedmetadata",
+          handleMetadata
+        );
+
+      };
 
     }, section);
 
@@ -613,86 +773,109 @@ function Route() {
 
 
   return (
+
     <section
       ref={sectionRef}
       id="route"
       className="route cinematic-section"
     >
 
-      <div
-        ref={mediaRef}
-        className="route-sequence"
-      >
-
-        <LoopVideo
-          src={videoSrc}
-        />
-
-      </div>
-
-      <div className="route-overlay" />
+      {/* ===================================================
+          STICKY VISUAL
+      =================================================== */}
 
       <div
-        ref={copyRef}
-        className="route-copy"
+        className="route-sticky"
       >
 
-        <div className="section-no">
-          03 / OUR ROUTE
+        <div
+          ref={mediaRef}
+          className="route-sequence"
+        >
+
+          <video
+            ref={videoRef}
+            className="scene-video"
+            src={videoSrc}
+            muted
+            playsInline
+            preload="auto"
+            disablePictureInPicture
+          />
+
         </div>
 
-        <h2>
-          DEL CAMPO
-          <br />
-          <em>AL MUNDO.</em>
-        </h2>
 
-        <p>
-          Una ruta de frescura que cruza
-          fronteras.
-        </p>
+        <div className="route-overlay" />
 
-      </div>
 
-      <div className="route-line">
+        {/* =================================================
+            TITLE
+        ================================================= */}
 
-        <div className="route-line-track" />
+        <div
+          ref={copyRef}
+          className="route-copy"
+        >
 
-        {ROUTE.steps.map((step, index) => (
+          <div className="section-no">
+            03 / OUR ROUTE
+          </div>
 
-          <div
-            className="route-step"
-            key={step}
-          >
+          <h2>
+            DEL CAMPO
+            <br />
+            <em>AL MUNDO.</em>
+          </h2>
 
-            <i />
+          <p>
+            Una ruta de frescura que cruza
+            fronteras.
+          </p>
 
-            <div className="route-step-content">
+        </div>
 
-              <small>
+
+        {/* =================================================
+            ROUTE STEPS
+        ================================================= */}
+
+        <div className="route-steps">
+
+          {steps.map((step, index) => (
+
+            <div
+              key={step}
+              className="route-step"
+              data-route-step={index}
+            >
+
+              <span className="route-step-number">
                 0{index + 1}
-              </small>
+              </span>
 
-              <span>
+              <span className="route-step-name">
                 {step}
               </span>
 
             </div>
 
-          </div>
+          ))}
 
-        ))}
+        </div>
 
-      </div>
 
-      <div className="route-caption">
-        FROM FIELD TO MARKET
+        <div className="route-caption">
+          FROM FIELD TO MARKET
+        </div>
+
       </div>
 
     </section>
-  );
-}
 
+  );
+
+}
 
 /* =========================================================
    INFRASTRUCTURE
