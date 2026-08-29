@@ -1,3 +1,7 @@
+/* =========================================================
+   PRODUCTS
+========================================================= */
+
 export const PRODUCTS = [
   {
     key: "green-onions",
@@ -5,7 +9,8 @@ export const PRODUCTS = [
     english: "Green Onions",
     description:
       "Frescos, firmes y seleccionados para conservar su calidad.",
-    framesPath: "/assets/products/green-onions/frames/",
+    framesPath:
+      "/assets/products/green-onions/frames/",
     frameCount: 60
   },
 
@@ -15,10 +20,16 @@ export const PRODUCTS = [
     english: "Cilantro",
     description:
       "Color, aroma y frescura desde el campo hasta tu negocio.",
-    framesPath: "/assets/products/cilantro/frames/",
+    framesPath:
+      "/assets/products/cilantro/frames/",
     frameCount: 60
   }
 ];
+
+
+/* =========================================================
+   INFRASTRUCTURE
+========================================================= */
 
 export const INFRASTRUCTURE = [
   {
@@ -66,6 +77,11 @@ export const INFRASTRUCTURE = [
   }
 ];
 
+
+/* =========================================================
+   ROUTE
+========================================================= */
+
 export const ROUTE = {
   framesPath:
     "/assets/route/frames/",
@@ -81,6 +97,11 @@ export const ROUTE = {
   ]
 };
 
+
+/* =========================================================
+   GLOBAL PRESENCE
+========================================================= */
+
 export const GLOBAL_PRESENCE = {
   framesPath:
     "/assets/global-presence/frames/",
@@ -88,5 +109,6 @@ export const GLOBAL_PRESENCE = {
   frameCount: 60,
 
   origin: "MÉXICO",
+
   destination: "USA"
 };
