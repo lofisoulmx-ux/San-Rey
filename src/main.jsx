@@ -517,9 +517,15 @@ function Products() {
    ROUTE
 ========================================================= */
 
+/* =========================================================
+   ROUTE
+   SCROLL CONTROLLED VIDEO
+========================================================= */
+
 function Route() {
 
   const sectionRef = useRef(null);
+  const stickyRef = useRef(null);
   const mediaRef = useRef(null);
   const copyRef = useRef(null);
   const videoRef = useRef(null);
@@ -539,17 +545,20 @@ function Route() {
   useEffect(() => {
 
     const section = sectionRef.current;
+    const sticky = stickyRef.current;
     const media = mediaRef.current;
     const copy = copyRef.current;
     const video = videoRef.current;
 
-    if (!section || !media || !copy || !video) return;
+    if (!section || !sticky || !media || !copy || !video) {
+      return;
+    }
 
     const ctx = gsap.context(() => {
 
       /*
        * =====================================================
-       * VIDEO CONTROLADO POR SCROLL
+       * VIDEO
        * =====================================================
        */
 
@@ -557,32 +566,39 @@ function Route() {
         progress: 0
       };
 
+      let videoReady = false;
+
       const updateVideo = () => {
 
-        if (!video.duration || !isFinite(video.duration)) {
+        if (
+          !videoReady ||
+          !video.duration ||
+          !isFinite(video.duration)
+        ) {
           return;
         }
 
-        video.currentTime =
+        const targetTime =
           videoState.progress * video.duration;
+
+        if (
+          Math.abs(video.currentTime - targetTime) > 0.02
+        ) {
+          video.currentTime = targetTime;
+        }
       };
 
-
-      /*
-       * Esperamos a que el navegador conozca
-       * la duración real del video.
-       */
 
       const handleMetadata = () => {
 
+        videoReady = true;
+
+        video.pause();
+
         video.currentTime = 0;
 
-        gsap.to(videoState, {
-          progress: 0,
-          duration: 0
-        });
-
       };
+
 
       video.addEventListener(
         "loadedmetadata",
@@ -592,49 +608,24 @@ function Route() {
 
       /*
        * =====================================================
-       * SCROLL MASTER
+       * MASTER SCROLL
+       *
+       * Toda la sección queda "pegada".
+       *
+       * El video avanza:
+       *
+       * 0%   → 20% CAMPO
+       * 20%  → 40% EMPACADO
+       * 40%  → 60% TRANSPORTE
+       * 60%  → 80% FRONTERA
+       * 80%  → 100% DESTINO
        * =====================================================
        */
 
-      gsap.to(videoState, {
-
-        progress: 1,
-
-        ease: "none",
-
-        scrollTrigger: {
-
-          trigger: section,
-
-          start: "top top",
-
-          end: "bottom bottom",
-
-          scrub: true,
-
-          onUpdate: updateVideo
-        }
-
-      });
-
-
-      /*
-       * =====================================================
-       * VIDEO PARALLAX MUY SUTIL
-       * =====================================================
-       */
-
-      gsap.fromTo(
-        media,
-
+      gsap.to(
+        videoState,
         {
-          scale: 1.04,
-          yPercent: 0
-        },
-
-        {
-          scale: 1.10,
-          yPercent: -2,
+          progress: 1,
 
           ease: "none",
 
@@ -644,9 +635,58 @@ function Route() {
 
             start: "top top",
 
-            end: "bottom bottom",
+            end: "+=500%",
 
-            scrub: true
+            pin: sticky,
+
+            pinSpacing: true,
+
+            scrub: 0.15,
+
+            anticipatePin: 1,
+
+            invalidateOnRefresh: true,
+
+            onUpdate: updateVideo
+
+          }
+
+        }
+      );
+
+
+      /*
+       * =====================================================
+       * PARALLAX MUY SUTIL
+       *
+       * No afecta al tiempo del video.
+       * Solo mueve ligeramente la cámara.
+       * =====================================================
+       */
+
+      gsap.fromTo(
+        media,
+
+        {
+          scale: 1.02,
+          yPercent: 0
+        },
+
+        {
+          scale: 1.06,
+          yPercent: -1.5,
+
+          ease: "none",
+
+          scrollTrigger: {
+
+            trigger: section,
+
+            start: "top top",
+
+            end: "+=500%",
+
+            scrub: 0.15
 
           }
 
@@ -661,12 +701,11 @@ function Route() {
        */
 
       gsap.fromTo(
-
         copy,
 
         {
           opacity: 0,
-          y: 45
+          y: 40
         },
 
         {
@@ -679,22 +718,23 @@ function Route() {
 
             trigger: section,
 
-            start: "top 70%",
+            start: "top top+=20%",
 
-            end: "top 35%",
+            end: "top top+=35%",
 
-            scrub: 0.6
+            scrub: 0.5
 
           }
 
         }
-
       );
 
 
       /*
        * =====================================================
        * ETAPAS
+       *
+       * Cada palabra aparece en su tramo del video.
        * =====================================================
        */
 
@@ -707,11 +747,15 @@ function Route() {
 
         if (!stepElement) return;
 
+
         const start =
           index * 20;
 
-        const end =
-          start + 10;
+        const fadeStart =
+          start + 2;
+
+        const fadeEnd =
+          start + 8;
 
 
         gsap.fromTo(
@@ -720,8 +764,8 @@ function Route() {
 
           {
             opacity: 0,
-            y: 20,
-            filter: "blur(6px)"
+            y: 18,
+            filter: "blur(5px)"
           },
 
           {
@@ -735,11 +779,13 @@ function Route() {
 
               trigger: section,
 
-              start: `${start}% top`,
+              start:
+                `${fadeStart}% top`,
 
-              end: `${end}% top`,
+              end:
+                `${fadeEnd}% top`,
 
-              scrub: 0.5
+              scrub: 0.35
 
             }
 
@@ -752,7 +798,7 @@ function Route() {
 
       /*
        * =====================================================
-       * CLEANUP
+       * LIMPIEZA
        * =====================================================
        */
 
@@ -780,11 +826,8 @@ function Route() {
       className="route cinematic-section"
     >
 
-      {/* ===================================================
-          STICKY VISUAL
-      =================================================== */}
-
       <div
+        ref={stickyRef}
         className="route-sticky"
       >
 
@@ -829,8 +872,8 @@ function Route() {
           </h2>
 
           <p>
-            Una ruta de frescura que cruza
-            fronteras.
+            Una ruta de frescura que conecta
+            productores con mercados.
           </p>
 
         </div>
