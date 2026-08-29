@@ -42,7 +42,6 @@ function Header() {
           end: "top -12%",
 
           scrub: 0.5
-
         }
 
       });
@@ -52,6 +51,7 @@ function Header() {
     return () => ctx.revert();
 
   }, []);
+
 
   return (
 
@@ -97,225 +97,6 @@ function Header() {
     </header>
 
   );
-}
-
-
-/* =========================================================
-   CINEMATIC VIDEO
-   FADE IN / FADE OUT INDEPENDIENTE
-========================================================= */
-
-function CinematicVideo({
-  src,
-  className = "",
-  loop = false,
-  fadeDuration = 0.8
-}) {
-
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-
-    const video = videoRef.current;
-
-    if (!video) return;
-
-
-    /* -------------------------------------------------------
-       ESTADO INICIAL
-    ------------------------------------------------------- */
-
-    gsap.set(video, {
-      opacity: 0
-    });
-
-
-    /* -------------------------------------------------------
-       FADE IN
-    ------------------------------------------------------- */
-
-    const fadeIn = () => {
-
-      gsap.to(video, {
-
-        opacity: 1,
-
-        duration: fadeDuration,
-
-        ease: "power2.out",
-
-        overwrite: true
-
-      });
-
-    };
-
-
-    /* -------------------------------------------------------
-       FADE OUT
-    ------------------------------------------------------- */
-
-    const handleTimeUpdate = () => {
-
-      if (
-        !video.duration ||
-        !isFinite(video.duration)
-      ) {
-        return;
-      }
-
-      const remaining =
-        video.duration - video.currentTime;
-
-
-      /*
-       * Comenzamos el fade
-       * durante el último segundo.
-       */
-
-      if (
-        remaining <= fadeDuration &&
-        remaining > 0
-      ) {
-
-        gsap.to(video, {
-
-          opacity: 0,
-
-          duration: remaining,
-
-          ease: "power1.inOut",
-
-          overwrite: true
-
-        });
-
-      }
-
-    };
-
-
-    /* -------------------------------------------------------
-       CUANDO TERMINA
-    ------------------------------------------------------- */
-
-    const handleEnded = () => {
-
-      /*
-       * Si es loop, el navegador
-       * vuelve a comenzar automáticamente.
-       */
-
-      if (loop) {
-
-        gsap.set(video, {
-          opacity: 0
-        });
-
-        requestAnimationFrame(() => {
-
-          gsap.to(video, {
-
-            opacity: 1,
-
-            duration: fadeDuration,
-
-            ease: "power2.out"
-
-          });
-
-        });
-
-      } else {
-
-        gsap.to(video, {
-
-          opacity: 0,
-
-          duration: fadeDuration,
-
-          ease: "power1.inOut",
-
-          overwrite: true
-
-        });
-
-      }
-
-    };
-
-
-    /* -------------------------------------------------------
-       EVENTOS
-    ------------------------------------------------------- */
-
-    video.addEventListener(
-      "loadeddata",
-      fadeIn
-    );
-
-    video.addEventListener(
-      "canplay",
-      fadeIn
-    );
-
-    video.addEventListener(
-      "timeupdate",
-      handleTimeUpdate
-    );
-
-    video.addEventListener(
-      "ended",
-      handleEnded
-    );
-
-
-    /* -------------------------------------------------------
-       CLEANUP
-    ------------------------------------------------------- */
-
-    return () => {
-
-      video.removeEventListener(
-        "loadeddata",
-        fadeIn
-      );
-
-      video.removeEventListener(
-        "canplay",
-        fadeIn
-      );
-
-      video.removeEventListener(
-        "timeupdate",
-        handleTimeUpdate
-      );
-
-      video.removeEventListener(
-        "ended",
-        handleEnded
-      );
-
-    };
-
-  }, [loop, fadeDuration]);
-
-
-  return (
-
-    <video
-      ref={videoRef}
-      className={`scene-video ${className}`}
-      src={src}
-      autoPlay
-      muted
-      loop={loop}
-      playsInline
-      preload="auto"
-      disablePictureInPicture
-    />
-
-  );
 
 }
 
@@ -338,12 +119,13 @@ function Hero() {
 
     if (!section || !media || !copy) return;
 
+
     const ctx = gsap.context(() => {
 
 
-      /* -----------------------------------------------------
+      /* =====================================================
          CAMERA
-      ----------------------------------------------------- */
+      ===================================================== */
 
       gsap.fromTo(
 
@@ -368,7 +150,6 @@ function Hero() {
             end: "bottom top",
 
             scrub: 0.35
-
           }
 
         }
@@ -376,9 +157,9 @@ function Hero() {
       );
 
 
-      /* -----------------------------------------------------
+      /* =====================================================
          VIGNETTE
-      ----------------------------------------------------- */
+      ===================================================== */
 
       gsap.to(
 
@@ -398,7 +179,6 @@ function Hero() {
             end: "75% top",
 
             scrub: 1
-
           }
 
         }
@@ -406,9 +186,9 @@ function Hero() {
       );
 
 
-      /* -----------------------------------------------------
+      /* =====================================================
          HERO TEXT
-      ----------------------------------------------------- */
+      ===================================================== */
 
       gsap.fromTo(
 
@@ -433,7 +213,6 @@ function Hero() {
             end: "48% top",
 
             scrub: 0.8
-
           }
 
         }
@@ -441,75 +220,76 @@ function Hero() {
       );
 
 
-      /* -----------------------------------------------------
+      /* =====================================================
          INTRO
-      ----------------------------------------------------- */
+      ===================================================== */
 
-      gsap.from(".hero-kicker", {
-
-        opacity: 0,
-        y: 25,
-
-        duration: 1.2,
-
-        ease: "power3.out"
-
-      });
-
-
-      gsap.from(".hero-line", {
-
-        opacity: 0,
-        y: 70,
-
-        duration: 1.3,
-
-        stagger: 0.1,
-
-        ease: "power4.out"
-
-      });
+      gsap.from(
+        ".hero-kicker",
+        {
+          opacity: 0,
+          y: 25,
+          duration: 1.2,
+          ease: "power3.out"
+        }
+      );
 
 
-      gsap.from(".hero-description", {
-
-        opacity: 0,
-        y: 20,
-
-        duration: 1,
-
-        delay: 0.5,
-
-        ease: "power3.out"
-
-      });
+      gsap.from(
+        ".hero-line",
+        {
+          opacity: 0,
+          y: 70,
+          duration: 1.3,
+          stagger: 0.1,
+          ease: "power4.out"
+        }
+      );
 
 
-      /* -----------------------------------------------------
+      gsap.from(
+        ".hero-description",
+        {
+          opacity: 0,
+          y: 20,
+          duration: 1,
+          delay: 0.5,
+          ease: "power3.out"
+        }
+      );
+
+
+      /* =====================================================
          SCROLL CUE
-      ----------------------------------------------------- */
+      ===================================================== */
 
-      gsap.to(".scroll-cue", {
+      gsap.to(
 
-        opacity: 0,
-        y: 20,
+        ".scroll-cue",
 
-        ease: "none",
+        {
 
-        scrollTrigger: {
+          opacity: 0,
+          y: 20,
 
-          trigger: section,
+          ease: "none",
 
-          start: "5% top",
-          end: "18% top",
+          scrollTrigger: {
 
-          scrub: 0.6
+            trigger: section,
+
+            start: "5% top",
+            end: "18% top",
+
+            scrub: 0.6
+          }
 
         }
 
-      });
+      );
 
     }, section);
+
 
     return () => ctx.revert();
 
@@ -526,11 +306,15 @@ function Hero() {
 
       <div className="hero-media">
 
-        <CinematicVideo
-          src="/assets/hero/hero.mp4"
+        <video
+          ref={mediaRef}
           className="hero-video"
-          loop={true}
-          fadeDuration={0.8}
+          src="/assets/hero/hero.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
         />
 
       </div>
@@ -548,6 +332,7 @@ function Hero() {
           FROM FIELD TO MARKET
         </div>
 
+
         <h1>
 
           <span className="hero-line">
@@ -563,6 +348,7 @@ function Hero() {
           </span>
 
         </h1>
+
 
         <p className="hero-description">
 
@@ -586,26 +372,82 @@ function Hero() {
     </section>
 
   );
+
 }
 
 
 /* =========================================================
    LOOP VIDEO
+   IMPORTANTE:
+   - Siempre loop
+   - Nunca controlamos currentTime
+   - Esto evita que el video se trabe
 ========================================================= */
 
 function LoopVideo({
   src,
-  className = "",
-  loop = false
+  className = ""
 }) {
+
+  const videoRef = useRef(null);
+
+
+  useEffect(() => {
+
+    const video = videoRef.current;
+
+    if (!video) return;
+
+
+    const handleCanPlay = () => {
+
+      /*
+       * Nos aseguramos de que el video
+       * pueda comenzar normalmente.
+       */
+
+      video.play().catch(() => {});
+
+    };
+
+
+    video.addEventListener(
+      "canplay",
+      handleCanPlay
+    );
+
+
+    return () => {
+
+      video.removeEventListener(
+        "canplay",
+        handleCanPlay
+      );
+
+    };
+
+  }, [src]);
+
 
   return (
 
-    <CinematicVideo
+    <video
+
+      ref={videoRef}
+
+      className={`scene-video ${className}`}
+
       src={src}
-      className={className}
-      loop={loop}
-      fadeDuration={0.8}
+
+      autoPlay
+      muted
+      loop
+      playsInline
+
+      preload="metadata"
+
+      disablePictureInPicture
+
     />
 
   );
@@ -626,7 +468,10 @@ function ProductScene({
   const mediaRef = useRef(null);
   const copyRef = useRef(null);
 
-  const videoSrc = product.video;
+
+  const videoSrc =
+    product.video;
+
 
   useEffect(() => {
 
@@ -636,25 +481,26 @@ function ProductScene({
 
     if (!scene || !media || !copy) return;
 
+
     const ctx = gsap.context(() => {
 
 
-      /* -----------------------------------------------------
-         PARALLAX VIDEO
-      ----------------------------------------------------- */
+      /* =====================================================
+         VIDEO PARALLAX
+      ===================================================== */
 
       gsap.fromTo(
 
         media,
 
         {
-          scale: 1.08,
-          yPercent: 4
+          scale: 1.06,
+          yPercent: 3
         },
 
         {
-          scale: 1.18,
-          yPercent: -4,
+          scale: 1.13,
+          yPercent: -3,
 
           ease: "none",
 
@@ -666,7 +512,6 @@ function ProductScene({
             end: "bottom top",
 
             scrub: 0.8
-
           }
 
         }
@@ -674,9 +519,70 @@ function ProductScene({
       );
 
 
-      /* -----------------------------------------------------
+      /* =====================================================
+         VIDEO FADE IN
+      ===================================================== */
+
+      gsap.fromTo(
+
+        media,
+
+        {
+          opacity: 0
+        },
+
+        {
+          opacity: 1,
+
+          ease: "power2.out",
+
+          scrollTrigger: {
+
+            trigger: scene,
+
+            start: "top 95%",
+            end: "top 65%",
+
+            scrub: 0.6
+          }
+
+        }
+
+      );
+
+
+      /* =====================================================
+         VIDEO FADE OUT
+      ===================================================== */
+
+      gsap.to(
+
+        media,
+
+        {
+
+          opacity: 0.15,
+
+          ease: "power2.out",
+
+          scrollTrigger: {
+
+            trigger: scene,
+
+            start: "bottom 35%",
+            end: "bottom top",
+
+            scrub: 0.6
+          }
+
+        }
+
+      );
+
+
+      /* =====================================================
          TEXTO
-      ----------------------------------------------------- */
+      ===================================================== */
 
       gsap.fromTo(
 
@@ -701,7 +607,6 @@ function ProductScene({
             end: "center 50%",
 
             scrub: 0.8
-
           }
 
         }
@@ -709,16 +614,16 @@ function ProductScene({
       );
 
 
-      /* -----------------------------------------------------
+      /* =====================================================
          FADE DE ESCENA
-      ----------------------------------------------------- */
+      ===================================================== */
 
       gsap.fromTo(
 
         scene,
 
         {
-          opacity: 0.65
+          opacity: 0.7
         },
 
         {
@@ -734,7 +639,6 @@ function ProductScene({
             end: "top 60%",
 
             scrub: 0.6
-
           }
 
         }
@@ -742,6 +646,7 @@ function ProductScene({
       );
 
     }, scene);
+
 
     return () => ctx.revert();
 
@@ -779,17 +684,21 @@ function ProductScene({
           0{index + 1}
         </span>
 
+
         <div className="product-scene-kicker">
           SAN REY PRODUCE
         </div>
+
 
         <h3>
           {product.title}
         </h3>
 
+
         <div className="product-scene-en">
           {product.english}
         </div>
+
 
         <p>
           {product.description}
@@ -812,11 +721,13 @@ function Products() {
 
   const sectionRef = useRef(null);
 
+
   useEffect(() => {
 
     const section = sectionRef.current;
 
     if (!section) return;
+
 
     const ctx = gsap.context(() => {
 
@@ -843,7 +754,6 @@ function Products() {
             end: "top 35%",
 
             scrub: 0.8
-
           }
 
         }
@@ -851,6 +761,7 @@ function Products() {
       );
 
     }, section);
+
 
     return () => ctx.revert();
 
@@ -900,15 +811,21 @@ function Products() {
 
       <div className="product-scenes">
 
-        {PRODUCTS.map((product, index) => (
+        {PRODUCTS.map(
+          (product, index) => (
 
-          <ProductScene
-            key={product.key}
-            product={product}
-            index={index}
-          />
+            <ProductScene
 
-        ))}
+              key={product.key}
+
+              product={product}
+
+              index={index}
+
+            />
+
+          )
+        )}
 
       </div>
 
@@ -921,6 +838,8 @@ function Products() {
 
 /* =========================================================
    ROUTE
+   VIDEO NORMAL
+   SIN CONTROL DE CURRENTTIME
 ========================================================= */
 
 function Route() {
@@ -928,6 +847,7 @@ function Route() {
   const sectionRef = useRef(null);
   const mediaRef = useRef(null);
   const copyRef = useRef(null);
+
 
   const videoSrc =
     ROUTE.videoSrc ||
@@ -953,12 +873,13 @@ function Route() {
 
     if (!section || !media || !copy) return;
 
+
     const ctx = gsap.context(() => {
 
 
-      /* -----------------------------------------------------
+      /* =====================================================
          VIDEO PARALLAX
-      ----------------------------------------------------- */
+      ===================================================== */
 
       gsap.fromTo(
 
@@ -983,7 +904,6 @@ function Route() {
             end: "bottom bottom",
 
             scrub: 0.8
-
           }
 
         }
@@ -991,9 +911,70 @@ function Route() {
       );
 
 
-      /* -----------------------------------------------------
+      /* =====================================================
+         FADE IN DEL VIDEO
+      ===================================================== */
+
+      gsap.fromTo(
+
+        media,
+
+        {
+          opacity: 0
+        },
+
+        {
+          opacity: 1,
+
+          ease: "power2.out",
+
+          scrollTrigger: {
+
+            trigger: section,
+
+            start: "top 90%",
+            end: "top 65%",
+
+            scrub: 0.6
+          }
+
+        }
+
+      );
+
+
+      /* =====================================================
+         FADE OUT DEL VIDEO
+      ===================================================== */
+
+      gsap.to(
+
+        media,
+
+        {
+
+          opacity: 0.25,
+
+          ease: "power2.out",
+
+          scrollTrigger: {
+
+            trigger: section,
+
+            start: "bottom 35%",
+            end: "bottom top",
+
+            scrub: 0.6
+          }
+
+        }
+
+      );
+
+
+      /* =====================================================
          TITULO
-      ----------------------------------------------------- */
+      ===================================================== */
 
       gsap.fromTo(
 
@@ -1018,7 +999,6 @@ function Route() {
             end: "top 35%",
 
             scrub: 0.6
-
           }
 
         }
@@ -1026,62 +1006,66 @@ function Route() {
       );
 
 
-      /* -----------------------------------------------------
+      /* =====================================================
          ETAPAS
-      ----------------------------------------------------- */
+      ===================================================== */
 
-      steps.forEach((_, index) => {
+      steps.forEach(
+        (_, index) => {
 
-        const stepElement =
-          section.querySelector(
-            `[data-route-step="${index}"]`
-          );
+          const stepElement =
+            section.querySelector(
+              `[data-route-step="${index}"]`
+            );
 
-        if (!stepElement) return;
-
-
-        const start =
-          index * 20;
-
-        const end =
-          start + 10;
+          if (!stepElement) return;
 
 
-        gsap.fromTo(
+          const start =
+            index * 20;
 
-          stepElement,
 
-          {
-            opacity: 0,
-            y: 20,
-            filter: "blur(6px)"
-          },
+          const end =
+            start + 10;
 
-          {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
 
-            ease: "power2.out",
+          gsap.fromTo(
 
-            scrollTrigger: {
+            stepElement,
 
-              trigger: section,
+            {
+              opacity: 0,
+              y: 20,
+              filter: "blur(6px)"
+            },
 
-              start: `${start}% top`,
-              end: `${end}% top`,
+            {
+              opacity: 1,
+              y: 0,
+              filter: "blur(0px)",
 
-              scrub: 0.5
+              ease: "power2.out",
+
+              scrollTrigger: {
+
+                trigger: section,
+
+                start: `${start}% top`,
+                end: `${end}% top`,
+
+                scrub: 0.5
+              }
 
             }
 
-          }
+          );
 
-        );
+        }
+      );
 
-      });
 
     }, section);
+
 
     return () => ctx.revert();
 
@@ -1091,10 +1075,18 @@ function Route() {
   return (
 
     <section
+
       ref={sectionRef}
+
       id="route"
+
       className="route cinematic-section"
+
     >
+
+      {/* ===================================================
+          STICKY VISUAL
+      =================================================== */}
 
       <div className="route-sticky">
 
@@ -1106,7 +1098,6 @@ function Route() {
 
           <LoopVideo
             src={videoSrc}
-            loop={true}
           />
 
         </div>
@@ -1114,6 +1105,10 @@ function Route() {
 
         <div className="route-overlay" />
 
+
+        {/* =================================================
+            TITLE
+        ================================================= */}
 
         <div
           ref={copyRef}
@@ -1145,27 +1140,38 @@ function Route() {
         </div>
 
 
+        {/* =================================================
+            ROUTE STEPS
+        ================================================= */}
+
         <div className="route-steps">
 
-          {steps.map((step, index) => (
+          {steps.map(
+            (step, index) => (
 
-            <div
-              key={step}
-              className="route-step"
-              data-route-step={index}
-            >
+              <div
 
-              <span className="route-step-number">
-                0{index + 1}
-              </span>
+                key={step}
 
-              <span className="route-step-name">
-                {step}
-              </span>
+                className="route-step"
 
-            </div>
+                data-route-step={index}
 
-          ))}
+              >
+
+                <span className="route-step-number">
+                  0{index + 1}
+                </span>
+
+
+                <span className="route-step-name">
+                  {step}
+                </span>
+
+              </div>
+
+            )
+          )}
 
         </div>
 
@@ -1198,7 +1204,9 @@ function InfrastructureScene({
 
 
   const videoSrc =
+
     scene.videoSrc ||
+
     `/assets/infrastructure/infrastructure-${String(
       index + 1
     ).padStart(2, "0")}.mp4`;
@@ -1212,25 +1220,26 @@ function InfrastructureScene({
 
     if (!element || !media || !copy) return;
 
+
     const ctx = gsap.context(() => {
 
 
-      /* -----------------------------------------------------
+      /* =====================================================
          VIDEO PARALLAX
-      ----------------------------------------------------- */
+      ===================================================== */
 
       gsap.fromTo(
 
         media,
 
         {
-          scale: 1.06,
-          yPercent: 4
+          scale: 1.04,
+          yPercent: 3
         },
 
         {
-          scale: 1.16,
-          yPercent: -4,
+          scale: 1.12,
+          yPercent: -3,
 
           ease: "none",
 
@@ -1242,7 +1251,6 @@ function InfrastructureScene({
             end: "bottom top",
 
             scrub: 0.8
-
           }
 
         }
@@ -1250,9 +1258,70 @@ function InfrastructureScene({
       );
 
 
-      /* -----------------------------------------------------
-         ENTRADA DEL TEXTO
-      ----------------------------------------------------- */
+      /* =====================================================
+         VIDEO FADE IN
+      ===================================================== */
+
+      gsap.fromTo(
+
+        media,
+
+        {
+          opacity: 0
+        },
+
+        {
+          opacity: 1,
+
+          ease: "power2.out",
+
+          scrollTrigger: {
+
+            trigger: element,
+
+            start: "top 95%",
+            end: "top 70%",
+
+            scrub: 0.6
+          }
+
+        }
+
+      );
+
+
+      /* =====================================================
+         VIDEO FADE OUT
+      ===================================================== */
+
+      gsap.to(
+
+        media,
+
+        {
+
+          opacity: 0.2,
+
+          ease: "power2.out",
+
+          scrollTrigger: {
+
+            trigger: element,
+
+            start: "bottom 35%",
+            end: "bottom top",
+
+            scrub: 0.6
+          }
+
+        }
+
+      );
+
+
+      /* =====================================================
+         TEXTO
+      ===================================================== */
 
       gsap.fromTo(
 
@@ -1260,12 +1329,9 @@ function InfrastructureScene({
 
         {
           opacity: 0,
-
-          x:
-            index % 2 === 0
-              ? -60
-              : 60
-
+          x: index % 2 === 0
+            ? -60
+            : 60
         },
 
         {
@@ -1282,40 +1348,6 @@ function InfrastructureScene({
             end: "center 48%",
 
             scrub: 0.8
-
-          }
-
-        }
-
-      );
-
-
-      /* -----------------------------------------------------
-         ENTRADA DE LA ESCENA
-      ----------------------------------------------------- */
-
-      gsap.fromTo(
-
-        element,
-
-        {
-          opacity: 0
-        },
-
-        {
-          opacity: 1,
-
-          ease: "power2.out",
-
-          scrollTrigger: {
-
-            trigger: element,
-
-            start: "top 90%",
-            end: "top 65%",
-
-            scrub: 0.6
-
           }
 
         }
@@ -1323,6 +1355,7 @@ function InfrastructureScene({
       );
 
     }, element);
+
 
     return () => ctx.revert();
 
@@ -1332,12 +1365,15 @@ function InfrastructureScene({
   return (
 
     <article
+
       ref={sceneRef}
+
       className={`infra-scene ${
         index % 2 === 1
           ? "reverse"
           : ""
       }`}
+
     >
 
       <div
@@ -1377,7 +1413,6 @@ function InfrastructureScene({
 
         <LoopVideo
           src={videoSrc}
-          loop={false}
         />
 
       </div>
@@ -1398,8 +1433,11 @@ function Infrastructure() {
   return (
 
     <section
+
       id="infrastructure"
+
       className="infrastructure cinematic-section"
+
     >
 
       <div className="section-no">
@@ -1437,9 +1475,13 @@ function Infrastructure() {
           (scene, index) => (
 
             <InfrastructureScene
+
               key={scene.number}
+
               scene={scene}
+
               index={index}
+
             />
 
           )
@@ -1466,7 +1508,9 @@ function Global() {
 
 
   const videoSrc =
+
     GLOBAL_PRESENCE.videoSrc ||
+
     "/assets/global/global.mp4";
 
 
@@ -1478,12 +1522,13 @@ function Global() {
 
     if (!section || !media || !copy) return;
 
+
     const ctx = gsap.context(() => {
 
 
-      /* -----------------------------------------------------
+      /* =====================================================
          VIDEO PARALLAX
-      ----------------------------------------------------- */
+      ===================================================== */
 
       gsap.fromTo(
 
@@ -1508,7 +1553,6 @@ function Global() {
             end: "bottom top",
 
             scrub: 0.8
-
           }
 
         }
@@ -1516,9 +1560,70 @@ function Global() {
       );
 
 
-      /* -----------------------------------------------------
+      /* =====================================================
+         VIDEO FADE IN
+      ===================================================== */
+
+      gsap.fromTo(
+
+        media,
+
+        {
+          opacity: 0
+        },
+
+        {
+          opacity: 1,
+
+          ease: "power2.out",
+
+          scrollTrigger: {
+
+            trigger: section,
+
+            start: "top 90%",
+            end: "top 65%",
+
+            scrub: 0.6
+          }
+
+        }
+
+      );
+
+
+      /* =====================================================
+         VIDEO FADE OUT
+      ===================================================== */
+
+      gsap.to(
+
+        media,
+
+        {
+
+          opacity: 0.25,
+
+          ease: "power2.out",
+
+          scrollTrigger: {
+
+            trigger: section,
+
+            start: "bottom 35%",
+            end: "bottom top",
+
+            scrub: 0.6
+          }
+
+        }
+
+      );
+
+
+      /* =====================================================
          TEXTO
-      ----------------------------------------------------- */
+      ===================================================== */
 
       gsap.fromTo(
 
@@ -1543,7 +1648,6 @@ function Global() {
             end: "center 45%",
 
             scrub: 0.8
-
           }
 
         }
@@ -1551,9 +1655,9 @@ function Global() {
       );
 
 
-      /* -----------------------------------------------------
+      /* =====================================================
          MAPA
-      ----------------------------------------------------- */
+      ===================================================== */
 
       gsap.fromTo(
 
@@ -1577,7 +1681,6 @@ function Global() {
             end: "center 40%",
 
             scrub: 0.9
-
           }
 
         }
@@ -1585,6 +1688,7 @@ function Global() {
       );
 
     }, section);
+
 
     return () => ctx.revert();
 
@@ -1594,9 +1698,13 @@ function Global() {
   return (
 
     <section
+
       ref={sectionRef}
+
       id="global"
+
       className="global cinematic-section"
+
     >
 
       <div
@@ -1606,7 +1714,6 @@ function Global() {
 
         <LoopVideo
           src={videoSrc}
-          loop={false}
         />
 
       </div>
@@ -1616,19 +1723,30 @@ function Global() {
 
 
       <svg
+
         className="route-svg"
+
         viewBox="0 0 1000 650"
+
         preserveAspectRatio="none"
+
       >
 
         <path
+
           className="map-line"
+
           d="M290 505 C420 420 470 350 610 250 C710 175 755 155 835 105"
+
         />
 
+
         <path
+
           className="map-line second"
+
           d="M290 505 C500 450 590 390 710 300 C790 240 830 190 885 155"
+
         />
 
       </svg>
@@ -1698,10 +1816,12 @@ function Footer() {
 
     <footer className="site-footer">
 
+
       <div className="footer-main">
 
 
         <div className="footer-brand">
+
 
           <div className="brand-large">
 
@@ -1755,6 +1875,7 @@ function Footer() {
           San Rey Produce
         </span>
 
+
         <span>
           Todos los derechos reservados.
         </span>
@@ -1793,6 +1914,7 @@ function App() {
         <Global />
 
       </main>
+
 
       <Footer />
 
