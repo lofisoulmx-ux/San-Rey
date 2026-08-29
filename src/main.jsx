@@ -83,22 +83,23 @@ function Hero() {
       */
 
       gsap.fromTo(
-        media,
-        {
-          scale: 1.02,
-          yPercent: 0
-        },
-        {
-          scale: 1.13,
-          yPercent: -4,
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: "bottom top",
-            scrub: 0.8
-          }
-        }
+  media,
+  {
+    scale: 1.03,
+    yPercent: 0
+  },
+  {
+    scale: 1.12,
+    yPercent: -3,
+    ease: "none",
+    scrollTrigger: {
+      trigger: section,
+      start: "top top",
+      end: "bottom top",
+      scrub: 0.35
+    }
+  }
+);
       );
 
 
