@@ -1,3 +1,7 @@
+/* =========================================================
+   SAN REY PRODUCE — CINEMATIC / SHARPLINK STYLE
+========================================================= */
+
 * {
   box-sizing: border-box;
 }
@@ -30,6 +34,7 @@ a {
 
 button {
   font: inherit;
+  border: 0;
 }
 
 img,
@@ -51,11 +56,14 @@ em,
 
 .site-header {
   position: fixed;
-  z-index: 100;
+  z-index: 1000;
+
   top: 0;
   left: 0;
+
   width: 100%;
-  height: 90px;
+  height: 88px;
+
   padding: 0 6vw;
 
   display: flex;
@@ -65,58 +73,68 @@ em,
   pointer-events: none;
 
   transform: translateZ(0);
-  will-change: opacity, transform;
+  will-change: transform, opacity;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 13px;
+  gap: 12px;
+
   pointer-events: auto;
 }
 
 .brand-mark {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
 
   display: grid;
   place-items: center;
 
-  border: 1px solid #76bd36;
+  border: 1px solid rgba(118, 189, 54, .8);
   border-radius: 50%;
 
-  font-size: 13px;
+  color: #f1f4ef;
+
+  font-size: 11px;
+  font-weight: 700;
   letter-spacing: .08em;
 }
 
 .brand-text b {
   display: block;
-  font-size: 17px;
+
+  font-size: 16px;
+  font-weight: 800;
+
   letter-spacing: .12em;
 }
 
 .brand-text small {
   display: block;
+
   margin-top: 3px;
 
   color: #76bd36;
 
-  font-size: 9px;
-  letter-spacing: .4em;
+  font-size: 8px;
+  letter-spacing: .42em;
 }
 
 .menu {
-  width: 54px;
-  height: 54px;
+  width: 50px;
+  height: 50px;
 
   display: grid;
   place-content: center;
   gap: 7px;
 
-  border: 1px solid #28302a;
+  border: 1px solid rgba(255,255,255,.15);
   border-radius: 50%;
 
-  background: rgba(5, 7, 6, .55);
+  background: rgba(5,7,6,.35);
+
+  backdrop-filter: blur(12px);
 
   pointer-events: auto;
   cursor: pointer;
@@ -125,10 +143,10 @@ em,
 .menu i {
   display: block;
 
-  width: 27px;
+  width: 24px;
   height: 1px;
 
-  background: #dce0dc;
+  background: #e5e9e5;
 }
 
 
@@ -138,17 +156,21 @@ em,
 
 .cinematic-section {
   position: relative;
+
   overflow: hidden;
+
   min-height: 100svh;
 }
 
 .section-no {
-  color: #8d978f;
+  color: rgba(190,198,192,.48);
 
-  font-size: 10px;
-  font-weight: 700;
+  font-size: 9px;
+  font-weight: 600;
 
-  letter-spacing: .32em;
+  letter-spacing: .38em;
+
+  text-transform: uppercase;
 }
 
 
@@ -157,7 +179,9 @@ em,
 ========================================================= */
 
 .hero {
-  height: 155svh;
+  position: relative;
+
+  height: 150svh;
   min-height: 850px;
 
   background: #050706;
@@ -189,12 +213,33 @@ em,
   object-fit: cover;
   object-position: center;
 
-  display: block;
-
-  transform: translateZ(0);
+  transform: translateZ(0) scale(1.02);
 
   backface-visibility: hidden;
+
+  will-change: transform, opacity;
 }
+
+
+/* CINEMATIC FADE */
+
+.hero-media::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(3,5,4,.25),
+      transparent 30%,
+      rgba(3,5,4,.72) 100%
+    );
+}
+
 
 .hero-vignette {
   position: absolute;
@@ -207,17 +252,12 @@ em,
   background:
     linear-gradient(
       90deg,
-      rgba(3, 5, 4, .82) 0%,
-      rgba(3, 5, 4, .35) 38%,
-      transparent 72%
-    ),
-    linear-gradient(
-      0deg,
-      rgba(3, 5, 4, .85) 0%,
-      transparent 35%,
-      rgba(3, 5, 4, .25) 100%
+      rgba(3,5,4,.86) 0%,
+      rgba(3,5,4,.38) 36%,
+      transparent 75%
     );
 }
+
 
 .hero-copy {
   position: absolute;
@@ -226,31 +266,32 @@ em,
   left: 7vw;
   bottom: 13vh;
 
-  max-width: 900px;
+  max-width: 950px;
 
   transform: translateZ(0);
 }
 
 .hero-kicker {
-  margin-bottom: 22px;
+  margin-bottom: 25px;
 
-  color: #a7afa9;
+  color: rgba(220,225,220,.65);
 
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
 
-  letter-spacing: .32em;
+  letter-spacing: .34em;
 }
 
 .hero h1 {
   margin: 0;
 
-  font-size: clamp(65px, 11vw, 170px);
+  font-size: clamp(70px, 11vw, 175px);
+
   font-weight: 900;
 
-  line-height: .83;
+  line-height: .80;
 
-  letter-spacing: -.07em;
+  letter-spacing: -.075em;
 }
 
 .hero-line {
@@ -258,13 +299,13 @@ em,
 }
 
 .hero-description {
-  margin: 34px 0 0;
+  margin: 35px 0 0;
 
-  color: #adb5ae;
+  color: rgba(210,218,211,.72);
 
-  font-size: 18px;
+  font-size: 16px;
 
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .scroll-cue {
@@ -274,16 +315,16 @@ em,
   left: 50%;
   bottom: 4%;
 
-  transform: translate3d(-50%, 0, 0);
-
   display: flex;
   align-items: center;
 
-  gap: 15px;
+  gap: 14px;
 
-  color: #8b938e;
+  transform: translateX(-50%);
 
-  font-size: 9px;
+  color: rgba(200,208,202,.55);
+
+  font-size: 8px;
 
   letter-spacing: .35em;
 
@@ -292,94 +333,9 @@ em,
 
 .scroll-cue span {
   width: 1px;
-  height: 42px;
+  height: 40px;
 
   background: #76bd36;
-}
-
-
-/* =========================================================
-   FRAME SEQUENCES
-========================================================= */
-
-.frame-sequence {
-  position: absolute;
-
-  inset: 0;
-
-  overflow: hidden;
-
-  background: #080d09;
-
-  transform: translateZ(0);
-
-  backface-visibility: hidden;
-
-  contain: layout paint;
-}
-
-.frame-sequence img {
-  position: absolute;
-
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  opacity: 0;
-
-  user-select: none;
-  pointer-events: none;
-
-  transition: none;
-
-  transform: translateZ(0);
-
-  backface-visibility: hidden;
-
-  will-change: contents;
-}
-
-.frame-sequence.has-media img {
-  opacity: 1;
-}
-
-.sequence-placeholder {
-  position: absolute;
-
-  inset: 0;
-
-  display: grid;
-
-  place-items: center;
-
-  background:
-    radial-gradient(
-      circle at 50% 45%,
-      rgba(118, 189, 54, .12),
-      transparent 35%
-    ),
-    linear-gradient(
-      145deg,
-      #101a12,
-      #030504
-    );
-}
-
-.sequence-placeholder span {
-  color: #526153;
-
-  font-size: clamp(30px, 6vw, 90px);
-
-  font-weight: 900;
-
-  letter-spacing: -.06em;
-}
-
-.frame-sequence.has-media .sequence-placeholder {
-  opacity: 0;
 }
 
 
@@ -392,60 +348,40 @@ em,
 
   min-height: 225svh;
 
-  padding-top: 12vh;
-
   background:
     radial-gradient(
-      circle at 50% 10%,
-      #101710 0%,
-      #070a08 42%,
-      #050706 75%
+      circle at 50% 0%,
+      #111811 0%,
+      #070a08 45%,
+      #050706 100%
     );
 }
 
 .products > .section-no {
   position: absolute;
 
-  top: 8vh;
-  left: 7vw;
-
   z-index: 20;
 
-  color: rgba(190, 198, 192, .42);
-
-  font-size: 9px;
-
-  font-weight: 600;
-
-  letter-spacing: .42em;
-
-  text-transform: uppercase;
+  top: 7vh;
+  left: 7vw;
 }
 
-
-/* =========================================================
-   PRODUCT INTRO
-========================================================= */
 
 .product-intro {
   position: relative;
   z-index: 5;
 
-  min-height: 52vh;
+  min-height: 55vh;
 
   max-width: 1500px;
 
   margin: 0 auto;
 
-  padding:
-    14vh
-    7vw
-    8vh;
+  padding: 14vh 7vw 8vh;
 
   display: flex;
 
   align-items: flex-end;
-
   justify-content: space-between;
 
   gap: 80px;
@@ -454,43 +390,25 @@ em,
 .product-intro h2 {
   margin: 0;
 
-  font-size:
-    clamp(
-      58px,
-      8vw,
-      125px
-    );
+  font-size: clamp(60px, 8vw, 130px);
 
   font-weight: 900;
 
-  line-height: .82;
+  line-height: .80;
 
   letter-spacing: -.075em;
-
-  text-wrap: balance;
-}
-
-.product-intro h2 em {
-  color: #76bd36;
 }
 
 .product-intro p {
-  width: 100%;
-
   max-width: 350px;
 
-  margin:
-    0
-    0
-    10px;
+  margin: 0 0 10px;
 
-  color: rgba(175, 184, 177, .65);
+  color: rgba(175,184,177,.62);
 
-  font-size: 13px;
+  font-size: 12px;
 
   line-height: 1.9;
-
-  letter-spacing: .01em;
 }
 
 
@@ -508,37 +426,36 @@ em,
   position: relative;
 
   height: 108svh;
-
   min-height: 720px;
 
   overflow: hidden;
 
-  contain: paint;
-
   background: #050706;
 }
+
+
+/* subtle separator */
+
+.product-scene + .product-scene {
+  border-top: 1px solid rgba(255,255,255,.025);
+}
+
 
 .product-scene::after {
   content: "";
 
   position: absolute;
-
   z-index: 3;
 
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  height: 22%;
+  inset: 0;
 
   pointer-events: none;
 
   background:
     linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgba(5, 7, 6, .35) 45%,
-      #050706 100%
+      0deg,
+      rgba(3,5,4,.88),
+      transparent 40%
     );
 }
 
@@ -549,33 +466,34 @@ em,
 
 .product-scene-media {
   position: absolute;
-
   z-index: 0;
 
   inset: -6%;
 
   overflow: hidden;
 
-  transform-origin: center center;
-
-  will-change: transform;
-
   transform:
-    translate3d(0, 0, 0)
+    translate3d(0,0,0)
     scale(1.001);
+
+  transform-origin: center;
+
+  will-change: transform, opacity;
 
   backface-visibility: hidden;
 }
 
 .product-scene-media .scene-video {
+  position: absolute;
+
+  inset: 0;
+
   width: 100%;
   height: 100%;
 
   object-fit: cover;
 
-  object-position: center;
-
-  transform: translate3d(0, 0, 0);
+  transform: translateZ(0);
 
   backface-visibility: hidden;
 }
@@ -587,7 +505,6 @@ em,
 
 .product-scene-overlay {
   position: absolute;
-
   z-index: 2;
 
   inset: 0;
@@ -595,51 +512,35 @@ em,
   pointer-events: none;
 
   background:
-
     linear-gradient(
       90deg,
-      rgba(3, 5, 4, .82) 0%,
-      rgba(3, 5, 4, .56) 22%,
-      rgba(3, 5, 4, .18) 52%,
-      transparent 78%
+      rgba(3,5,4,.84),
+      rgba(3,5,4,.38) 35%,
+      transparent 75%
     ),
 
     linear-gradient(
       0deg,
-      rgba(3, 5, 4, .88) 0%,
-      rgba(3, 5, 4, .34) 24%,
-      transparent 58%
-    ),
-
-    radial-gradient(
-      ellipse at center,
-      transparent 35%,
-      rgba(0, 0, 0, .18) 72%,
-      rgba(0, 0, 0, .48) 100%
+      rgba(3,5,4,.85),
+      transparent 55%
     );
 }
 
 
 /* =========================================================
-   PRODUCT TYPOGRAPHY
+   PRODUCT COPY
 ========================================================= */
 
 .product-scene-copy {
   position: absolute;
-
   z-index: 8;
 
   left: 9vw;
   bottom: 13vh;
 
-  width: min(520px, 42vw);
+  width: min(520px, 45vw);
 
-  transform: translate3d(0, 0, 0);
-
-  will-change:
-    transform,
-    opacity,
-    filter;
+  will-change: transform, opacity;
 }
 
 .product-scene-copy::before {
@@ -650,22 +551,38 @@ em,
   width: 42px;
   height: 1px;
 
-  margin-bottom: 26px;
+  margin-bottom: 25px;
 
   background: #76bd36;
+}
 
-  opacity: .85;
+.product-scene-index {
+  display: block;
+
+  margin-bottom: 15px;
+
+  color: rgba(255,255,255,.42);
+
+  font-size: 8px;
+
+  letter-spacing: .25em;
+}
+
+.product-scene-kicker {
+  margin-bottom: 17px;
+
+  color: #76bd36;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: .3em;
 }
 
 .product-scene h3 {
   margin: 0;
 
-  font-size:
-    clamp(
-      64px,
-      9vw,
-      145px
-    );
+  font-size: clamp(60px, 8vw, 135px);
 
   font-weight: 900;
 
@@ -673,66 +590,36 @@ em,
 
   letter-spacing: -.075em;
 
-  color: #f1f4f0;
-
   text-transform: uppercase;
 
-  text-wrap: balance;
-
   text-shadow:
-    0 8px 35px rgba(0, 0, 0, .28);
+    0 8px 40px rgba(0,0,0,.35);
 }
 
 .product-scene-en {
-  margin-top: 22px;
+  margin-top: 20px;
 
-  color: #76bd36;
+  color: rgba(230,235,230,.75);
 
-  font-size: 12px;
+  font-size: 10px;
 
   font-weight: 600;
 
-  letter-spacing: .24em;
+  letter-spacing: .25em;
 
   text-transform: uppercase;
-
-  opacity: .92;
 }
 
 .product-scene-copy p {
-  width: 100%;
-
   max-width: 370px;
 
-  margin:
-    22px
-    0
-    0;
+  margin: 22px 0 0;
 
-  color:
-    rgba(
-      218,
-      224,
-      219,
-      .68
-    );
+  color: rgba(220,226,221,.68);
 
-  font-size: 14px;
+  font-size: 13px;
 
-  font-weight: 400;
-
-  line-height: 1.85;
-
-  letter-spacing: .015em;
-}
-
-.product-scene-copy h3,
-.product-scene-copy .product-scene-en,
-.product-scene-copy p {
-  will-change:
-    transform,
-    opacity,
-    filter;
+  line-height: 1.8;
 }
 
 
@@ -744,7 +631,6 @@ em,
   position: relative;
 
   height: 145svh;
-
   min-height: 850px;
 
   background: #080b09;
@@ -763,25 +649,28 @@ em,
 
   inset: -6%;
 
-  transform-origin: center;
+  overflow: hidden;
 
   transform: translateZ(0);
 
+  will-change: transform, opacity;
+
   backface-visibility: hidden;
-
-  will-change: transform;
-
-  overflow: hidden;
 }
 
 .route-sequence .scene-video {
+  position: absolute;
+
+  inset: 0;
+
   width: 100%;
   height: 100%;
+
+  object-fit: cover;
 }
 
 .route-overlay {
   position: absolute;
-
   z-index: 2;
 
   inset: 0;
@@ -791,45 +680,46 @@ em,
   background:
     linear-gradient(
       90deg,
-      rgba(5, 7, 6, .78),
-      transparent 70%
+      rgba(3,5,4,.84),
+      rgba(3,5,4,.28) 45%,
+      transparent 80%
     ),
+
     linear-gradient(
       0deg,
-      rgba(5, 7, 6, .7),
-      transparent 45%
+      rgba(3,5,4,.75),
+      transparent 55%
     );
 }
 
 .route-copy {
   position: absolute;
-
   z-index: 5;
 
   left: 7vw;
-  top: 22%;
-
-  transform: translateZ(0);
+  top: 20%;
 }
 
 .route h2 {
-  margin: 0;
+  margin: 20px 0 0;
 
-  font-size: clamp(55px, 8vw, 125px);
+  font-size: clamp(60px, 8vw, 130px);
 
   font-weight: 900;
 
-  line-height: .84;
+  line-height: .80;
 
-  letter-spacing: -.07em;
+  letter-spacing: -.075em;
 }
 
 .route-copy p {
   max-width: 430px;
 
-  color: #a0a9a2;
+  margin-top: 28px;
 
-  line-height: 1.7;
+  color: rgba(200,208,202,.68);
+
+  line-height: 1.75;
 }
 
 
@@ -839,7 +729,6 @@ em,
 
 .route-steps {
   position: absolute;
-
   z-index: 6;
 
   top: 24%;
@@ -848,17 +737,13 @@ em,
   width: 230px;
 
   display: flex;
-
   flex-direction: column;
 
   gap: 28px;
-
-  transform: translateZ(0);
 }
 
 .route-step {
   display: flex;
-
   align-items: center;
 
   gap: 14px;
@@ -871,36 +756,31 @@ em,
 .route-step-number {
   color: #76bd36;
 
-  font-size: 9px;
-
+  font-size: 8px;
   font-weight: 700;
 
   letter-spacing: .15em;
 }
 
 .route-step-name {
-  color: #dce2dc;
+  color: rgba(230,235,230,.82);
 
-  font-size: 10px;
-
+  font-size: 9px;
   font-weight: 600;
 
-  letter-spacing: .2em;
-
-  white-space: nowrap;
+  letter-spacing: .22em;
 }
 
 .route-caption {
   position: absolute;
-
   z-index: 5;
 
   left: 7vw;
   bottom: 6%;
 
-  color: #778078;
+  color: rgba(130,140,132,.6);
 
-  font-size: 9px;
+  font-size: 8px;
 
   letter-spacing: .3em;
 }
@@ -908,112 +788,122 @@ em,
 
 /* =========================================================
    INFRASTRUCTURE
-   CONTINUOUS CINEMATIC SEQUENCE
 ========================================================= */
 
 .infrastructure {
   position: relative;
 
   height: 500svh;
-
   min-height: 3600px;
-
-  padding: 0;
 
   background: #050706;
 
   overflow: clip;
 }
 
-
-/* ---------------------------------------------------------
-   SECTION NUMBER
---------------------------------------------------------- */
-
 .infrastructure > .section-no {
   position: absolute;
-
   z-index: 50;
 
   top: 7vh;
   left: 7vw;
 
-  color: rgba(190, 198, 192, .42);
-
-  font-size: 9px;
-
-  font-weight: 600;
-
-  letter-spacing: .42em;
-
-  text-transform: uppercase;
-
   pointer-events: none;
 }
 
 
-/* ---------------------------------------------------------
-   FIXED / PINNED STAGE
---------------------------------------------------------- */
+/* =========================================================
+   INFRA HEAD
+========================================================= */
 
-.infra-stage {
-  position: relative;
+.infra-head {
+  position: absolute;
+  z-index: 20;
 
-  width: 100%;
-  height: 100svh;
+  top: 13vh;
+  left: 7vw;
 
-  min-height: 700px;
+  max-width: 900px;
+
+  pointer-events: none;
+}
+
+.infra-head h2 {
+  margin: 0;
+
+  font-size: clamp(50px, 7vw, 115px);
+
+  font-weight: 900;
+
+  line-height: .82;
+
+  letter-spacing: -.075em;
+
+  text-shadow:
+    0 10px 45px rgba(0,0,0,.4);
+}
+
+.infra-head p {
+  max-width: 390px;
+
+  margin-top: 28px;
+
+  color: rgba(200,208,202,.62);
+
+  font-size: 13px;
+
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   INFRA STACK
+========================================================= */
+
+.infra-stack {
+  position: absolute;
+
+  inset: 0;
+}
+
+
+/* =========================================================
+   INFRA SCENE
+========================================================= */
+
+.infra-scene {
+  position: absolute;
+
+  inset: 0;
 
   overflow: hidden;
 
   background: #050706;
-
-  transform: translateZ(0);
-
-  backface-visibility: hidden;
 }
 
 
-/* ---------------------------------------------------------
-   VIDEO STACK
---------------------------------------------------------- */
+/* =========================================================
+   INFRA VIDEO
+========================================================= */
 
-.infra-video-stack {
+.infra-sequence {
   position: absolute;
-
   z-index: 0;
 
-  inset: 0;
+  inset: -5%;
 
   overflow: hidden;
-
-  background: #050706;
-}
-
-.infra-video-scene {
-  position: absolute;
-
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  overflow: hidden;
-
-  opacity: 0;
 
   transform:
-    translate3d(0, 0, 0)
-    scale(1.06);
+    translate3d(0,0,0)
+    scale(1.04);
 
-  will-change:
-    opacity,
-    transform;
+  will-change: transform, opacity;
 
   backface-visibility: hidden;
 }
 
-.infra-video-scene .scene-video {
+.infra-sequence .scene-video {
   position: absolute;
 
   inset: 0;
@@ -1022,25 +912,17 @@ em,
   height: 100%;
 
   object-fit: cover;
-
-  object-position: center;
-
-  transform:
-    translate3d(0, 0, 0);
-
-  will-change: transform;
-
-  backface-visibility: hidden;
 }
 
 
-/* ---------------------------------------------------------
-   CINEMATIC OVERLAY
---------------------------------------------------------- */
+/* =========================================================
+   INFRA CINEMATIC OVERLAY
+========================================================= */
 
-.infra-overlay {
+.infra-scene::after {
+  content: "";
+
   position: absolute;
-
   z-index: 2;
 
   inset: 0;
@@ -1048,122 +930,39 @@ em,
   pointer-events: none;
 
   background:
-
     linear-gradient(
       90deg,
-      rgba(3, 5, 4, .88) 0%,
-      rgba(3, 5, 4, .58) 24%,
-      rgba(3, 5, 4, .22) 52%,
-      transparent 82%
+      rgba(3,5,4,.86),
+      rgba(3,5,4,.42) 38%,
+      transparent 80%
     ),
 
     linear-gradient(
       0deg,
-      rgba(3, 5, 4, .90) 0%,
-      rgba(3, 5, 4, .30) 28%,
-      transparent 65%
-    ),
-
-    radial-gradient(
-      ellipse at center,
-      transparent 35%,
-      rgba(0, 0, 0, .18) 70%,
-      rgba(0, 0, 0, .55) 100%
+      rgba(3,5,4,.88),
+      transparent 55%
     );
 }
 
 
-/* ---------------------------------------------------------
-   INFRA TITLE
---------------------------------------------------------- */
+/* =========================================================
+   INFRA COPY
+========================================================= */
 
-.infra-title {
+.infra-copy {
   position: absolute;
-
   z-index: 10;
 
   left: 7vw;
-  top: 13vh;
-
-  max-width: 900px;
-
-  pointer-events: none;
-}
-
-.infra-title .section-no {
-  margin-bottom: 25px;
-}
-
-.infra-title h2 {
-  margin: 0;
-
-  font-size:
-    clamp(
-      48px,
-      7vw,
-      110px
-    );
-
-  font-weight: 900;
-
-  line-height: .84;
-
-  letter-spacing: -.07em;
-
-  text-wrap: balance;
-
-  text-shadow:
-    0 8px 40px rgba(0, 0, 0, .45);
-}
-
-.infra-title p {
-  max-width: 390px;
-
-  margin-top: 28px;
-
-  color: rgba(200, 208, 202, .65);
-
-  font-size: 13px;
-
-  line-height: 1.8;
-}
-
-
-/* ---------------------------------------------------------
-   INFRA CONTENT
---------------------------------------------------------- */
-
-.infra-content {
-  position: absolute;
-
-  z-index: 10;
-
-  left: 7vw;
-  bottom: 11vh;
+  bottom: 12vh;
 
   width: min(540px, 48vw);
 
-  min-height: 240px;
-
-  pointer-events: none;
-}
-
-.cinematic-infra-copy {
-  position: absolute;
-
-  left: 0;
-  bottom: 0;
-
-  width: 100%;
-
   opacity: 0;
 
-  transform:
-    translate3d(0, 35px, 0);
+  transform: translate3d(0,40px,0);
 
-  will-change:
-    opacity,
-    transform;
+  will-change: transform, opacity;
 }
 
 .infra-kicker {
@@ -1171,8 +970,7 @@ em,
 
   color: #76bd36;
 
-  font-size: 9px;
-
+  font-size: 8px;
   font-weight: 700;
 
   letter-spacing: .3em;
@@ -1183,107 +981,27 @@ em,
 .infra-copy h3 {
   margin: 0;
 
-  max-width: 600px;
-
-  font-size:
-    clamp(
-      42px,
-      5.5vw,
-      82px
-    );
+  font-size: clamp(45px, 5.5vw, 85px);
 
   font-weight: 900;
 
-  line-height: .86;
+  line-height: .84;
 
-  letter-spacing: -.06em;
+  letter-spacing: -.065em;
 
   text-transform: uppercase;
-
-  text-shadow:
-    0 8px 35px rgba(0, 0, 0, .38);
 }
 
 .infra-copy p {
   max-width: 390px;
 
-  margin-top: 26px;
+  margin-top: 25px;
 
-  color: rgba(220, 226, 221, .70);
+  color: rgba(220,226,221,.68);
 
-  font-size: 14px;
+  font-size: 13px;
 
   line-height: 1.8;
-}
-
-
-/* ---------------------------------------------------------
-   INFRA PROGRESS
---------------------------------------------------------- */
-
-.infra-progress {
-  display: flex;
-
-  align-items: center;
-
-  gap: 13px;
-
-  margin-top: 30px;
-
-  color: #7e8981;
-
-  font-size: 8px;
-
-  letter-spacing: .2em;
-}
-
-.infra-progress i {
-  display: block;
-
-  width: 80px;
-  height: 1px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #76bd36,
-      rgba(118, 189, 54, .15)
-    );
-}
-
-
-/* ---------------------------------------------------------
-   INFRA SEQUENCE LABEL
---------------------------------------------------------- */
-
-.infra-sequence-label {
-  position: absolute;
-
-  z-index: 15;
-
-  right: 7vw;
-  bottom: 8vh;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 16px;
-
-  color: rgba(190, 198, 192, .48);
-
-  font-size: 8px;
-
-  letter-spacing: .28em;
-
-  pointer-events: none;
-}
-
-.infra-sequence-line {
-  width: 55px;
-  height: 1px;
-
-  background: rgba(118, 189, 54, .45);
 }
 
 
@@ -1292,8 +1010,9 @@ em,
 ========================================================= */
 
 .global {
-  height: 120svh;
+  position: relative;
 
+  height: 120svh;
   min-height: 800px;
 
   background: #030504;
@@ -1304,25 +1023,28 @@ em,
 
   inset: -6%;
 
-  transform-origin: center;
+  overflow: hidden;
 
   transform: translateZ(0);
 
+  will-change: transform, opacity;
+
   backface-visibility: hidden;
-
-  will-change: transform;
-
-  overflow: hidden;
 }
 
 .global-sequence .scene-video {
+  position: absolute;
+
+  inset: 0;
+
   width: 100%;
   height: 100%;
+
+  object-fit: cover;
 }
 
 .global-overlay {
   position: absolute;
-
   z-index: 2;
 
   inset: 0;
@@ -1332,15 +1054,14 @@ em,
   background:
     radial-gradient(
       circle at center,
-      transparent 20%,
-      rgba(3, 5, 4, .4) 65%,
+      transparent 15%,
+      rgba(3,5,4,.4) 65%,
       #030504 100%
     );
 }
 
 .route-svg {
   position: absolute;
-
   z-index: 3;
 
   inset: 0;
@@ -1361,12 +1082,11 @@ em,
   stroke-linecap: round;
 
   stroke-dasharray: 700;
-
   stroke-dashoffset: 700;
 
   filter:
     drop-shadow(
-      0 0 8px rgba(118, 189, 54, .5)
+      0 0 8px rgba(118,189,54,.5)
     );
 }
 
@@ -1378,43 +1098,41 @@ em,
 
 .global-copy {
   position: absolute;
-
   z-index: 5;
 
   left: 7vw;
   top: 20%;
-
-  transform: translateZ(0);
 }
 
 .global h2 {
-  margin: 0;
+  margin: 20px 0 0;
 
-  font-size: clamp(55px, 8vw, 125px);
+  font-size: clamp(60px, 8vw, 130px);
 
   font-weight: 900;
 
-  line-height: .84;
+  line-height: .80;
 
-  letter-spacing: -.07em;
+  letter-spacing: -.075em;
 }
 
 .global-copy p {
   max-width: 430px;
 
-  color: #a0a9a2;
+  margin-top: 28px;
+
+  color: rgba(200,208,202,.68);
 
   line-height: 1.7;
 }
 
 .location {
   position: absolute;
-
   z-index: 6;
 
-  color: #e2e7e2;
+  color: rgba(230,235,230,.8);
 
-  font-size: 10px;
+  font-size: 9px;
 
   letter-spacing: .2em;
 }
@@ -1432,7 +1150,7 @@ em,
   background: #76bd36;
 
   box-shadow:
-    0 0 15px #76bd36;
+    0 0 15px rgba(118,189,54,.8);
 }
 
 .mexico {
@@ -1457,7 +1175,7 @@ em,
 
   background: #030504;
 
-  border-top: 1px solid #202820;
+  border-top: 1px solid rgba(255,255,255,.06);
 }
 
 .footer-main {
@@ -1470,14 +1188,13 @@ em,
   display: flex;
 
   align-items: flex-end;
-
   justify-content: space-between;
 
   gap: 60px;
 }
 
 .brand-large {
-  font-size: clamp(35px, 5vw, 62px);
+  font-size: clamp(35px,5vw,62px);
 
   font-weight: 900;
 
@@ -1493,7 +1210,7 @@ em,
 
   color: #76bd36;
 
-  font-size: 9px;
+  font-size: 8px;
 
   letter-spacing: .5em;
 }
@@ -1503,7 +1220,7 @@ em,
 
   color: #707a72;
 
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .footer-social {
@@ -1517,7 +1234,7 @@ em,
 
   color: #737d75;
 
-  font-size: 9px;
+  font-size: 8px;
 
   letter-spacing: .3em;
 }
@@ -1531,7 +1248,7 @@ em,
 .social-links a {
   color: #dce1dc;
 
-  font-size: 12px;
+  font-size: 11px;
 
   letter-spacing: .12em;
 }
@@ -1553,7 +1270,7 @@ em,
 
   color: #555e57;
 
-  font-size: 9px;
+  font-size: 8px;
 
   letter-spacing: .12em;
 
@@ -1562,7 +1279,7 @@ em,
 
 
 /* =========================================================
-   CINEMATIC LOOP VIDEOS
+   GENERIC VIDEO
 ========================================================= */
 
 .scene-video {
@@ -1578,10 +1295,7 @@ em,
   display: block;
 
   pointer-events: none;
-
   user-select: none;
-
-  will-change: transform;
 
   transform: translateZ(0);
 
@@ -1595,42 +1309,37 @@ em,
 
 @media (max-width: 760px) {
 
-  /* -------------------------------------------------------
-     HEADER
-  ------------------------------------------------------- */
-
   .site-header {
-    height: 76px;
+    height: 72px;
 
     padding: 0 20px;
   }
 
   .brand-mark {
-    width: 38px;
-    height: 38px;
+    width: 37px;
+    height: 37px;
+
+    font-size: 10px;
   }
 
   .brand-text b {
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .brand-text small {
-    font-size: 8px;
+    font-size: 7px;
   }
 
   .menu {
-    width: 46px;
-    height: 46px;
+    width: 44px;
+    height: 44px;
   }
 
 
-  /* -------------------------------------------------------
-     HERO
-  ------------------------------------------------------- */
+  /* HERO */
 
   .hero {
     height: 135svh;
-
     min-height: 720px;
   }
 
@@ -1640,63 +1349,43 @@ em,
 
   .hero-copy {
     left: 7vw;
-    right: 6vw;
+    right: 7vw;
 
-    bottom: 12vh;
+    bottom: 11vh;
   }
 
   .hero-kicker {
     margin-bottom: 18px;
 
-    font-size: 8px;
-
-    letter-spacing: .25em;
+    font-size: 7px;
   }
 
   .hero h1 {
     font-size: 17vw;
 
-    line-height: .85;
+    line-height: .82;
   }
 
   .hero-description {
     margin-top: 25px;
 
-    font-size: 13px;
-
-    line-height: 1.65;
+    font-size: 12px;
   }
 
   .scroll-cue {
-    bottom: 3%;
-
-    font-size: 7px;
-
-    letter-spacing: .25em;
-  }
-
-  .scroll-cue span {
-    height: 32px;
+    font-size: 6px;
   }
 
 
-  /* -------------------------------------------------------
-     PRODUCTS
-  ------------------------------------------------------- */
+  /* PRODUCTS */
 
   .products {
     min-height: 220svh;
-
-    padding-top: 8vh;
   }
 
   .products > .section-no {
-    top: 6vh;
+    top: 5vh;
     left: 7vw;
-
-    font-size: 7px;
-
-    letter-spacing: .35em;
   }
 
   .product-intro {
@@ -1712,35 +1401,24 @@ em,
 
   .product-intro h2 {
     font-size: 17vw;
-
-    line-height: .82;
   }
 
   .product-intro p {
-    max-width: 290px;
+    max-width: 280px;
 
     margin-top: 28px;
 
-    font-size: 11px;
-
-    line-height: 1.8;
+    font-size: 10px;
   }
-
-
-  /* PRODUCT SCENES */
 
   .product-scene {
     height: 105svh;
-
     min-height: 680px;
   }
 
   .product-scene-media {
     inset: -5%;
   }
-
-
-  /* PRODUCT TEXT */
 
   .product-scene-copy {
     left: 7vw;
@@ -1749,82 +1427,29 @@ em,
     bottom: 9vh;
 
     width: auto;
-
-    max-width: 390px;
-  }
-
-  .product-scene-copy::before {
-    width: 30px;
-
-    margin-bottom: 20px;
   }
 
   .product-scene h3 {
     font-size: 18vw;
-
-    line-height: .8;
-  }
-
-  .product-scene-en {
-    margin-top: 17px;
-
-    font-size: 9px;
-
-    letter-spacing: .2em;
   }
 
   .product-scene-copy p {
     max-width: 285px;
 
-    margin-top: 18px;
-
-    font-size: 11px;
-
-    line-height: 1.75;
+    font-size: 10.5px;
   }
 
 
-  /* PRODUCT OVERLAY */
-
-  .product-scene-overlay {
-    background:
-
-      linear-gradient(
-        90deg,
-        rgba(3, 5, 4, .76),
-        rgba(3, 5, 4, .22) 65%,
-        transparent
-      ),
-
-      linear-gradient(
-        0deg,
-        rgba(3, 5, 4, .92),
-        rgba(3, 5, 4, .20) 55%,
-        transparent
-      ),
-
-      radial-gradient(
-        ellipse at center,
-        transparent 35%,
-        rgba(0, 0, 0, .42) 100%
-      );
-  }
-
-
-  /* -------------------------------------------------------
-     ROUTE
-  ------------------------------------------------------- */
+  /* ROUTE */
 
   .route {
     height: 135svh;
-
     min-height: 780px;
   }
 
   .route-copy {
     left: 7vw;
-
-    top: 15%;
+    top: 14%;
   }
 
   .route h2 {
@@ -1832,195 +1457,75 @@ em,
   }
 
   .route-copy p {
-    max-width: 260px;
+    max-width: 270px;
 
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .route-steps {
     top: 40%;
-
     right: 7%;
 
     width: 170px;
 
-    gap: 23px;
-  }
-
-  .route-step {
-    gap: 9px;
-  }
-
-  .route-step-number {
-    font-size: 7px;
+    gap: 22px;
   }
 
   .route-step-name {
-    font-size: 8px;
-
-    letter-spacing: .16em;
-  }
-
-  .route-caption {
-    left: 7vw;
-
     font-size: 7px;
   }
 
 
-  /* -------------------------------------------------------
-     INFRASTRUCTURE
-  ------------------------------------------------------- */
+  /* INFRASTRUCTURE */
 
   .infrastructure {
     height: 500svh;
-
     min-height: 3000px;
-
-    overflow: clip;
   }
 
-  .infrastructure > .section-no {
-    top: 6vh;
-    left: 7vw;
+  .infra-head {
+    top: 11vh;
 
-    font-size: 7px;
-
-    letter-spacing: .35em;
-  }
-
-
-  /* STAGE */
-
-  .infra-stage {
-    height: 100svh;
-
-    min-height: 650px;
-  }
-
-
-  /* TITLE */
-
-  .infra-title {
     left: 7vw;
     right: 7vw;
-
-    top: 12vh;
-
-    max-width: none;
   }
 
-  .infra-title .section-no {
-    display: none;
-  }
-
-  .infra-title h2 {
+  .infra-head h2 {
     font-size: 13.5vw;
-
-    line-height: .86;
-
-    letter-spacing: -.065em;
   }
 
-  .infra-title p {
+  .infra-head p {
     max-width: 280px;
 
-    margin-top: 20px;
-
-    font-size: 11px;
-
-    line-height: 1.7;
+    font-size: 10px;
   }
 
-
-  /* CONTENT */
-
-  .infra-content {
+  .infra-copy {
     left: 7vw;
     right: 7vw;
 
     bottom: 9vh;
 
     width: auto;
-
-    min-height: 225px;
   }
 
   .infra-copy h3 {
     max-width: 340px;
 
     font-size: 12.5vw;
-
-    line-height: .86;
   }
 
   .infra-copy p {
     max-width: 285px;
 
-    margin-top: 20px;
-
-    font-size: 11px;
-
-    line-height: 1.7;
-  }
-
-  .infra-kicker {
-    margin-bottom: 15px;
-
-    font-size: 7px;
-
-    letter-spacing: .25em;
+    font-size: 10.5px;
   }
 
 
-  /* PROGRESS */
-
-  .infra-progress {
-    margin-top: 22px;
-
-    gap: 9px;
-
-    font-size: 7px;
-  }
-
-  .infra-progress i {
-    width: 55px;
-  }
-
-
-  /* LABEL */
-
-  .infra-sequence-label {
-    right: 7vw;
-
-    bottom: 4vh;
-
-    gap: 9px;
-
-    font-size: 6px;
-
-    letter-spacing: .18em;
-  }
-
-  .infra-sequence-line {
-    width: 30px;
-  }
-
-
-  /* VIDEO */
-
-  .infra-video-scene .scene-video {
-    object-position: center center;
-  }
-
-
-  /* -------------------------------------------------------
-     GLOBAL
-  ------------------------------------------------------- */
+  /* GLOBAL */
 
   .global {
     height: 120svh;
-
     min-height: 740px;
   }
 
@@ -2031,18 +1536,14 @@ em,
     top: 12%;
   }
 
-  .global-copy h2 {
+  .global h2 {
     font-size: 15vw;
   }
 
   .global-copy p {
     max-width: 290px;
 
-    margin-top: 20px;
-
-    font-size: 12px;
-
-    line-height: 1.6;
+    font-size: 11px;
   }
 
   .global-sequence {
@@ -2051,30 +1552,21 @@ em,
 
   .route-svg {
     top: 5%;
-
     height: 75%;
-  }
-
-  .location {
-    font-size: 8px;
   }
 
   .mexico {
     left: 17%;
-
     bottom: 30%;
   }
 
   .usa {
     right: 9%;
-
     top: 43%;
   }
 
 
-  /* -------------------------------------------------------
-     FOOTER
-  ------------------------------------------------------- */
+  /* FOOTER */
 
   .site-footer {
     padding:
@@ -2090,15 +1582,14 @@ em,
   }
 
   .footer-social {
-    margin-top: 50px;
+    margin-top: 45px;
 
     text-align: left;
   }
 
   .social-links {
     flex-wrap: wrap;
-
-    gap: 22px;
+    gap: 20px;
   }
 
   .footer-bottom {
@@ -2106,7 +1597,6 @@ em,
 
     line-height: 2;
   }
-
 }
 
 
@@ -2116,26 +1606,16 @@ em,
 
 @media (max-width: 420px) {
 
-  .infra-title h2 {
-    font-size: 13vw;
+  .hero h1 {
+    font-size: 16.5vw;
   }
 
-  .infra-content {
-    bottom: 10vh;
+  .infra-head h2 {
+    font-size: 13vw;
   }
 
   .infra-copy h3 {
     font-size: 12vw;
-  }
-
-  .infra-copy p {
-    max-width: 270px;
-
-    font-size: 10.5px;
-  }
-
-  .infra-sequence-label {
-    display: none;
   }
 
 }
