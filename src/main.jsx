@@ -525,7 +525,7 @@ function Route() {
 
   const videoSrc =
     ROUTE.videoSrc ||
-    "/assets/route/route.mp4";
+    "/assets/route/ruta.mp4";
 
   useEffect(() => {
 
