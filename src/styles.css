@@ -2601,3 +2601,21 @@ em,
     min-height: 650px;
   }
 }
+/* =========================================================
+   ROUTE MOBILE FIX
+========================================================= */
+
+@media (max-width: 760px) {
+
+  .route {
+    height: 800vh !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .route-sticky {
+    height: 100svh;
+    min-height: 620px;
+  }
+
+}
