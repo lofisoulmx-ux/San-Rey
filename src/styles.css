@@ -2608,7 +2608,7 @@ em,
 @media (max-width: 760px) {
 
   .route {
-    height: 800vh !important;
+    height: 650vh !important;
     min-height: 0 !important;
     overflow: visible !important;
   }
