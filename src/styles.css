@@ -209,9 +209,10 @@ em,
   z-index: 5;
 
   left: 7vw;
+  right: 7vw;
   bottom: 13vh;
 
-  max-width: 900px;
+  max-width: 1100px;
 
   transform: translateZ(0);
 }
@@ -225,20 +226,30 @@ em,
 }
 
 .hero h1 {
+  width: 100%;
+  max-width: 100%;
+
   margin: 0;
 
   font-size: clamp(65px, 11vw, 170px);
   font-weight: 900;
 
-  line-height: .83;
-  letter-spacing: -.07em;
+  line-height: .84;
+  letter-spacing: -.065em;
+
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 .hero-line {
   display: block;
+  width: max-content;
+  max-width: 100%;
 }
 
 .hero-description {
+  max-width: 560px;
+
   margin: 34px 0 0;
 
   color: #adb5ae;
@@ -277,7 +288,6 @@ em,
 
 /* =========================================================
    FRAME SEQUENCES
-   LEGACY / FALLBACK
 ========================================================= */
 
 .frame-sequence {
@@ -356,7 +366,6 @@ em,
 
 /* =========================================================
    PRODUCTS
-   PREMIUM CINEMATIC SYSTEM
 ========================================================= */
 
 .products {
@@ -427,20 +436,18 @@ em,
 }
 
 .product-intro h2 {
+  width: 100%;
+  max-width: 900px;
+
   margin: 0;
 
-  font-size:
-    clamp(
-      58px,
-      8vw,
-      125px
-    );
+  font-size: clamp(58px, 8vw, 125px);
 
   font-weight: 900;
 
-  line-height: .82;
+  line-height: .84;
 
-  letter-spacing: -.075em;
+  letter-spacing: -.07em;
 
   text-wrap: balance;
 }
@@ -554,8 +561,7 @@ em,
 
   object-position: center;
 
-  transform:
-    translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 
   backface-visibility: hidden;
 }
@@ -613,13 +619,9 @@ em,
 
   bottom: 13vh;
 
-  width: min(
-    520px,
-    42vw
-  );
+  width: min(650px, 52vw);
 
-  transform:
-    translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 
   will-change:
     transform,
@@ -629,8 +631,7 @@ em,
 
 
 /*
-  Línea decorativa minimalista.
-  Reemplaza el antiguo 01 / 02.
+  Línea decorativa
 */
 
 .product-scene-copy::before {
@@ -654,26 +655,29 @@ em,
 --------------------------------------------------------- */
 
 .product-scene h3 {
+  display: block;
+
+  width: 100%;
+  max-width: 100%;
+
   margin: 0;
 
-  font-size:
-    clamp(
-      64px,
-      9vw,
-      145px
-    );
+  font-size: clamp(64px, 9vw, 145px);
 
   font-weight: 900;
 
-  line-height: .78;
+  line-height: .82;
 
-  letter-spacing: -.075em;
+  letter-spacing: -.07em;
 
   color: #f1f4f0;
 
   text-transform: uppercase;
 
   text-wrap: balance;
+
+  overflow-wrap: normal;
+  word-break: normal;
 
   text-shadow:
     0 8px 35px rgba(0, 0, 0, .28);
@@ -715,13 +719,7 @@ em,
     0
     0;
 
-  color:
-    rgba(
-      218,
-      224,
-      219,
-      .68
-    );
+  color: rgba(218, 224, 219, .68);
 
   font-size: 14px;
 
@@ -841,10 +839,15 @@ em,
   left: 7vw;
   top: 22%;
 
+  max-width: 900px;
+
   transform: translateZ(0);
 }
 
 .route h2 {
+  width: 100%;
+  max-width: 900px;
+
   margin: 0;
 
   font-size: clamp(55px, 8vw, 125px);
@@ -852,6 +855,8 @@ em,
 
   line-height: .84;
   letter-spacing: -.07em;
+
+  text-wrap: balance;
 }
 
 .route-copy p {
@@ -982,6 +987,9 @@ em,
 }
 
 .infra-head h2 {
+  width: 100%;
+  max-width: 900px;
+
   margin: 0;
 
   font-size: clamp(55px, 7vw, 110px);
@@ -989,6 +997,8 @@ em,
 
   line-height: .86;
   letter-spacing: -.065em;
+
+  text-wrap: balance;
 }
 
 .infra-head p {
@@ -1058,6 +1068,9 @@ em,
 }
 
 .infra-copy h3 {
+  width: 100%;
+  max-width: 100%;
+
   margin: 0;
 
   font-size: clamp(40px, 5vw, 76px);
@@ -1065,6 +1078,8 @@ em,
 
   line-height: .9;
   letter-spacing: -.055em;
+
+  text-wrap: balance;
 }
 
 .infra-copy p {
@@ -1181,10 +1196,15 @@ em,
   left: 7vw;
   top: 20%;
 
+  max-width: 900px;
+
   transform: translateZ(0);
 }
 
 .global h2 {
+  width: 100%;
+  max-width: 900px;
+
   margin: 0;
 
   font-size: clamp(55px, 8vw, 125px);
@@ -1192,6 +1212,8 @@ em,
 
   line-height: .84;
   letter-spacing: -.07em;
+
+  text-wrap: balance;
 }
 
 .global-copy p {
@@ -1426,9 +1448,32 @@ em,
 
 /* =========================================================
    MOBILE
+   AJUSTE PROFESIONAL DE TIPOGRAFÍA
 ========================================================= */
 
 @media (max-width: 760px) {
+
+  /* -------------------------------------------------------
+     GLOBAL MOBILE TYPOGRAPHY
+  ------------------------------------------------------- */
+
+  .cinematic-section {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /*
+    Evita que cualquier heading pueda provocar
+    overflow horizontal accidental.
+  */
+
+  h1,
+  h2,
+  h3,
+  p {
+    max-width: 100%;
+  }
+
 
   /* -------------------------------------------------------
      HEADER
@@ -1439,9 +1484,14 @@ em,
     padding: 0 20px;
   }
 
+  .brand {
+    gap: 10px;
+  }
+
   .brand-mark {
     width: 38px;
     height: 38px;
+    font-size: 11px;
   }
 
   .brand-text b {
@@ -1450,11 +1500,16 @@ em,
 
   .brand-text small {
     font-size: 8px;
+    letter-spacing: .32em;
   }
 
   .menu {
     width: 46px;
     height: 46px;
+  }
+
+  .menu i {
+    width: 23px;
   }
 
 
@@ -1473,30 +1528,51 @@ em,
 
   .hero-copy {
     left: 7vw;
-    right: 6vw;
+    right: 7vw;
     bottom: 12vh;
+
+    max-width: none;
   }
 
   .hero-kicker {
     margin-bottom: 18px;
+
     font-size: 8px;
+
     letter-spacing: .25em;
   }
 
   .hero h1 {
-    font-size: 17vw;
-    line-height: .85;
+    width: 100%;
+    max-width: 100%;
+
+    font-size: clamp(56px, 15.2vw, 110px);
+
+    line-height: .86;
+
+    letter-spacing: -.065em;
+  }
+
+  .hero-line {
+    width: auto;
+    max-width: 100%;
   }
 
   .hero-description {
+    max-width: 330px;
+
     margin-top: 25px;
+
     font-size: 13px;
+
     line-height: 1.65;
   }
 
   .scroll-cue {
     bottom: 3%;
+
     font-size: 7px;
+
     letter-spacing: .25em;
   }
 
@@ -1525,7 +1601,9 @@ em,
   }
 
 
-  /* INTRO */
+  /* -------------------------------------------------------
+     PRODUCT INTRO
+  ------------------------------------------------------- */
 
   .product-intro {
     min-height: 46vh;
@@ -1539,12 +1617,20 @@ em,
   }
 
   .product-intro h2 {
-    font-size: 17vw;
+    width: 100%;
+    max-width: 100%;
 
-    line-height: .82;
+    font-size: clamp(54px, 14.5vw, 96px);
+
+    line-height: .86;
+
+    letter-spacing: -.065em;
+
+    text-wrap: balance;
   }
 
   .product-intro p {
+    width: 100%;
     max-width: 290px;
 
     margin-top: 28px;
@@ -1555,7 +1641,9 @@ em,
   }
 
 
-  /* PRODUCT SCENES */
+  /* -------------------------------------------------------
+     PRODUCT SCENES
+  ------------------------------------------------------- */
 
   .product-scene {
     height: 105svh;
@@ -1568,7 +1656,9 @@ em,
   }
 
 
-  /* PRODUCT TEXT */
+  /* -------------------------------------------------------
+     PRODUCT TEXT
+  ------------------------------------------------------- */
 
   .product-scene-copy {
     left: 7vw;
@@ -1578,41 +1668,120 @@ em,
 
     width: auto;
 
-    max-width: 390px;
+    max-width: none;
   }
 
   .product-scene-copy::before {
     width: 30px;
 
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
+
+
+  /*
+    IMPORTANTE:
+
+    Antes estaba en 18vw.
+
+    En un teléfono de 720px eso daba aproximadamente 130px,
+    provocando que palabras largas como CEBOLLINES se salieran
+    de la pantalla.
+
+    Ahora TODOS los productos utilizan exactamente la misma
+    escala tipográfica y altura visual.
+  */
 
   .product-scene h3 {
-    font-size: 18vw;
+    display: block;
 
-    line-height: .8;
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0;
+
+    /*
+      Escala uniforme:
+      12.8vw en móviles grandes ≈ 92px
+      12.8vw en móviles de 390px ≈ 50px
+    */
+
+    font-size: clamp(50px, 12.8vw, 92px);
+
+    font-weight: 900;
+
+    /*
+      Más separación vertical entre líneas para evitar
+      que los bloques se perciban pegados.
+    */
+
+    line-height: .88;
+
+    /*
+      Mantiene la misma proporción visual en
+      CEBOLLINES, CILANTRO, etc.
+    */
+
+    letter-spacing: -.062em;
+
+    text-transform: uppercase;
+
+    text-wrap: balance;
+
+    overflow-wrap: normal;
+    word-break: normal;
+
+    white-space: normal;
   }
 
+
+  /*
+    El navegador puede intentar comprimir demasiado
+    los headings largos. Esta regla mantiene cada
+    palabra completa cuando sea posible.
+  */
+
+  .product-scene h3 .word,
+  .product-scene h3 span {
+    max-width: 100%;
+  }
+
+
+  /* -------------------------------------------------------
+     PRODUCT ENGLISH NAME
+  ------------------------------------------------------- */
+
   .product-scene-en {
-    margin-top: 17px;
+    margin-top: 22px;
 
     font-size: 9px;
+
+    line-height: 1.4;
 
     letter-spacing: .2em;
   }
 
-  .product-scene-copy p {
-    max-width: 285px;
 
-    margin-top: 18px;
+  /* -------------------------------------------------------
+     PRODUCT DESCRIPTION
+  ------------------------------------------------------- */
+
+  .product-scene-copy p {
+    width: 100%;
+    max-width: 300px;
+
+    margin-top: 20px;
 
     font-size: 11px;
 
-    line-height: 1.75;
+    line-height: 1.8;
+
+    letter-spacing: .01em;
   }
 
 
-  /* PRODUCT OVERLAY */
+  /* -------------------------------------------------------
+     PRODUCT OVERLAY
+  ------------------------------------------------------- */
 
   .product-scene-overlay {
     background:
@@ -1650,21 +1819,39 @@ em,
 
   .route-copy {
     left: 7vw;
+    right: 7vw;
     top: 15%;
+
+    max-width: none;
   }
 
   .route h2 {
-    font-size: 15vw;
+    width: 100%;
+    max-width: 100%;
+
+    font-size: clamp(52px, 14.5vw, 94px);
+
+    line-height: .88;
+
+    letter-spacing: -.065em;
+
+    text-wrap: balance;
   }
 
   .route-copy p {
-    max-width: 260px;
+    max-width: 270px;
+
+    margin-top: 24px;
+
     font-size: 12px;
+
+    line-height: 1.7;
   }
 
   .route-line {
     top: 38%;
     right: 7%;
+
     width: 155px;
     height: 43%;
   }
@@ -1687,6 +1874,7 @@ em,
 
   .route-caption {
     left: 7vw;
+
     font-size: 7px;
   }
 
@@ -1701,16 +1889,36 @@ em,
 
   .infra-head {
     display: block;
+
     margin-bottom: 8vh;
+
+    width: 100%;
   }
 
   .infra-head h2 {
-    font-size: 15vw;
+    width: 100%;
+    max-width: 100%;
+
+    font-size: clamp(52px, 13.8vw, 94px);
+
+    line-height: .88;
+
+    letter-spacing: -.065em;
+
+    text-wrap: balance;
+
+    overflow-wrap: normal;
   }
 
   .infra-head p {
+    width: 100%;
+    max-width: 300px;
+
     margin-top: 28px;
+
     font-size: 12px;
+
+    line-height: 1.75;
   }
 
   .infra-stack {
@@ -1731,18 +1939,34 @@ em,
   .infra-scene.reverse .infra-copy {
     order: 1;
 
+    width: 100%;
     max-width: none;
 
     padding: 32px 0;
   }
 
   .infra-copy h3 {
-    font-size: 13vw;
+    width: 100%;
+    max-width: 100%;
+
+    font-size: clamp(42px, 11.5vw, 78px);
+
+    line-height: .9;
+
+    letter-spacing: -.055em;
+
+    text-wrap: balance;
   }
 
   .infra-copy p {
+    width: 100%;
+    max-width: 300px;
+
     margin-top: 22px;
+
     font-size: 12px;
+
+    line-height: 1.75;
   }
 
   .infra-sequence,
@@ -1770,16 +1994,30 @@ em,
     left: 7vw;
     right: 7vw;
     top: 12%;
+
+    max-width: none;
   }
 
-  .global-copy h2 {
-    font-size: 15vw;
+  .global h2 {
+    width: 100%;
+    max-width: 100%;
+
+    font-size: clamp(52px, 14.5vw, 94px);
+
+    line-height: .88;
+
+    letter-spacing: -.065em;
+
+    text-wrap: balance;
   }
 
   .global-copy p {
     max-width: 290px;
+
     margin-top: 20px;
+
     font-size: 12px;
+
     line-height: 1.6;
   }
 
@@ -1817,21 +2055,193 @@ em,
 
   .footer-main {
     display: block;
+
     padding-bottom: 50px;
   }
 
   .footer-social {
     margin-top: 50px;
+
     text-align: left;
   }
 
   .social-links {
     flex-wrap: wrap;
+
     gap: 22px;
   }
 
   .footer-bottom {
     display: block;
+
     line-height: 2;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+   360px / 375px
+========================================================= */
+
+@media (max-width: 390px) {
+
+  .site-header {
+    padding: 0 16px;
+  }
+
+  .hero-copy,
+  .product-scene-copy,
+  .route-copy,
+  .global-copy {
+    left: 6vw;
+    right: 6vw;
+  }
+
+  /*
+    Un poco más pequeña para teléfonos estrechos.
+    La altura continúa siendo consistente entre productos.
+  */
+
+  .product-scene h3 {
+    font-size: clamp(46px, 12.5vw, 78px);
+
+    line-height: .9;
+
+    letter-spacing: -.06em;
+  }
+
+  .product-scene-en {
+    margin-top: 20px;
+
+    font-size: 8px;
+  }
+
+  .product-scene-copy p {
+    max-width: 270px;
+
+    font-size: 10.5px;
+  }
+
+  .product-intro h2 {
+    font-size: clamp(48px, 14vw, 78px);
+  }
+
+  .route h2,
+  .global h2 {
+    font-size: clamp(48px, 14vw, 82px);
+  }
+
+  .infra-head h2 {
+    font-size: clamp(48px, 13.5vw, 82px);
+  }
+
+  .infra-copy h3 {
+    font-size: clamp(40px, 11.5vw, 68px);
+  }
+
+  .route-line {
+    width: 140px;
+  }
+}
+
+
+/* =========================================================
+   ULTRA SMALL PHONES
+   320px - 359px
+========================================================= */
+
+@media (max-width: 359px) {
+
+  .hero h1 {
+    font-size: 14.5vw;
+  }
+
+  .product-scene h3 {
+    font-size: 12vw;
+
+    line-height: .92;
+
+    letter-spacing: -.055em;
+  }
+
+  .product-scene-copy {
+    bottom: 7vh;
+  }
+
+  .product-scene-copy::before {
+    margin-bottom: 18px;
+  }
+
+  .product-scene-en {
+    margin-top: 18px;
+  }
+
+  .product-scene-copy p {
+    margin-top: 18px;
+
+    font-size: 10px;
+  }
+
+  .route h2,
+  .global h2 {
+    font-size: 13.5vw;
+  }
+
+  .infra-head h2 {
+    font-size: 13vw;
+  }
+
+  .infra-copy h3 {
+    font-size: 11vw;
+  }
+
+  .route-line {
+    width: 125px;
+  }
+
+  .route-step span {
+    font-size: 7px;
+  }
+}
+
+
+/* =========================================================
+   LANDSCAPE MOBILE
+========================================================= */
+
+@media (max-width: 900px) and (orientation: landscape) {
+
+  .hero {
+    min-height: 600px;
+  }
+
+  .hero-copy {
+    bottom: 10vh;
+  }
+
+  .hero h1 {
+    font-size: clamp(52px, 9vw, 90px);
+  }
+
+  .product-scene {
+    min-height: 600px;
+  }
+
+  .product-scene-copy {
+    bottom: 8vh;
+  }
+
+  .product-scene h3 {
+    font-size: clamp(50px, 8vw, 85px);
+    line-height: .86;
+  }
+
+  .route {
+    min-height: 650px;
+  }
+
+  .global {
+    min-height: 650px;
   }
 }
