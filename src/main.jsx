@@ -345,22 +345,23 @@ function ProductScene({ product, index }) {
     const ctx = gsap.context(() => {
 
       gsap.fromTo(
-        mediaRef.current,
-        {
-          scale: 1.04,
-          yPercent: 3
-        },
-        {
-          scale: 1.1,
-          yPercent: -3,
-          ease: "none",
-          scrollTrigger: {
-            trigger: scene,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 0.8
-          }
-        }
+  mediaRef.current,
+  {
+    scale: 1.03,
+    yPercent: 2
+  },
+  {
+    scale: 1.11,
+    yPercent: -3,
+    ease: "none",
+    scrollTrigger: {
+      trigger: scene,
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 0.35
+    }
+  }
+);
       );
 
       gsap.fromTo(
