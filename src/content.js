@@ -9,9 +9,8 @@ export const PRODUCTS = [
     english: "Green Onions",
     description:
       "Frescos, firmes y seleccionados para conservar su calidad.",
-    framesPath:
-      "/assets/products/green-onions/frames/",
-    frameCount: 60
+    video:
+      "/assets/products/green-onions/cebollines.mp4"
   },
 
   {
@@ -20,9 +19,8 @@ export const PRODUCTS = [
     english: "Cilantro",
     description:
       "Color, aroma y frescura desde el campo hasta tu negocio.",
-    framesPath:
-      "/assets/products/cilantro/frames/",
-    frameCount: 60
+    video:
+      "/assets/products/cilantro/cilantro.mp4"
   }
 ];
 
